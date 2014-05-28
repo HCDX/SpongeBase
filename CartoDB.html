@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Protection Monitoring</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #layer_selector {
+        position: absolute;
+        top: 72px;
+        right: 20px;
+        padding: 0;
+      }
+
+      #layer_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+      }
+
+      #layer_selector li {
+        border-bottom: 1px solid #999;
+        padding: 15px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
+
+      #layer_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
+
+      #layer_selector li.selected {
+        background-color: #EEE;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body><div  class="cartodb-infobox" style="float:left; margin-left:20px; margin-top:150px;">
+      <table width="200px" border="0" style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#444;">
+  <tr>
+    <td colspan="5">Search Incident</td>
+  <tr>
+    <td width="9%">from:</td>
+    <td width="19%"><input type="text" class="text" value="" id="from" style="width:80px;"></td>
+    <td width="5%">to:</td>
+    <td width="67%" ><input type="text" class="text" value="" id="to" style="width:80px;"></td><td><span class="ui-icon ui-icon-trash" style="cursor:pointer;" onClick="javascript:{document.getElementById('from').value='';document.getElementById('to').value='';}"></span></td>
+  </tr>
+</table>
+
+  </div>
+    <div id="map"></div>
+   <div id="layer_selector" class="cartodb-infobox">
+      <ul>
+        <li data="all" class="selected" id="partner">All Rights Groups</li>
+        <li data="basic">Basic Needs &amp; Essential Services</li>
+		<li data="registration">Registration</li>
+		<li data="child">Child Protection</li>
+		<li data="legal">Legal Status and Civil Status Documentation</li>
+		<li data="freedom">Freedom of Movement &amp; Detention</li>
+		<li data="security">Security from Violence &amp; Exploitation</li>
+		<li data="access">Access to Territory</li>
+		<li data="others">Others</li>
+      </ul>
+  </div>
+
+    <!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+    <script>
+	
+	 var partner="Mercy Corps";
+	 
+	 var queryTop="select * from cartodbdata WHERE LOWER(partner) IN ('" + partner.toLowerCase() + "') AND partner IS NOT NULL";
+	
+      // create layer selector
+      function createSelector(layer) {
+        var sql = new cartodb.SQL({ user: 'unhcr' });
+
+        var $options = $('#layer_selector li');
+        $options.click(function(e) {
+          // get the area of the selected layer
+          var $li = $(e.target);
+          var rights_group_category = $li.attr('data');
+
+          // deselect all and select the clicked one
+          $options.removeClass('selected');
+          $li.addClass('selected');
+
+          // create query based on data from the layer
+          var query = queryTop;
+		  
+		  var from=document.getElementById('from').value;
+		  var to=document.getElementById('to').value;
+		  
+		  if (from!='' && to !='')
+		  
+		  query=query + " AND CAST(REPLACE(date,'-','') AS INTEGER) between CAST('" + from.replace('-','').replace('-','') + "' AS INTEGER) AND CAST('" + to.replace('-','').replace('-','') + "' AS INTEGER)"
+
+          if(rights_group_category !== 'all') {  
+            query = query + " AND LOWER(rights_group_category) LIKE LOWER('%" + rights_group_category + "%')";
+          }
+
+          // change the query in the layer to update the map
+          layer.setSQL(query);
+        });
+      }
+
+      function main() {
+        cartodb.createVis('map', 'http://unhcr.cartodb.com/api/v2/viz/92042af0-de9e-11e3-bbe4-0e230854a1cb/viz.json', {
+          tiles_loader: true,
+          center_lat: 33.90,
+          center_lon: 35.9,
+		  searchControl:true,
+		  cartodb_logo:false,
+          zoom: 9
+        })
+        .done(function(vis, layers) {
+          // layer 0 is the base layer, layer 1 is cartodb layer
+          var subLayer = layers[1].getSubLayer(0);
+		  
+		  subLayer.setSQL(queryTop);
+		  document.getElementById('partner').innerHTML = "All Rights Groups ( " + partner.toUpperCase() + " )";
+          createSelector(subLayer);
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+      }
+
+      window.onload = main;
+	  
+	   $(function() {
+    $( "#from" ).datepicker({
+      showButtonPanel: true,
+	  dateFormat: "yy-mm-dd" });
+  });
+  
+  
+  	   $(function() {
+    $( "#to" ).datepicker({
+      showButtonPanel: true,
+	  dateFormat: "yy-mm-dd" });
+  });
+    </script>
+  </body>
+</html>
