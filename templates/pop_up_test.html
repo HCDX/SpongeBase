@@ -18,9 +18,9 @@
 <body>
 
 <style>
-    div.cartodb-popup.custom_infowindow {width:WIDTH;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
+    div.cartodb-popup.custom_infowindow {width:auto;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
     div.cartodb-popup.custom_infowindow div.cartodb-popup-content-wrapper {width:407px;height:400px;max-width:407px;padding:0 5px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y}
-    div.cartodb-popup.custom_infowindow div.cartodb-popup-tip-container{width:417px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
+    div.cartodb-popup.custom_infowindow div.cartodb-popup-tip-container{width:407px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
     div.cartodb-popup.custom_infowindow div.row{display:block;overflow:auto}
     div.cartodb-popup.custom_infowindow div.row div.label,div.cartodb-popup.custom_infowindow div.row div.info{padding:20px 0;margin:0 20px}
     div.cartodb-popup.custom_infowindow div.row div.label{float:left;width:407px}
@@ -34,7 +34,7 @@
     div.cartodb-popup.custom_infowindow p strong{font-weight:bold}
     div.cartodb-popup.custom_infowindow p.margin{margin-top:12px}
     div.cartodb-popup.custom_infowindow p a{color:#459CBE;text-decoration:none}
-    div.cartodb-popup.custom_infowindow p a:hover{text-decoration:underline}
+   
 </style>
 
 
@@ -44,8 +44,8 @@
       <div class="cartodb-popup custom_infowindow">
         <a href="#close" class="cartodb-popup-close-button close">x</a>
 
-         <div class="cartodb-popup-content-wrapper">
-           <div class="cartodb-popup-content">
+         <div class="cartodb-popup-content-wrapper" >
+           <div >
              <img style="width: 100%" src="http://data.unhcr.org/syrianrefugees/uploads/uploadssyria/images/documents/dt_syria_5904.jpg">
              <!-- content.data contains the field info -->
              <h4>{{content.data.p_code}}</h4>
