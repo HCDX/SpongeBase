@@ -14,31 +14,23 @@
     <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
     <link rel="stylesheet" href="../static/css/dark-theme.css">
     <link rel="stylesheet" href="../static/css/makeitresponsive.css">
+    <link rel="stylesheet" href="../static/css/spongemap.css" />
+
 </head>
 <body>
 
-<style>
-    div.cartodb-popup.custom_infowindow {width:auto;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
-    div.cartodb-popup.custom_infowindow div.cartodb-popup-content-wrapper {width:407px;height:400px;max-width:407px;padding:0 5px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y}
-    div.cartodb-popup.custom_infowindow div.cartodb-popup-tip-container{width:407px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
-    div.cartodb-popup.custom_infowindow div.row{display:block;overflow:auto}
-    div.cartodb-popup.custom_infowindow div.row div.label,div.cartodb-popup.custom_infowindow div.row div.info{padding:20px 0;margin:0 20px}
-    div.cartodb-popup.custom_infowindow div.row div.label{float:left;width:407px}
-    div.cartodb-popup.custom_infowindow div.row div.info{float:right;width:407px}
-    div.cartodb-popup.custom_infowindow div.row div.info.border{border-bottom:1px solid #E1E2E4}
-    div.cartodb-popup.custom_infowindow div.row.no-pad div.info,div.cartodb-popup.custom_infowindow div.row.no-pad div.label{padding-top:0}
-    div.cartodb-popup.custom_infowindow a.cartodb-popup-close-button{display:-moz-inline-stack;display:inline-block;vertical-align:middle;*vertical-align:auto;zoom:1;*display:inline;top:10px;right:10px;width:20px !important;height:auto !important;padding:5px 0;text-align:center;background:0;text-indent:0;font:bold 11px "Helvetica",Arial;text-decoration:none}
-    div.cartodb-popup.custom_infowindow a.cartodb-popup-close-button:hover{text-decoration:underline}
-    div.cartodb-popup.custom_infowindow label{display:block;margin-top:2px;font:bold 11px "Helvetica",Arial;line-height:12px;color:#4CA7CC}
-    div.cartodb-popup.custom_infowindow p{display:block;max-width:none !important;width:auto !importantfont-size:14px;color:#999999}
-    div.cartodb-popup.custom_infowindow p strong{font-weight:bold}
-    div.cartodb-popup.custom_infowindow p.margin{margin-top:12px}
-    div.cartodb-popup.custom_infowindow p a{color:#459CBE;text-decoration:none}
-   
-</style>
-
-
 <div class="map" id="map"></div>
+    <div id="layer_selector" class="cartodb-infobox" style="position:relative; margin-left:2em;">
+      <ul>
+        <li data="all" class="selected">All Layers</li>
+        <li data="1">Governorate</li>
+        <li data="2">District</li>
+        <li data="3">Cadastrals</li>
+        <li data="4">Villages/Localities</li>
+        <li data="5">Informal Settlements</li>
+        <li data="6">Schools</li>
+      </ul>
+    </div>
 <script type="infowindow/html" id="infowindow_template">
       <span> custom </span>
       <div class="cartodb-popup custom_infowindow">
@@ -84,17 +76,52 @@ Go to your map in CartoDB, click on share, and copy the URL undert the API secti
 Check the cartodb.js documentation for more info
 http://developers.cartodb.com/documentation/cartodb-js.html-->
 <script>
+    // create layer selector
+    function createSelector(layer) {
+        var sql = new cartodb.SQL({ user: 'unhcr' });
+
+        var $options = $('#layer_selector li');
+        $options.click(function (e) {
+            // get the area of the selected layer
+            var $li = $(e.target);
+            var area = $li.attr('data');
+
+            // deselect all and select the clicked one
+            $options.removeClass('selected');
+            $li.addClass('selected');
+
+            // create query based on data from the layer
+            var query = "select * from european_countries_e";
+
+            if (area !== 'all') {
+                query = "select * from european_countries_e where area > " + area;
+            }
+
+            // change the query in the layer to update the map
+            layer.setSQL(query);
+        });
+    }
+
+
+
     function main() {
         var map = L.map('map', {
             zoomControl: false,
-            center: [33,33],
-            zoom: 7
+            center: [34,36.1],
+            zoom: 9
         });
 
         // add a nice baselayer from Stamen
-        L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-            attribution: 'Stamen'
-        }).addTo(map);
+        //L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+        //    attribution: 'Stamen'
+        //}).addTo(map);
+
+        //map quest baselayer
+        L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
+            attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+         }).addTo(map);
+
+
 
         cartodb.createLayer(map, 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json').addTo(map)
                 .on('done', function(layer) {
@@ -103,11 +130,8 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
 
                     sublayer.infowindow.set('template', $('#infowindow_template').html());
                 }).on('error', function() {
-                    console.log("some error occurred");
-                });
-
-        
-
+                    console.log("some error occurred"); 
+                }); 
     }
 
     window.onload = main;
