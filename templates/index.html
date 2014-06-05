@@ -69,6 +69,7 @@
       }).done(function(vis, layers) {
           // layer 0 is the base layer, layer 1 is cartodb layer
           // when setInteraction is disabled featureOver is triggered
+        
           layers[1].setInteraction(true);
           layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
               cartodb.log.log(e, latlng, pos, data, layerNumber);
@@ -81,13 +82,10 @@
           // now, perform any operations you need
           // map.setZoom(3)
           // map.setCenter(new google.maps.Latlng(...))
-          var sublayer = layer.getSubLayer(4);
-
-          sublayer.infowindow.set('template', $('#infowindow_template').html());
-      }).on('error', function() {
-          console.log("some error occurred");
 
       });;
+
+ 
 
     </script>
 
