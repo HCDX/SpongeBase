@@ -77,9 +77,14 @@ Check the cartodb.js documentation for more info
 http://developers.cartodb.com/documentation/cartodb-js.html-->
 <script>
     // create layer selector
+    var map = L.map('map', {
+        zoomControl: false,
+        center: [34, 36.1],
+        zoom: 9
+    });
+    var selectedli = 0;
     function createSelector(layer) {
-        var sql = new cartodb.SQL({ user: 'unhcr' });
-
+       
         var $options = $('#layer_selector li');
         $options.click(function (e) {
             // get the area of the selected layer
@@ -89,27 +94,27 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             // deselect all and select the clicked one
             $options.removeClass('selected');
             $li.addClass('selected');
-
-            // create query based on data from the layer
-            var query = "select * from european_countries_e";
-
-            if (area !== 'all') {
-                query = "select * from european_countries_e where area > " + area;
+            if (area == selectedli) {
+                layer.hide();
             }
 
+            if (area == '1' && area !== selectedli) {
+                addlayer('http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json');
+            }
+            if (area == '5' && area !== selectedli) {
+                addlayer('http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json');
+            }
+            selectedli = area;
             // change the query in the layer to update the map
-            layer.setSQL(query);
+           
         });
     }
+ 
 
 
 
     function main() {
-        var map = L.map('map', {
-            zoomControl: false,
-            center: [34,36.1],
-            zoom: 9
-        });
+        
 
         // add a nice baselayer from Stamen
         //L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
@@ -121,17 +126,27 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
          }).addTo(map);
 
+        var itslayer = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
+        var adm1layer = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
+     
+      //  addlayer(itslayer);
+       
+        addlayer('http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json');
+    }
 
+    //function to add new layer
+    function addlayer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 var sublayer = layer.getSubLayer(0);
 
-        cartodb.createLayer(map, 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json').addTo(map)
-                .on('done', function(layer) {
-                    // get sublayer 0 and set the infowindow template
-                    var sublayer = layer.getSubLayer(0);
-
-                    sublayer.infowindow.set('template', $('#infowindow_template').html());
-                }).on('error', function() {
-                    console.log("some error occurred"); 
-                }); 
+                 sublayer.infowindow.set('template', $('#infowindow_template').html());
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+        createSelector();
     }
 
     window.onload = main;
