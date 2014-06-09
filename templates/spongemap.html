@@ -83,7 +83,21 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         zoom: 9
     });
     var selectedli = 0;
-    function createSelector(layer) {
+    var adm1on = 1;
+    var adm2on = 0;
+    var adm3on = 0;
+    var adm4on = 0;
+    var itson = 0;
+    var adm1layer;
+    var adm2layer;
+    var adm3layer;
+    var adm4layer;
+    var itslayer;
+    var itslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
+    var adm1layerurl = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
+    var adm3layerurl = 'http://unhcr.cartodb.com/api/v2/viz/2a7fe946-efe7-11e3-abb9-0e73339ffa50/viz.json';
+
+    function createSelector(origin) {
        
         var $options = $('#layer_selector li');
         $options.click(function (e) {
@@ -94,24 +108,68 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             // deselect all and select the clicked one
             $options.removeClass('selected');
             $li.addClass('selected');
-            if (area == selectedli) {
-                layer.hide();
+            if (origin == 'adm1') {
+                if (area == '1' && adm1on == 0) {
+                    //show adm1 layer
+                    adm1on = 1;
+                    adm1layer.show();
+                }
+                else if (area == '1' && adm1on == 1) {
+                    //hide layer
+                    adm1layer.hide();
+                    adm1on = 0;
+                }
             }
 
-            if (area == '1' && area !== selectedli) {
-                addlayer('http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json');
+            if (origin == 'adm3') {
+                if (area == '3' && adm3on == 0) {
+                    //show adm3 layer
+                    adm3on = 1;
+                    adm3layer.show();
+                }
+                else if (area == '3' && adm3on == 1) {
+                    //hide layer
+                    adm3layer.hide();
+                    adm3on = 0;
+                }
             }
-            if (area == '5' && area !== selectedli) {
-                addlayer('http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json');
+
+
+            if (origin == 'its') {
+                if (area == '5' && itson == 0) {
+                    //show adm1 layer
+                    itson = 1;
+                    itslayer.show();
+                }
+                else if (area == '5' && itson == 1) {
+                    //hide layer
+                    itslayer.hide();
+                    itson = 0;
+                }
             }
+          
             selectedli = area;
             // change the query in the layer to update the map
            
         });
     }
- 
 
-
+    function clearMap() {
+        for (i in map._layers)
+     
+        {
+            try {
+                if (i!=='18')
+                {
+                    map.removeLayer(map._layers[i]);
+                }
+                }
+                catch (e) {
+                    console.log("problem with " + e + map._layers[i]);
+                }
+            }
+        }
+    
 
     function main() {
         
@@ -126,28 +184,57 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
          }).addTo(map);
 
-        var itslayer = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
-        var adm1layer = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
-     
-      //  addlayer(itslayer);
-       
-        addlayer('http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json');
+ 
+        addadm1layer(adm1layerurl);
+        addadm3layer(adm3layerurl);
+        additslayer(itslayerurl);
+
     }
 
-    //function to add new layer
-    function addlayer(layerurl) {
+    
+
+    //function to add new adm1 layer
+    function addadm1layer(layerurl) {
         cartodb.createLayer(map, layerurl).addTo(map)
              .on('done',
              function (layer) {
                  // get sublayer 0 and set the infowindow template
-                 var sublayer = layer.getSubLayer(0);
-
-                 sublayer.infowindow.set('template', $('#infowindow_template').html());
+                  adm1layer = layer.getSubLayer(0);
+                  adm1layer.infowindow.set('template', $('#infowindow_template').html());
              }).on('error', function () {
                  console.log("some error occurred");
              });
-        createSelector();
+        createSelector('adm1');
     }
+
+    function addadm3layer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 adm3layer = layer.getSubLayer(0);
+                 adm3layer.infowindow.set('template', $('#infowindow_template').html());
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+        createSelector('adm3');
+    }
+
+    //function to add new ITS layer
+    function additslayer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 itslayer = layer.getSubLayer(0);
+                 itslayer.infowindow.set('template', $('#infowindow_template').html());
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+        createSelector('its');
+    }
+
+
 
     window.onload = main;
 </script>
