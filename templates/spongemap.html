@@ -20,9 +20,9 @@
 <body>
 
 <div class="map" id="map"></div>
-    <div id="layer_selector" class="cartodb-infobox" style="position:relative; margin-left:2em;">
+    <div id="layer_selector" class="cartodb-infobox" style="position:relative; margin-left:2em; margin-top:4em;">
       <ul>
-        <li data="all" class="selected">All Layers</li>
+        <!--<li data="all" class="selected">All Layers</li>-->
         <li data="1">Governorate</li>
         <li data="2">District</li>
         <li data="3">Cadastrals</li>
@@ -71,6 +71,7 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
 <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+<!--<script src="App.js"></script> -->
 <!--Change the URL below in order to change the map that is being shown.
 Go to your map in CartoDB, click on share, and copy the URL undert the API section
 Check the cartodb.js documentation for more info
@@ -78,12 +79,12 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
 <script>
     // create layer selector
     var map = L.map('map', {
-        zoomControl: false,
+        zoomControl: true,
         center: [34, 36.1],
         zoom: 9
     });
     var selectedli = 0;
-    var adm1on = 1;
+    var adm1on = 0;
     var adm2on = 0;
     var adm3on = 0;
     var adm4on = 0;
@@ -95,7 +96,9 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
     var itslayer;
     var itslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
     var adm1layerurl = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
+    var adm2layerurl = 'http://unhcr.cartodb.com/api/v2/viz/80a4de6a-f2eb-11e3-aea2-0e230854a1cb/viz.json';
     var adm3layerurl = 'http://unhcr.cartodb.com/api/v2/viz/2a7fe946-efe7-11e3-abb9-0e73339ffa50/viz.json';
+    var adm4layerurl = 'http://unhcr.cartodb.com/api/v2/viz/fbdd74de-f2eb-11e3-b154-0e10bcd91c2b/viz.json';
 
     function createSelector(origin) {
        
@@ -106,15 +109,19 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             var area = $li.attr('data');
 
             // deselect all and select the clicked one
-            $options.removeClass('selected');
-            $li.addClass('selected');
+            //$options.removeClass('selected');
+
+            //$li.addClass('selected');
+
             if (origin == 'adm1') {
                 if (area == '1' && adm1on == 0) {
                     //show adm1 layer
                     adm1on = 1;
                     adm1layer.show();
+                    $li.addClass('selected');
                 }
                 else if (area == '1' && adm1on == 1) {
+                    $li.removeClass('selected');
                     //hide layer
                     adm1layer.hide();
                     adm1on = 0;
@@ -126,11 +133,42 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     //show adm3 layer
                     adm3on = 1;
                     adm3layer.show();
+                    $li.addClass('selected');
                 }
                 else if (area == '3' && adm3on == 1) {
                     //hide layer
+                    $li.removeClass('selected');
                     adm3layer.hide();
                     adm3on = 0;
+                }
+            }
+            if (origin == 'adm4') {
+                if (area == '4' && adm4on == 0) {
+                    //show adm3 layer
+                    adm4on = 1;
+                    adm4layer.show();
+                    $li.addClass('selected');
+                }
+                else if (area == '4' && adm4on == 1) {
+                    //hide layer
+                    $li.removeClass('selected');
+                    adm4layer.hide();
+                    adm4on = 0;
+                }
+            }
+
+            if (origin == 'adm2') {
+                if (area == '2' && adm2on == 0) {
+                    //show adm3 layer
+                    adm2on = 1;
+                    adm2layer.show();
+                    $li.addClass('selected');
+                }
+                else if (area == '2' && adm2on == 1) {
+                    //hide layer
+                    $li.removeClass('selected');
+                    adm2layer.hide();
+                    adm2on = 0;
                 }
             }
 
@@ -140,9 +178,11 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     //show adm1 layer
                     itson = 1;
                     itslayer.show();
+                    $li.addClass('selected');
                 }
                 else if (area == '5' && itson == 1) {
                     //hide layer
+                    $li.removeClass('selected');
                     itslayer.hide();
                     itson = 0;
                 }
@@ -169,7 +209,6 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                 }
             }
         }
-    
 
     function main() {
         
@@ -182,15 +221,19 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         //map quest baselayer
         L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
             attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
-         }).addTo(map);
+        }).addTo(map);
+     
+  //      addcustomlayer(adm1layerurl, adm1layer);
 
- 
         addadm1layer(adm1layerurl);
+        addadm2layer(adm2layerurl);
         addadm3layer(adm3layerurl);
+        addadm4layer(adm4layerurl);
+        //addadm1layer(map, adm1layer, adm1layerurl);
         additslayer(itslayerurl);
-
+      
     }
-
+    //Custom Layer
     
 
     //function to add new adm1 layer
@@ -201,11 +244,51 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                  // get sublayer 0 and set the infowindow template
                   adm1layer = layer.getSubLayer(0);
                   adm1layer.infowindow.set('template', $('#infowindow_template').html());
+                  adm1layer.hide();
              }).on('error', function () {
                  console.log("some error occurred");
              });
+        
+        
         createSelector('adm1');
+      
     }
+
+    //function to add new adm1 layer
+    function addadm2layer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 adm2layer = layer.getSubLayer(0);
+                 adm2layer.infowindow.set('template', $('#infowindow_template').html());
+                 adm2layer.hide();
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+
+
+        createSelector('adm2');
+
+    }
+
+    function addadm4layer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 adm4layer = layer.getSubLayer(0);
+                 adm4layer.infowindow.set('template', $('#infowindow_template').html());
+                 adm4layer.hide();
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+
+
+        createSelector('adm4');
+
+    }
+
 
     function addadm3layer(layerurl) {
         cartodb.createLayer(map, layerurl).addTo(map)
@@ -214,9 +297,12 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                  // get sublayer 0 and set the infowindow template
                  adm3layer = layer.getSubLayer(0);
                  adm3layer.infowindow.set('template', $('#infowindow_template').html());
+                 adm3layer.hide();
              }).on('error', function () {
                  console.log("some error occurred");
              });
+        
+        
         createSelector('adm3');
     }
 
@@ -228,10 +314,14 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                  // get sublayer 0 and set the infowindow template
                  itslayer = layer.getSubLayer(0);
                  itslayer.infowindow.set('template', $('#infowindow_template').html());
+                 itslayer.hide();
              }).on('error', function () {
                  console.log("some error occurred");
              });
+        
         createSelector('its');
+
+      
     }
 
 
