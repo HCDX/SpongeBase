@@ -20,7 +20,7 @@ app.config.from_envvar('DOG_SETTINGS', silent=True)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('spongemap.html')
 
 
 if __name__ == '__main__':
