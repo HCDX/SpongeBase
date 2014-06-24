@@ -89,17 +89,19 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
     var adm3on = 0;
     var adm4on = 0;
     var itson = 0;
+    var schoolon = 0;
     var adm1layer;
     var adm2layer;
     var adm3layer;
     var adm4layer;
     var itslayer;
+    var schoolslayer;
     var itslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
     var adm1layerurl = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
     var adm2layerurl = 'http://unhcr.cartodb.com/api/v2/viz/80a4de6a-f2eb-11e3-aea2-0e230854a1cb/viz.json';
     var adm3layerurl = 'http://unhcr.cartodb.com/api/v2/viz/2a7fe946-efe7-11e3-abb9-0e73339ffa50/viz.json';
     var adm4layerurl = 'http://unhcr.cartodb.com/api/v2/viz/fbdd74de-f2eb-11e3-b154-0e10bcd91c2b/viz.json';
-
+    var schoolslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json';
     function createSelector(origin) {
        
         var $options = $('#layer_selector li');
@@ -187,6 +189,20 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     itson = 0;
                 }
             }
+            if (origin == 'schools') {
+                if (area == '6' && schoolon == 0) {
+                    //show adm1 layer
+                    schoolon = 1;
+                    schoolslayer.show();
+                    $li.addClass('selected');
+                }
+                else if (area == '6' && schoolon == 1) {
+                    //hide layer
+                    $li.removeClass('selected');
+                    schoolslayer.hide();
+                    schoolon = 0;
+                }
+            }
           
             selectedli = area;
             // change the query in the layer to update the map
@@ -231,6 +247,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         addadm4layer(adm4layerurl);
         //addadm1layer(map, adm1layer, adm1layerurl);
         additslayer(itslayerurl);
+        addschoolslayer(schoolslayerurl);
       
     }
     //Custom Layer
@@ -322,6 +339,22 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         createSelector('its');
 
       
+    }
+    function addschoolslayer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 schoolslayer = layer.getSubLayer(0);
+                 schoolslayer.infowindow.set('template', $('#infowindow_template').html());
+                 schoolslayer.hide();
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+
+        createSelector('schools');
+
+
     }
 
 
