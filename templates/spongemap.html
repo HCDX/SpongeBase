@@ -32,8 +32,11 @@
       </ul>
     </div>
 <script type="infowindow/html" id="infowindow_template">
-      <span> custom </span>
-      <div class="cartodb-popup custom_infowindow">
+      
+  
+    <span> custom </span>
+      <div class="cartodb-popup custom_infowindow" id="popid">
+    <input type="button" value="Submit" id="btn_submit" onclick ="return fun()">
         <a href="#close" class="cartodb-popup-close-button close">x</a>
 
          <div class="cartodb-popup-content-wrapper" >
@@ -47,6 +50,7 @@
          </div>
          <div class="cartodb-popup-tip-container"></div>
       </div>
+     <script type="text/javascript"> InitializeService();</script>
     </script>
 <div class="sidepanel">
     <div class="wrapper">
@@ -360,7 +364,19 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
 
 
     window.onload = main;
+    function fun() {
+        var data = "hello";
+        $.get("http://localhost:51496/spongemap/templates/WebService.asmx?", function (response) {
+            data = response;
+        }).error(function () {
+            alert("Sorry could not proceed");
+        });
+
+        return data;
+    }
 </script>
+
+
 
 </body>
 </html>
