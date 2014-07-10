@@ -1,93 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <!--Edit the title of the page-->
-    <title>SpongeBase - A visualization of the Syria Crisis Response in Lebanon</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
-    <!--[if lte IE 8]>
-      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
-    <![endif]-->
-    <!--Switch between the different themes changing the stylesheet below - light-theme.css |dark-theme.css -->
-    <link rel="stylesheet" href="../static/css/dark-theme.css">
-    <link rel="stylesheet" href="../static/css/makeitresponsive.css">
-  </head>
-  <body>
-
-    <div class="map" id="map"></div>
-    <script type="infowindow/html" id="infowindow_template">
-      <span> custom </span>
-      <div class="cartodb-popup">
-        <a href="#close" class="cartodb-popup-close-button close">x</a>
-
-         <div class="cartodb-popup-content-wrapper">
-           <div class="cartodb-popup-content">
-             <img style="width: 100%" src="http://rambo.webcindario.com/images/18447755.jpg">
-             <!-- content.data contains the field info -->
-             <iframe src="http://www.activityInfo.org"></iframe>
-             <h4>{% raw %}{{content.data.p_code}}{% endraw %}</h4>
-           </div>
-         </div>
-         <div class="cartodb-popup-tip-container"></div>
-      </div>
-    </script>
-    <div class="sidepanel">
-      <div class="wrapper">
-        <div class="context subheader">
-          <p>A joint UNHCR/UNICEF innovation project</p>
-        </div>
-        <h1>SpongeBase visualization</h1>
-        <p>The number of Syrians registered as refugees in Lebanon after fleeing war in their country has surpassed one million. Refugees from Syria, now equal a quarter of Lebanon's resident population. Most of them live in poverty and depend on aid for survival.</p>
-
-        <!--Copy and paste the div below for creating content blocks-->
-        <h3>Description</h3>
-        <p>This interactive map collates available information from different data sources and links them to a location whether a governorate,a district, a village or even a small camp. This visualization communicates in real-time with Activity Info, UNHCR's registration database and many other data sources.</p>
-
-        <h3>Sources</h3>
-        <p> <a href="http://data.unhcr.org/syrianrefugees/country.php?id=122">UNHCR Data Portal</a>  <a href="http://activityinfo.org">Activity Info</a> </p>
-
-        <div class="context footer">
-          <p>Visit the Inter-agency information sharing webportal <a href="http://data.unhcr.org/syrianrefugees/country.php?id=122">Here</a></p></p>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
-    <!--Change the URL below in order to change the map that is being shown.
-    Go to your map in CartoDB, click on share, and copy the URL undert the API section
-    Check the cartodb.js documentation for more info
-    http://developers.cartodb.com/documentation/cartodb-js.html-->
-    <script type="text/javascript">
-
-      cartodb.createVis('map', 'http://unhcr.cartodb.com/api/v2/viz/94767cd6-e65d-11e3-bbe7-0edbca4b5057/viz.json',{
-          layer_selector:true,
-          cartodb_logo:false
-      }).done(function(vis, layers) {
-          // layer 0 is the base layer, layer 1 is cartodb layer
-          // when setInteraction is disabled featureOver is triggered
-        
-          layers[1].setInteraction(true);
-          layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
-              cartodb.log.log(e, latlng, pos, data, layerNumber);
-          });
-
-          // you can get the native map to work with it
-          // depending if you use google maps or leaflet
-          map = vis.getNativeMap();
-
-          // now, perform any operations you need
-          // map.setZoom(3)
-          // map.setCenter(new google.maps.Latlng(...))
-
-      });;
-
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Dialog - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+      $(function () {
+          $("#dialog").dialog();
+      });
+  </script>
+</head>
+<body>
  
-
-    </script>
-
-  </body>
+<div id="dialog" title="Basic dialog">
+  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>
+ 
+ 
+</body>
 </html>
