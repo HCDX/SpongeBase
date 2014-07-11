@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../static/css/makeitresponsive.css">
     <link rel="stylesheet" href="../static/css/spongemap.css" />
 
+   
 </head>
 <body>
 
@@ -38,7 +39,7 @@
     </div>
 
 
-<div id="dialog" title="DOG fetched this"><p>/p></div>
+<div id="page-wrap" title="DOG fetched this""></div>
 
 <script type="infowindow/html" id="infowindow_template">
         
@@ -345,7 +346,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                            //  alert("You clicked " + data.p_code);
                      $(function () {
                          Fetch(data.p_code, data.pcode_name);
-                         $("#dialog").dialog();
+                         $("#page-wrap").dialog({ width: 800, title: "Location: " + data.pcode_name + "| pcode: " + data.p_code });
                      });
                  });
               //   itslayer.infowindow.set('template', $('#infowindow_template').html());
@@ -380,17 +381,17 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         
         $.get("http://localhost:51496/spongemap/templates/WebService.asmx?op=HelloWorld", function (retdata) {
             var marker_content = '\
-<h4 style="font-weight: strong;">' + pcode + '</h4>\
-              <h4 style="font-weight: strong;">' + name + '</h4>\
-              <br>\
               <table cellpadding="4" cellspacing="0" border="0">\
+<thead>\
               <tr>\
-                   <td><b>Source</b></td>\
-                    <td><b>Category</b></td>\
-                    <td><b>Info</b></td>\
-                     <td><b>Data</b></td>\
-                    <td><b>Date</b></td>\
+                   <th><b>Source</b></th>\
+                    <th><b>Category</b></th>\
+                    <th><b>Info</b></th>\
+                     <th><b>Data</b></th>\
+                    <th><b>Date</b></th>\
               </tr>\
+</thead>\
+<tbody>\
               <tr>\
               <td style="vertical-align:top; white-space:nowrap;">AI - DRC</td>\
               <td style="vertical-align:top;">Shelter</td>\
@@ -412,10 +413,32 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
               <td style="vertical-align:top;">1</td>\
               <td style="vertical-align:top;">15 April 2013</td>\
                                     </tr>\
+   <tr>\
+              <td style="vertical-align:top; white-space:nowrap;">AI - DRC</td>\
+              <td style="vertical-align:top;">Shelter</td>\
+              <td style="vertical-align:top;"># shelters rehabilitated</td>\
+              <td style="vertical-align:top;">15</td>\
+              <td style="vertical-align:top;">30 June 2014</td>\
+                                    </tr>\
+    <tr>\
+              <td style="vertical-align:top; white-space:nowrap;">AI - UNHCR</td>\
+              <td style="vertical-align:top;">Registration</td>\
+              <td style="vertical-align:top;"># Individuals Registered</td>\
+              <td style="vertical-align:top;">300</td>\
+              <td style="vertical-align:top;">30 Sept 2013</td>\
+                                    </tr>\
+    <tr>\
+              <td style="vertical-align:top; white-space:nowrap;">AI - SCI</td>\
+              <td style="vertical-align:top;">Education</td>\
+              <td style="vertical-align:top;"># schools within 10km radius</td>\
+              <td style="vertical-align:top;">1</td>\
+              <td style="vertical-align:top;">15 April 2013</td>\
+                                    </tr>\
+</tbody>\
                                 </table>\
                                 ';
-            $("#dialog").attr("title", pcode);
-            $("#dialog").html(marker_content);
+            $("#page-wrap").attr("title", pcode);
+            $("#page-wrap").html(marker_content);
   
      $(function () {
          $("table").addTableFilter();
