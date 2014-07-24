@@ -423,6 +423,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
 
     window.onload = main;
 
+    //gets all the content to display in pop-up window
     function Fetch(data) {
         
         $.get("http://localhost:51496/spongemap/templates/WebService.asmx?op=HelloWorld", function (retdata) {
@@ -435,112 +436,93 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
               </tr>\
 </thead>\
 <tbody>\
-<tr><td>ACS_CODE</td><td>' + data.acs_code + '</td></tr>\
-<tr><td>CAD_CODE</td><td>' + data.cad_code + '</td></tr>\
-<tr><td>ACS_NAME</td><td>' + data.acs_name + '</td></tr>\
-<tr><td>CAD_NAME</td><td>' + data.cad_name + '</td></tr>\
-<tr><td>ADMIN_CAZA</td><td>' + data.admin_caza + '</td></tr>\
-<tr><td>CAD_CAZA</td><td>' + data.cad_caza + '</td></tr>\
-<tr><td>ACS_CD_SP</td><td>' + data.acs_cd_sp + '</td></tr>\
-<tr><td>UN_ID</td><td>' + data.un_id + '</td></tr>\
-<tr><td>KADA_NA</td><td>' + data.kada_na + '</td></tr>\
-<tr><td>MOH_NA1</td><td>' + data.moh_na1 + '</td></tr>\
-<tr><td>M_Ref_name</td><td>' + data.m_ref_name + '</td></tr>\
-<tr><td>K_Ref_name</td><td>' + data.k_ref_name + '</td></tr>\
-<tr><td>C_Ref_name</td><td>' + data.c_ref_name + '</td></tr>\
-<tr><td>MOH_COD</td><td>' + data.moh_cod + '</td></tr>\
-<tr><td>Kadaa_Code</td><td>' + data.kadaa_code + '</td></tr>\
-<tr><td>map</td><td>' + data.map + '</td></tr>\
-<tr><td>X</td><td>' + data.x + '</td></tr>\
-<tr><td>Y</td><td>' + data.y + '</td></tr>\
-<tr><td>ACS_CODE_1</td><td>' + data.acs_code_1 + '</td></tr>\
-<tr><td>CAD_CODE_1</td><td>' + data.cad_code_1 + '</td></tr>\
-<tr><td>ACS_NAME_1</td><td>' + data.acs_name_1 + '</td></tr>\
-<tr><td>CAD_NAME_1</td><td>' + data.cad_name_1 + '</td></tr>\
-<tr><td>MOH_NA1_1</td><td>' + data.moh_na1_1 + '</td></tr>\
-<tr><td>KADA_NA_1</td><td>' + data.kada_na_1 + '</td></tr>\
-<tr><td>TOT_POP</td><td>' + data.tot_pop + '</td></tr>\
-<tr><td>PopU4USD</td><td>' + data.popu4usd + '</td></tr>\
-<tr><td>Ref_Jun201</td><td>' + data.ref_jun201 + '</td></tr>\
-<tr><td>RefPopPerc</td><td>' + data.refpopperc + '</td></tr>\
-<tr><td>Rank_tot</td><td>' + data.rank_tot + '</td></tr>\
-<tr><td>Num_IS</td><td>' + data.num_is + '</td></tr>\
-<tr><td>Num_Person</td><td>' + data.num_person + '</td></tr>\
-<tr><td>CSP_Agricu</td><td>' + data.csp_agricu + '</td></tr>\
-<tr><td>CSP_Health</td><td>' + data.csp_health + '</td></tr>\
-<tr><td>CSP_Public</td><td>' + data.csp_public + '</td></tr>\
-<tr><td>CSP_WASH</td><td>' + data.csp_wash + '</td></tr>\
-<tr><td>CSP_Educat</td><td>' + data.csp_educat + '</td></tr>\
-<tr><td>Num_SDCs</td><td>' + data.num_sdcs + '</td></tr>\
-<tr><td>Num_School</td><td>' + data.num_school + '</td></tr>\
-<tr><td>Num_PHCs_5</td><td>' + data.num_phcs_5 + '</td></tr>\
-<tr><td>Num_MMU</td><td>' + data.num_mmu + '</td></tr>\
-<tr><td>Num_Hospit</td><td>' + data.num_hospit + '</td></tr>\
-<tr><td>Municipali</td><td>' + data.municipali + '</td></tr>\
-<tr><td>Municipa_1</td><td>' + data.municipa_1 + '</td></tr>\
-<tr><td>WFP_Food_s</td><td>' + data.wfp_food_s + '</td></tr>\
-<tr><td>ATM</td><td>' + data.atm + '</td></tr>\
-<tr><td>Dominant_R</td><td>' + data.dominant_r + '</td></tr>\
-<tr><td>Registered</td><td>' + data.registered + '</td></tr>\
-<tr><td>Register_1</td><td>' + data.register_1 + '</td></tr>\
-<tr><td>Females</td><td>' + data.females + '</td></tr>\
-<tr><td>Males</td><td>' + data.males + '</td></tr>\
-<tr><td>F_04</td><td>' + data.f_04 + '</td></tr>\
-<tr><td>F_05_11</td><td>' + data.f_05_11 + '</td></tr>\
-<tr><td>F_12_17</td><td>' + data.f_12_17 + '</td></tr>\
-<tr><td>F_18_59</td><td>' + data.f_18_59 + '</td></tr>\
-<tr><td>F_60Plus</td><td>' + data.f_60plus + '</td></tr>\
-<tr><td>M_04</td><td>' + data.m_04 + '</td></tr>\
-<tr><td>M_05_11</td><td>' + data.m_05_11 + '</td></tr>\
-<tr><td>M_12_17</td><td>' + data.m_12_17 + '</td></tr>\
-<tr><td>M_18_59</td><td>' + data.m_18_59 + '</td></tr>\
-<tr><td>M_60Plus</td><td>' + data.m_60plus + '</td></tr>\
-<tr><td>Legal</td><td>' + data.legal + '</td></tr>\
-<tr><td>Illegal</td><td>' + data.illegal + '</td></tr>\
-<tr><td>Homs</td><td>' + data.homs + '</td></tr>\
-<tr><td>Idleb</td><td>' + data.idleb + '</td></tr>\
-<tr><td>Aleppo</td><td>' + data.aleppo + '</td></tr>\
-<tr><td>Rural_Dama</td><td>' + data.rural_dama + '</td></tr>\
-<tr><td>Hama</td><td>' + data.hama + '</td></tr>\
-<tr><td>Dar_a</td><td>' + data.dar_a + '</td></tr>\
-<tr><td>Damascus</td><td>' + data.damascus + '</td></tr>\
-<tr><td>Deir_ez_zo</td><td>' + data.deir_ez_zo + '</td></tr>\
-<tr><td>Ar_raqqa</td><td>' + data.ar_raqqa + '</td></tr>\
-<tr><td>Al_hasakeh</td><td>' + data.al_hasakeh + '</td></tr>\
-<tr><td>Lattakia</td><td>' + data.lattakia + '</td></tr>\
-<tr><td>Tartous</td><td>' + data.tartous + '</td></tr>\
-<tr><td>As_sweida</td><td>' + data.as_sweida + '</td></tr>\
-<tr><td>Quneitra</td><td>' + data.quneitra + '</td></tr>\
-<tr><td>OtherCoO</td><td>' + data.othercoo + '</td></tr>\
-<tr><td>SUN</td><td>' + data.sun + '</td></tr>\
-<tr><td>SIT</td><td>' + data.sit + '</td></tr>\
-<tr><td>MUS</td><td>' + data.mus + '</td></tr>\
-<tr><td>Chr</td><td>' + data.chr + '</td></tr>\
-<tr><td>YAZ</td><td>' + data.yaz + '</td></tr>\
-<tr><td>ALA</td><td>' + data.ala + '</td></tr>\
-<tr><td>OtherRelig</td><td>' + data.otherrelig + '</td></tr>\
-<tr><td>TR_Torture</td><td>' + data.tr_torture + '</td></tr>\
-<tr><td>CR_Child_a</td><td>' + data.cr_child_a + '</td></tr>\
-<tr><td>FU_Family</td><td>' + data.fu_family + '</td></tr>\
-<tr><td>SM_Serious</td><td>' + data.sm_serious + '</td></tr>\
-<tr><td>SP_Single</td><td>' + data.sp_single + '</td></tr>\
-<tr><td>SC_Unaccom</td><td>' + data.sc_unaccom + '</td></tr>\
-<tr><td>LP_Specifi</td><td>' + data.lp_specifi + '</td></tr>\
-<tr><td>ER_Older_p</td><td>' + data.er_older_p + '</td></tr>\
-<tr><td>SV_SGBV</td><td>' + data.sv_sgbv + '</td></tr>\
-<tr><td>DS_Disabil</td><td>' + data.ds_disabil + '</td></tr>\
-<tr><td>WR_Woman_a</td><td>' + data.wr_woman_a + '</td></tr>\
-<tr><td>Shelter</td><td>' + data.shelter + '</td></tr>\
-<tr><td>Education</td><td>' + data.education + '</td></tr>\
-<tr><td>Protection</td><td>' + data.protection + '</td></tr>\
-<tr><td>Child_Prot</td><td>' + data.child_prot + '</td></tr>\
-<tr><td>SGBV</td><td>' + data.sgbv + '</td></tr>\
-<tr><td>WASH</td><td>' + data.wash + '</td></tr>\
-<tr><td>Food</td><td>' + data.food + '</td></tr>\
-<tr><td>SCL</td><td>' + data.scl + '</td></tr>\
-<tr><td>NFI</td><td>' + data.nfi + '</td></tr>\
-<tr><td>Nutrition</td><td>' + data.nutrition + '</td></tr>\
-<tr><td>Health</td><td>' + data.health + '</td></tr>\
+<tr><td>Cadastral Code</td><td>' + data.acs_code + '</td></tr>\
+<tr><td>Cadastral Name</td><td>' + data.acs_name + '</td></tr>\
+<tr><td>Governorate / Mohafaza</td><td>' + data.moh_na1 + '</td></tr>\
+<tr><td>District</td><td>' + data.kada_na + '</td></tr>\
+<tr><td>Longitude</td><td>' + data.x + '</td></tr>\
+<tr><td>Latitude</td><td>' + data.y + '</td></tr>\
+<tr><td>Total Local Population (Lebanese)</td><td>' + data.tot_pop + '</td></tr>\
+<tr><td>Poverty (Population under 4USD per day)</td><td>' + data.popu4usd + '</td></tr>\
+<tr><td>Refugees (as of 30 June 2014)</td><td>' + data.ref_jun201 + '</td></tr>\
+<tr><td>Percentage of all refugees in Lebanon</td><td>' + data.refpopperc + '</td></tr>\
+<tr><td>Vulnerability Ranking</td><td>' + data.rank_tot + '</td></tr>\
+<tr><td>Number of Informal Settlements  (IS, ITS)</td><td>' + data.num_is + '</td></tr>\
+<tr><td>Number of Persons in Informal Settlements</td><td>' + data.num_person + '</td></tr>\
+<tr><td>Community Support Projects - CSP Agriculture</td><td>' + data.csp_agricu + '</td></tr>\
+<tr><td>Community Support Projects - CSP Health</td><td>' + data.csp_health + '</td></tr>\
+<tr><td>Community Support Projects - CSP Public</td><td>' + data.csp_public + '</td></tr>\
+<tr><td>Community Support Projects - CSP WASH</td><td>' + data.csp_wash + '</td></tr>\
+<tr><td>Community Support Projects - CSP Education</td><td>' + data.csp_educat + '</td></tr>\
+<tr><td>Number of Social Development Centers (SDCs)</td><td>' + data.num_sdcs + '</td></tr>\
+<tr><td>Number of Schools within 5 KM</td><td>' + data.num_school + '</td></tr>\
+<tr><td>Number of Primary Health Care Centres (PHCs) within 5KM</td><td>' + data.num_phcs_5 + '</td></tr>\
+<tr><td>Number of Mobile Medical Units (MMUs visits(</td><td>' + data.num_mmu + '</td></tr>\
+<tr><td>Number of Hospitals within 15KM</td><td>' + data.num_hospit + '</td></tr>\
+<tr><td>Municipality Name</td><td>' + data.municipali + '</td></tr>\
+<tr><td>Municipality Contact</td><td>' + data.municipa_1 + '</td></tr>\
+<tr><td>Number of ATM machines</td><td>' + data.atm + '</td></tr>\
+<tr><td>Dominant Religion</td><td>' + data.dominant_r + '</td></tr>\
+<tr><td>Registered Refugees (Most Recent Figure)</td><td>' + data.registered + '</td></tr>\
+<tr><td>Registered Cases</td><td>' + data.register_1 + '</td></tr>\
+<tr><td>Refugees - Females</td><td>' + data.females + '</td></tr>\
+<tr><td>Refugees - Males</td><td>' + data.males + '</td></tr>\
+<tr><td>Refugees - F_04</td><td>' + data.f_04 + '</td></tr>\
+<tr><td>Refugees - F_05_11</td><td>' + data.f_05_11 + '</td></tr>\
+<tr><td>Refugees -F_12_17</td><td>' + data.f_12_17 + '</td></tr>\
+<tr><td>Refugees -F_18_59</td><td>' + data.f_18_59 + '</td></tr>\
+<tr><td>Refugees -F_60Plus</td><td>' + data.f_60plus + '</td></tr>\
+<tr><td>Refugees -M_04</td><td>' + data.m_04 + '</td></tr>\
+<tr><td>Refugees -M_05_11</td><td>' + data.m_05_11 + '</td></tr>\
+<tr><td>Refugees -M_12_17</td><td>' + data.m_12_17 + '</td></tr>\
+<tr><td>Refugees -M_18_59</td><td>' + data.m_18_59 + '</td></tr>\
+<tr><td>Refugees -M_60Plus</td><td>' + data.m_60plus + '</td></tr>\
+<tr><td>Refugees - # Entered Legally</td><td>' + data.legal + '</td></tr>\
+<tr><td>Refugees - # Irregularly</td><td>' + data.illegal + '</td></tr>\
+<tr><td>Refugees Places of Origin - Homs</td><td>' + data.homs + '</td></tr>\
+<tr><td>Refugees Places of Origin - Idleb</td><td>' + data.idleb + '</td></tr>\
+<tr><td>Refugees Places of Origin - Aleppo</td><td>' + data.aleppo + '</td></tr>\
+<tr><td>Refugees Places of Origin - Rural_Dama</td><td>' + data.rural_dama + '</td></tr>\
+<tr><td>Refugees Places of Origin - Hama</td><td>' + data.hama + '</td></tr>\
+<tr><td>Refugees Places of Origin - Dar_a</td><td>' + data.dar_a + '</td></tr>\
+<tr><td>Refugees Places of Origin - Damascus</td><td>' + data.damascus + '</td></tr>\
+<tr><td>Refugees Places of Origin - Deir_ez_zor</td><td>' + data.deir_ez_zo + '</td></tr>\
+<tr><td>Refugees Places of Origin - Ar_raqqa</td><td>' + data.ar_raqqa + '</td></tr>\
+<tr><td>Refugees Places of Origin - Al_hasakeh</td><td>' + data.al_hasakeh + '</td></tr>\
+<tr><td>Refugees Places of Origin - Lattakia</td><td>' + data.lattakia + '</td></tr>\
+<tr><td>Refugees Places of Origin - Tartous</td><td>' + data.tartous + '</td></tr>\
+<tr><td>Refugees Places of Origin - As_sweida</td><td>' + data.as_sweida + '</td></tr>\
+<tr><td>Refugees Places of Origin - Quneitra</td><td>' + data.quneitra + '</td></tr>\
+<tr><td>Refugees Places of Origin - Other</td><td>' + data.othercoo + '</td></tr>\
+<tr><td>Refugees by Religion - SUN</td><td>' + data.sun + '</td></tr>\
+<tr><td>Refugees by Religion - Shia</td><td>' + data.sit + '</td></tr>\
+<tr><td>Refugees by Religion - Muslims (unspecified)</td><td>' + data.mus + '</td></tr>\
+<tr><td>Refugees by Religion - Christians</td><td>' + data.chr + '</td></tr>\
+<tr><td>Refugees by Religion - Yazidis</td><td>' + data.yaz + '</td></tr>\
+<tr><td>Refugees by Religion - Alawites</td><td>' + data.ala + '</td></tr>\
+<tr><td>Refugees by Religion - Other</td><td>' + data.otherrelig + '</td></tr>\
+<tr><td>Refugees Specific Needs - Victims of Torture</td><td>' + data.tr_torture + '</td></tr>\
+<tr><td>Refugees Specific Needs - Children at Risk</td><td>' + data.cr_child_a + '</td></tr>\
+<tr><td>Refugees Specific Needs -  Family Unity</td><td>' + data.fu_family + '</td></tr>\
+<tr><td>Refugees Specific Needs - SM_Serious Medical Condition</td><td>' + data.sm_serious + '</td></tr>\
+<tr><td>Refugees Specific Needs - SP_Single Parent</td><td>' + data.sp_single + '</td></tr>\
+<tr><td>Refugees Specific Needs - SC_Unaccompanied Children</td><td>' + data.sc_unaccom + '</td></tr>\
+<tr><td>Refugees Specific Needs - LP_Specific legal protection</td><td>' + data.lp_specifi + '</td></tr>\
+<tr><td>Refugees Specific Needs - ER Older persons at risk</td><td>' + data.er_older_p + '</td></tr>\
+<tr><td>Refugees Specific Needs - SV_SGBV</td><td>' + data.sv_sgbv + '</td></tr>\
+<tr><td>Refugees Specific Needs - DS_Disability</td><td>' + data.ds_disabil + '</td></tr>\
+<tr><td>Specific Needs WR Woman at Risk</td><td>' + data.wr_woman_a + '</td></tr>\
+<tr><td>Partners - Shelter</td><td>' + data.shelter + '</td></tr>\
+<tr><td>Partners - Education</td><td>' + data.education + '</td></tr>\
+<tr><td>Partners - Protection</td><td>' + data.protection + '</td></tr>\
+<tr><td>Partners -  Child Protection</td><td>' + data.child_prot + '</td></tr>\
+<tr><td>Partners - SGBV</td><td>' + data.sgbv + '</td></tr>\
+<tr><td>Partners - WASH</td><td>' + data.wash + '</td></tr>\
+<tr><td>Partners - Food</td><td>' + data.food + '</td></tr>\
+<tr><td>Partners - Social Cohesion and Livelihoods</td><td>' + data.scl + '</td></tr>\
+<tr><td>Partners - NFI / Core Relief Items CRI</td><td>' + data.nfi + '</td></tr>\
+<tr><td>Partners - Nutrition</td><td>' + data.nutrition + '</td></tr>\
+<tr><td>Partners - Health</td><td>' + data.health + '</td></tr>\
 </tbody>\
                                 </table>\
             ';
