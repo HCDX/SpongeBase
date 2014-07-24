@@ -426,7 +426,6 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
     //gets all the content to display in pop-up window
     function Fetch(data) {
         
-        $.get("http://localhost:51496/spongemap/templates/WebService.asmx?op=HelloWorld", function (retdata) {
             var marker_content ='\
               <table cellpadding="4" cellspacing="0" border="0">\
 <thead>\
@@ -533,7 +532,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
          $("table").addTableFilter();
      });
 
-        });
+        ;
        
     }
 </script>
