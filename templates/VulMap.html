@@ -35,6 +35,7 @@
         <li data="4">Villages/Localities</li>
         <li data="5">Informal Settlements</li>
         <li data="6">Schools</li>
+        <li data="7">Most Vulnerable Cadastrals</li>
       </ul>
     </div>
 
@@ -104,18 +105,21 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
     var adm4on = 0;
     var itson = 0;
     var schoolon = 0;
+    var vulon = 0;
     var adm1layer;
     var adm2layer;
     var adm3layer;
     var adm4layer;
     var itslayer;
     var schoolslayer;
+    var vullayer;
     var itslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
     var adm1layerurl = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
     var adm2layerurl = 'http://unhcr.cartodb.com/api/v2/viz/80a4de6a-f2eb-11e3-aea2-0e230854a1cb/viz.json';
     var adm3layerurl = 'http://unhcr.cartodb.com/api/v2/viz/2a7fe946-efe7-11e3-abb9-0e73339ffa50/viz.json';
     var adm4layerurl = 'http://unhcr.cartodb.com/api/v2/viz/fbdd74de-f2eb-11e3-b154-0e10bcd91c2b/viz.json';
     var schoolslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json';
+    var vullayerurl='http://unhcr.cartodb.com/api/v2/viz/fcf31804-1264-11e4-8867-0e73339ffa50/viz.json';
     function createSelector(origin) {
        
         var $options = $('#layer_selector li');
@@ -203,6 +207,22 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     itson = 0;
                 }
             }
+
+            if (origin == 'vul') {
+                if (area == '7' && vulon == 0) {
+
+                    vulon = 1;
+                    vullayer.show();
+                    $li.addClass('selected');
+                }
+                else if (area == '7' && vulon == 1) {
+                    //hide layer
+                    $li.removeClass('selected');
+                    vullayer.hide();
+                    vulon = 0;
+                }
+            }
+
             if (origin == 'schools') {
                 if (area == '6' && schoolon == 0) {
                     //show adm1 layer
@@ -259,9 +279,11 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         addadm2layer(adm2layerurl);
         addadm3layer(adm3layerurl);
         addadm4layer(adm4layerurl);
+        
         //addadm1layer(map, adm1layer, adm1layerurl);
         additslayer(itslayerurl);
         addschoolslayer(schoolslayerurl);
+        addvullayer(vullayerurl);
       
     }
     //Custom Layer
@@ -345,7 +367,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                  itslayer.on('featureClick', function (e, pos, latlng, data) {
                            //  alert("You clicked " + data.p_code);
                      $(function () {
-                         Fetch(data.p_code, data.pcode_name);
+                         Fetch(data);
                          $("#page-wrap").dialog({ width: 800, title: "Location: " + data.pcode_name + "| pcode: " + data.p_code });
                      });
                  });
@@ -375,83 +397,144 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         createSelector('schools');
     }
 
+    function addvullayer(layerurl) {
+        cartodb.createLayer(map, layerurl).addTo(map)
+             .on('done',
+             function (layer) {
+                 // get sublayer 0 and set the infowindow template
+                 vullayer = layer.getSubLayer(0);
+                 vullayer.on('featureClick', function (e, pos, latlng, data) {
+                     //  alert("You clicked " + data.p_code);
+                     $(function () {
+                         Fetch(data);
+                         $("#page-wrap").dialog({ width: 800, title: "Location: " + data.acs_name}).css({height:"350px", overflow:"auto"});
+                     });
+                 });
+     
+                 vullayer.hide();
+             }).on('error', function () {
+                 console.log("some error occurred");
+             });
+
+        createSelector('vul');
+
+
+    }
+
     window.onload = main;
 
-    function Fetch(pcode,name) {
+    //gets all the content to display in pop-up window
+    function Fetch(data) {
         
-        $.get("http://localhost:51496/spongemap/templates/WebService.asmx?op=HelloWorld", function (retdata) {
-            var marker_content = '\
+            var marker_content ='\
               <table cellpadding="4" cellspacing="0" border="0">\
 <thead>\
               <tr>\
-                   <th><b>Source</b></th>\
-                    <th><b>Category</b></th>\
+                   <th><b>Field</b></th>\
                     <th><b>Info</b></th>\
-                     <th><b>Data</b></th>\
-                    <th><b>Date</b></th>\
               </tr>\
 </thead>\
 <tbody>\
-              <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - DRC</td>\
-              <td style="vertical-align:top;">Shelter</td>\
-              <td style="vertical-align:top;"># shelters rehabilitated</td>\
-              <td style="vertical-align:top;">15</td>\
-              <td style="vertical-align:top;">30 June 2014</td>\
-                                    </tr>\
-    <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - UNHCR</td>\
-              <td style="vertical-align:top;">Registration</td>\
-              <td style="vertical-align:top;"># Individuals Registered</td>\
-              <td style="vertical-align:top;">300</td>\
-              <td style="vertical-align:top;">30 Sept 2013</td>\
-                                    </tr>\
-    <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - SCI</td>\
-              <td style="vertical-align:top;">Education</td>\
-              <td style="vertical-align:top;"># schools within 10km radius</td>\
-              <td style="vertical-align:top;">1</td>\
-              <td style="vertical-align:top;">15 April 2013</td>\
-                                    </tr>\
-   <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - DRC</td>\
-              <td style="vertical-align:top;">Shelter</td>\
-              <td style="vertical-align:top;"># shelters rehabilitated</td>\
-              <td style="vertical-align:top;">15</td>\
-              <td style="vertical-align:top;">30 June 2014</td>\
-                                    </tr>\
-    <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - UNHCR</td>\
-              <td style="vertical-align:top;">Registration</td>\
-              <td style="vertical-align:top;"># Individuals Registered</td>\
-              <td style="vertical-align:top;">300</td>\
-              <td style="vertical-align:top;">30 Sept 2013</td>\
-                                    </tr>\
-    <tr>\
-              <td style="vertical-align:top; white-space:nowrap;">AI - SCI</td>\
-              <td style="vertical-align:top;">Education</td>\
-              <td style="vertical-align:top;"># schools within 10km radius</td>\
-              <td style="vertical-align:top;">1</td>\
-              <td style="vertical-align:top;">15 April 2013</td>\
-                                    </tr>\
+<tr><td>Cadastral Code</td><td>' + data.acs_code + '</td></tr>\
+<tr><td>Cadastral Name</td><td>' + data.acs_name + '</td></tr>\
+<tr><td>Governorate / Mohafaza</td><td>' + data.moh_na1 + '</td></tr>\
+<tr><td>District</td><td>' + data.kada_na + '</td></tr>\
+<tr><td>Longitude</td><td>' + data.x + '</td></tr>\
+<tr><td>Latitude</td><td>' + data.y + '</td></tr>\
+<tr><td>Total Local Population (Lebanese)</td><td>' + data.tot_pop + '</td></tr>\
+<tr><td>Poverty (Population under 4USD per day)</td><td>' + data.popu4usd + '</td></tr>\
+<tr><td>Refugees (as of 30 June 2014)</td><td>' + data.ref_jun201 + '</td></tr>\
+<tr><td>Percentage of all refugees in Lebanon</td><td>' + data.refpopperc + '</td></tr>\
+<tr><td>Vulnerability Ranking</td><td>' + data.rank_tot + '</td></tr>\
+<tr><td>Number of Informal Settlements  (IS, ITS)</td><td>' + data.num_is + '</td></tr>\
+<tr><td>Number of Persons in Informal Settlements</td><td>' + data.num_person + '</td></tr>\
+<tr><td>Community Support Projects - CSP Agriculture</td><td>' + data.csp_agricu + '</td></tr>\
+<tr><td>Community Support Projects - CSP Health</td><td>' + data.csp_health + '</td></tr>\
+<tr><td>Community Support Projects - CSP Public</td><td>' + data.csp_public + '</td></tr>\
+<tr><td>Community Support Projects - CSP WASH</td><td>' + data.csp_wash + '</td></tr>\
+<tr><td>Community Support Projects - CSP Education</td><td>' + data.csp_educat + '</td></tr>\
+<tr><td>Number of Social Development Centers (SDCs)</td><td>' + data.num_sdcs + '</td></tr>\
+<tr><td>Number of Schools within 5 KM</td><td>' + data.num_school + '</td></tr>\
+<tr><td>Number of Primary Health Care Centres (PHCs) within 5KM</td><td>' + data.num_phcs_5 + '</td></tr>\
+<tr><td>Number of Mobile Medical Units (MMUs visits(</td><td>' + data.num_mmu + '</td></tr>\
+<tr><td>Number of Hospitals within 15KM</td><td>' + data.num_hospit + '</td></tr>\
+<tr><td>Municipality Name</td><td>' + data.municipali + '</td></tr>\
+<tr><td>Municipality Contact</td><td>' + data.municipa_1 + '</td></tr>\
+<tr><td>Number of ATM machines</td><td>' + data.atm + '</td></tr>\
+<tr><td>Dominant Religion</td><td>' + data.dominant_r + '</td></tr>\
+<tr><td>Registered Refugees (Most Recent Figure)</td><td>' + data.registered + '</td></tr>\
+<tr><td>Registered Cases</td><td>' + data.register_1 + '</td></tr>\
+<tr><td>Refugees - Females</td><td>' + data.females + '</td></tr>\
+<tr><td>Refugees - Males</td><td>' + data.males + '</td></tr>\
+<tr><td>Refugees - F_04</td><td>' + data.f_04 + '</td></tr>\
+<tr><td>Refugees - F_05_11</td><td>' + data.f_05_11 + '</td></tr>\
+<tr><td>Refugees -F_12_17</td><td>' + data.f_12_17 + '</td></tr>\
+<tr><td>Refugees -F_18_59</td><td>' + data.f_18_59 + '</td></tr>\
+<tr><td>Refugees -F_60Plus</td><td>' + data.f_60plus + '</td></tr>\
+<tr><td>Refugees -M_04</td><td>' + data.m_04 + '</td></tr>\
+<tr><td>Refugees -M_05_11</td><td>' + data.m_05_11 + '</td></tr>\
+<tr><td>Refugees -M_12_17</td><td>' + data.m_12_17 + '</td></tr>\
+<tr><td>Refugees -M_18_59</td><td>' + data.m_18_59 + '</td></tr>\
+<tr><td>Refugees -M_60Plus</td><td>' + data.m_60plus + '</td></tr>\
+<tr><td>Refugees - # Entered Legally</td><td>' + data.legal + '</td></tr>\
+<tr><td>Refugees - # Irregularly</td><td>' + data.illegal + '</td></tr>\
+<tr><td>Refugees Places of Origin - Homs</td><td>' + data.homs + '</td></tr>\
+<tr><td>Refugees Places of Origin - Idleb</td><td>' + data.idleb + '</td></tr>\
+<tr><td>Refugees Places of Origin - Aleppo</td><td>' + data.aleppo + '</td></tr>\
+<tr><td>Refugees Places of Origin - Rural_Dama</td><td>' + data.rural_dama + '</td></tr>\
+<tr><td>Refugees Places of Origin - Hama</td><td>' + data.hama + '</td></tr>\
+<tr><td>Refugees Places of Origin - Dar_a</td><td>' + data.dar_a + '</td></tr>\
+<tr><td>Refugees Places of Origin - Damascus</td><td>' + data.damascus + '</td></tr>\
+<tr><td>Refugees Places of Origin - Deir_ez_zor</td><td>' + data.deir_ez_zo + '</td></tr>\
+<tr><td>Refugees Places of Origin - Ar_raqqa</td><td>' + data.ar_raqqa + '</td></tr>\
+<tr><td>Refugees Places of Origin - Al_hasakeh</td><td>' + data.al_hasakeh + '</td></tr>\
+<tr><td>Refugees Places of Origin - Lattakia</td><td>' + data.lattakia + '</td></tr>\
+<tr><td>Refugees Places of Origin - Tartous</td><td>' + data.tartous + '</td></tr>\
+<tr><td>Refugees Places of Origin - As_sweida</td><td>' + data.as_sweida + '</td></tr>\
+<tr><td>Refugees Places of Origin - Quneitra</td><td>' + data.quneitra + '</td></tr>\
+<tr><td>Refugees Places of Origin - Other</td><td>' + data.othercoo + '</td></tr>\
+<tr><td>Refugees by Religion - SUN</td><td>' + data.sun + '</td></tr>\
+<tr><td>Refugees by Religion - Shia</td><td>' + data.sit + '</td></tr>\
+<tr><td>Refugees by Religion - Muslims (unspecified)</td><td>' + data.mus + '</td></tr>\
+<tr><td>Refugees by Religion - Christians</td><td>' + data.chr + '</td></tr>\
+<tr><td>Refugees by Religion - Yazidis</td><td>' + data.yaz + '</td></tr>\
+<tr><td>Refugees by Religion - Alawites</td><td>' + data.ala + '</td></tr>\
+<tr><td>Refugees by Religion - Other</td><td>' + data.otherrelig + '</td></tr>\
+<tr><td>Refugees Specific Needs - Victims of Torture</td><td>' + data.tr_torture + '</td></tr>\
+<tr><td>Refugees Specific Needs - Children at Risk</td><td>' + data.cr_child_a + '</td></tr>\
+<tr><td>Refugees Specific Needs -  Family Unity</td><td>' + data.fu_family + '</td></tr>\
+<tr><td>Refugees Specific Needs - SM_Serious Medical Condition</td><td>' + data.sm_serious + '</td></tr>\
+<tr><td>Refugees Specific Needs - SP_Single Parent</td><td>' + data.sp_single + '</td></tr>\
+<tr><td>Refugees Specific Needs - SC_Unaccompanied Children</td><td>' + data.sc_unaccom + '</td></tr>\
+<tr><td>Refugees Specific Needs - LP_Specific legal protection</td><td>' + data.lp_specifi + '</td></tr>\
+<tr><td>Refugees Specific Needs - ER Older persons at risk</td><td>' + data.er_older_p + '</td></tr>\
+<tr><td>Refugees Specific Needs - SV_SGBV</td><td>' + data.sv_sgbv + '</td></tr>\
+<tr><td>Refugees Specific Needs - DS_Disability</td><td>' + data.ds_disabil + '</td></tr>\
+<tr><td>Specific Needs WR Woman at Risk</td><td>' + data.wr_woman_a + '</td></tr>\
+<tr><td>Partners - Shelter</td><td>' + data.shelter + '</td></tr>\
+<tr><td>Partners - Education</td><td>' + data.education + '</td></tr>\
+<tr><td>Partners - Protection</td><td>' + data.protection + '</td></tr>\
+<tr><td>Partners -  Child Protection</td><td>' + data.child_prot + '</td></tr>\
+<tr><td>Partners - SGBV</td><td>' + data.sgbv + '</td></tr>\
+<tr><td>Partners - WASH</td><td>' + data.wash + '</td></tr>\
+<tr><td>Partners - Food</td><td>' + data.food + '</td></tr>\
+<tr><td>Partners - Social Cohesion and Livelihoods</td><td>' + data.scl + '</td></tr>\
+<tr><td>Partners - NFI / Core Relief Items CRI</td><td>' + data.nfi + '</td></tr>\
+<tr><td>Partners - Nutrition</td><td>' + data.nutrition + '</td></tr>\
+<tr><td>Partners - Health</td><td>' + data.health + '</td></tr>\
 </tbody>\
                                 </table>\
-                                ';
-            $("#page-wrap").attr("title", pcode);
+            ';
+            $("#page-wrap").attr("title", data.asc_code);
             $("#page-wrap").html(marker_content);
   
      $(function () {
          $("table").addTableFilter();
      });
 
-        });
+        ;
        
     }
-
-    
 </script>
-
-
-
 </body>
 </html>
