@@ -1,1 +1,1 @@
-web: gunicorn spongemap:app
+web: gunicorn spongemap.spongemap.wsgi:app
