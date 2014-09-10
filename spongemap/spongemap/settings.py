@@ -67,7 +67,7 @@ DATABASES = {
     }
 }
 from mongoengine import connect
-connect('locations')
+connect('dog')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
