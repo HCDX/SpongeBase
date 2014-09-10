@@ -2,4 +2,4 @@ gunicorn
 django
 mongoengine
 pymongo
-git+https://github.com/UNICEFLebanonInnovation/ActvityInfoPython.git
+requests
