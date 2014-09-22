@@ -1,5 +1,5 @@
 gunicorn
-django
+django==1.6.5
 mongoengine
 pymongo
 requests
