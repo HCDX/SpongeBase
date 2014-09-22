@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'mongonaut',
 
     'rest_framework',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
