@@ -23,7 +23,7 @@ class Command(BaseCommand):
             for report in ai.report.find({'p_code': {'$ne': None}}):
                 fact, created = Fact.objects.get_or_create(
                     id=report['_id'],
-                    source='ActivityInfo'
+                    source='ActivityInfo: {}'.format(report['partner_name'])
                 )
                 fact.date = datetime.strptime(report['date'], '%Y-%m')
                 fact.code = report['p_code']

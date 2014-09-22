@@ -9,5 +9,7 @@ class FactsView(ListAPIView):
     serializer_class = FactSerializer
 
     def get_queryset(self):
-        return Fact.objects.all()
+
+        code = self.request.QUERY_PARAMS.get('code', None)
+        return Fact.objects.filter(code=code)
 
