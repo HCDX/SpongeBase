@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'dog',
 
     'mongonaut',
+
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

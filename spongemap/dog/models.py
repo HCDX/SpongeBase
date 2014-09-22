@@ -13,8 +13,8 @@ from mongoengine import FloatField
 class Fact(EmbeddedDocument):
 
     date = DateTimeField()
-    detail = StringField(max_length=254)
-    number = IntField()
+    description = StringField(max_length=254)
+    value = StringField(max_length=254)
     category = StringField(max_length=254)
     source = StringField(max_length=254)
 

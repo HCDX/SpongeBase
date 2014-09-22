@@ -4,7 +4,7 @@ __author__ = 'jcranwellward'
 from mongonaut.sites import MongoAdmin
 
 # Import your custom models
-from .models import Location
+from .models import Location, Fact
 
 
 class LocationAdmin(MongoAdmin):
@@ -24,6 +24,24 @@ class LocationAdmin(MongoAdmin):
     list_display = ('name',)
 
 
+class FactAdmin(MongoAdmin):
+
+    def has_view_permission(self, request):
+        return True
+
+    def has_edit_permission(self, request):
+        return True
+
+    def has_add_permission(self, request):
+        return True
+
+    def has_delete_permission(self, request):
+        return True
+
+    list_display = ('description',)
+
+
 # Instantiate the MongoAdmin class
 # Then attach the mongoadmin to your model
 Location.mongoadmin = LocationAdmin()
+Fact.mongoadmin = FactAdmin()

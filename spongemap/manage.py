@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys
+from sys import path
+from os.path import abspath, dirname
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "spongemap.settings")
