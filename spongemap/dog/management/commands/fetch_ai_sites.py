@@ -8,6 +8,10 @@ from pymongo import MongoClient
 
 from dog.models import Fact
 
+ai = MongoClient(
+    os.environ.get('AI_MONGO_URL', 'mongodb://localhost:27017'))[
+    os.environ.get('AI_MONGODB_DATABASE', 'ai-production')]
+
 
 class Command(BaseCommand):
     help = 'Import sites from ActivityInfo'
@@ -15,10 +19,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         try:
-
-            ai = MongoClient(
-                os.environ.get('AI_MONGO_URL', 'mongodb://localhost:27017'))[
-                os.environ.get('AI_MONGODB_DATABASE', 'ai')]
 
             for report in ai.report.find({'p_code': {'$ne': None}}):
                 fact, created = Fact.objects.get_or_create(
@@ -42,7 +42,6 @@ class Command(BaseCommand):
                         fact.description,
                         fact.value
                     )
-
 
         except Exception as exp:
             raise CommandError(exp)
