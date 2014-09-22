@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from rest_framework.generics import ListAPIView
 
-# Create your views here.
+from .models import Fact
+from .serializers import FactSerializer
+
+
+class FactsView(ListAPIView):
+
+    serializer_class = FactSerializer
+
+    def get_queryset(self):
+        return Fact.objects.all()
+

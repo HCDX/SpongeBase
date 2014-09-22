@@ -4,3 +4,4 @@ mongoengine
 pymongo
 requests
 djangorestframework
+django-rest-framework-mongoengine

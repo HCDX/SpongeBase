@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from pymongo import MongoClient
 
-from dog.models import Fact, Location
+from dog.models import Fact
 
 
 class Command(BaseCommand):
@@ -21,17 +21,28 @@ class Command(BaseCommand):
                 os.environ.get('AI_MONGODB_DATABASE', 'ai')]
 
             for report in ai.report.find({'p_code': {'$ne': None}}):
-                location, created = Location.objects.get_or_create(
-                    code=report['p_code']
+                fact, created = Fact.objects.get_or_create(
+                    id=report['_id'],
+                    source='ActivityInfo'
                 )
-                fact = Fact(
-                    date=datetime.strptime(report['date'], '%Y-%m'),
-                    description=report['indicator_name'],
-                    value=report['value'],
-                    category=report['activity'],
-                    source='ActivityInfo',
-                    location=location
-                )
+                fact.date = datetime.strptime(report['date'], '%Y-%m')
+                fact.code = report['p_code']
+                fact.description = report['indicator_name']
+                fact.value = str(report['value'])
+                fact.category = report['activity']
+                fact.created_on = datetime.now()
+
+                fact.save()
+
+                if created:
+                    print 'Created fact: {} -> {} -> {} -> {} = {}'.format(
+                        fact.date,
+                        fact.source,
+                        fact.category,
+                        fact.description,
+                        fact.value
+                    )
+
 
         except Exception as exp:
             raise CommandError(exp)
