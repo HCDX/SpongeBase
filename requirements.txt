@@ -3,5 +3,6 @@ django
 mongoengine
 pymongo
 requests
+django-mongonaut
 djangorestframework
 django-rest-framework-mongoengine
