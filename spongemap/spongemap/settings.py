@@ -75,7 +75,7 @@ connect(
     username=os.environ.get('MONGODB_USERNAME'),
     password=os.environ.get('MONGODB_PASSWORD'),
     host=os.environ.get('MONGODB_HOST'),
-    port=os.environ.get('MONGODB_PORT'),
+    port=os.environ.get(int('MONGODB_PORT')),
 )
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
