@@ -3,6 +3,7 @@ django==1.6.5
 mongoengine
 pymongo
 requests
+dj-static
 django-mongonaut
 djangorestframework
 django-rest-framework-mongoengine
