@@ -21,7 +21,7 @@ class Command(BaseCommand):
                 os.environ.get('AI_MONGODB_DATABASE', 'ai')]
 
             for report in ai.report.find({'p_code': {'$ne': None}}):
-                fact, created = Fact.objects.get_or_create(source_id=report['_id'])
+                fact, created = Fact.objects.get_or_create(source_id=str(report['_id']))
                 fact.source = 'ActivityInfo: {}'.format(report['partner_name'])
                 fact.date = datetime.strptime(report['date'], '%Y-%m')
                 fact.code = report['p_code']
