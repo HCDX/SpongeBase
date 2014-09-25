@@ -39,7 +39,7 @@ class Command(BaseCommand):
                         fact.category,
                         fact.description,
                         fact.value
-                    )
+                    ).encode('utf-8')
 
         except Exception as exp:
             raise CommandError(exp)
