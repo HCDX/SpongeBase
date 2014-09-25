@@ -13,9 +13,10 @@ from mongoengine import ObjectIdField
 class Fact(Document):
 
     date = DateTimeField()
-    code = StringField(max_length=254)
-    description = StringField(max_length=254)
-    value = StringField(max_length=254)
-    category = StringField(max_length=254)
-    source = StringField(max_length=254)
+    code = StringField()
+    description = StringField()
+    value = StringField()
+    category = StringField()
+    source = StringField()
+    source_id = StringField()
     created_on = DateTimeField()
