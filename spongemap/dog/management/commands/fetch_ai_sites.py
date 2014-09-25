@@ -1,8 +1,10 @@
 __author__ = 'jcranwellward'
 
-import requests
+import os
 from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
+
+from pymongo import MongoClient
 
 from dog.models import Fact
 
@@ -14,13 +16,13 @@ class Command(BaseCommand):
 
         try:
 
-            url = 'http://ai-aggregator.apps.uniceflebanon.org/reports/?p_code__ne=null'
-            response = requests.get(url)
-            data = response.json()
+            ai = MongoClient(
+                os.environ.get('AI_MONGO_URL', 'mongodb://localhost:27017'))[
+                os.environ.get('AI_MONGODB_DATABASE', 'ai')]
 
-            for report in data['data']:
+            for report in ai.report.find({'p_code': {'$ne': None}}):
                 fact, created = Fact.objects.get_or_create(id=report['id'])
-                fact.source='ActivityInfo: {}'.format(report['partner_name'])
+                fact.source = 'ActivityInfo: {}'.format(report['partner_name'])
                 fact.date = datetime.strptime(report['date'], '%Y-%m')
                 fact.code = report['p_code']
                 fact.description = report['indicator_name']
