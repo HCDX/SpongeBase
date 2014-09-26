@@ -23,7 +23,16 @@ public class WebService : System.Web.Services.WebService {
     [WebMethod]
     public string HelloWorld()
     {
-        return "Hello World";
+        return @"{
+    ""id"": 1,
+    ""date"": ""12/03/2014"",
+    ""code"": ""112"",
+    ""Description"": ""Some Information Here"",
+    ""value"":""20"",
+    ""Category"":""Shelter"",
+    ""Source"":""Activity Info"",
+    ""CreatedOn"":""1/1/2014""
+}";
     }
 
     //This method takes your birth year, month and day, 
