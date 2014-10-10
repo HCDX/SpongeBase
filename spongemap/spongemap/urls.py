@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'spongemap.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', login_required(TemplateView.as_view(template_name='spongemap.html'))),
+    url(r'^$', TemplateView.as_view(template_name='spongemap.html')),
 
     url(r'^facts/$', FactsView.as_view()),
 
