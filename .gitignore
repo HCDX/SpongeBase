@@ -3,3 +3,7 @@
 *.pyc
 
 *.db
+
+*.box
+
+.vagrant
