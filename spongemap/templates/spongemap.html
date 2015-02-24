@@ -395,7 +395,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         function Fetch(pcode, name) {
 
             $.ajax({
-                url: "/facts/?code=" + pcode,
+                url: "http://ai-aggregator.apps.uniceflebanon.org/reports/?p_code=" + pcode,
                 //dataType: "jsonp",
                 success: function (retdata, statuss) {
                     var marker_content = '\
@@ -412,15 +412,15 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     <tbody>\ ';
 
 
-                    for (var i = 0; i < retdata.length; i++) {
-                        var obj = retdata[i];
+                    for (var i = 0; i < retdata.data.length; i++) {
+                        var obj = retdata.data[i];
                         marker_content += '\
                   <tr>\
                   <td style="vertical-align:top; white-space:nowrap;">' + obj.date + '</td>\
-                  <td style="vertical-align:top;">' + obj.description + '</td>\
+                  <td style="vertical-align:top;">' + obj.indicator_name + '</td>\
                   <td style="vertical-align:top;">' + obj.value + '</td>\
                   <td style="vertical-align:top;">' + obj.category + '</td>\
-                  <td style="vertical-align:top;">' + obj.source + '</td>\
+                  <td style="vertical-align:top;">ActivityInfo: ' + obj.partner_name + '</td>\
                                         </tr>\ ';
                     }
                     marker_content += '</tbody>\
