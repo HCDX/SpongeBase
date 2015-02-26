@@ -44,7 +44,7 @@
     </div>
 
 
-    <div id="page-wrap" title="DOG fetched this"></div>
+   <!-- <div id="page-wrap" title="DOG fetched this"></div> -->
 
 
     <script type="infowindow/html" id="infowindow_template">
@@ -88,6 +88,7 @@
                 </p>
             </div>
         </div>
+		<div id="page-wrap" class="wrapper"></div>
     </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
@@ -310,14 +311,20 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         function addadm4layer(layerurl) {
             cartodb.createLayer(map, layerurl).addTo(map)
                  .on('done',
-                 function (layer) {
-                     // get sublayer 0 and set the infowindow template
+                  function (layer) {
                      adm4layer = layer.getSubLayer(0);
-                     adm4layer.infowindow.set('template', $('#infowindow_template').html());
+                     adm4layer.on('featureClick', function (e, pos, latlng, data) {
+                         $(function () {
+                             Fetch(data.pcode, data.location_name_en);
+                      
+                         });
+                     });
                      adm4layer.hide();
                  }).on('error', function () {
                      console.log("some error occurred");
                  });
+
+
             createSelector('adm4');
 
         }
@@ -332,7 +339,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                      adm3layer.on('featureClick', function (e, pos, latlng, data) {
                          $(function () {
                              Fetch(data.acs_code, data.acs_name);
-                             $("#page-wrap").dialog({ width: 800, title: "Location: " + data.acs_code + "| pcode: " + data.acs_name });
+                          //   $("#page-wrap").dialog({ width: 800, title: "Location: " + data.acs_code + "| pcode: " + data.acs_name });
                          });
                      });
                      adm3layer.hide();
@@ -355,10 +362,10 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                          //  alert("You clicked " + data.p_code);
                          $(function () {
                              Fetch(data.p_code, data.pcode_name);
-                             //$("#page-wrap").dialog({ width: 800, title: "Location: " + data.pcode_name + "| pcode: " + data.p_code });
+                            
                          });
                      });
-                     //   itslayer.infowindow.set('template', $('#infowindow_template').html());
+                   
 
                      itslayer.hide();
                  }).on('error', function () {
@@ -378,8 +385,8 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                      schoolslayer.on('featureClick', function (e, pos, latlng, data) {
                          //  alert("You clicked " + data.p_code);
                          $(function () {
-                             Fetch(data.cerd, data.school_name);
-                             $("#page-wrap").dialog({ width: 800, title: "Location: " + data.school_name + "| CERD: " + data.cerd });
+                             Fetch("cerd: "+ data.cerd, data.school_name);
+                   
                          });
                      });
                      schoolslayer.hide();
@@ -387,7 +394,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                      console.log("some error occurred");
                  });
 
-            createSelector('schools');
+            createSelector('schools');	
         }
 
         window.onload = main;
@@ -399,7 +406,8 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                 //dataType: "jsonp",
                 success: function (retdata, statuss) {
                     var marker_content = '\
-                  <table cellpadding="4" cellspacing="0" border="0" id="dogtable" class="tablesorter">\
+				  <span><font size="4">Location: ' + name + ' | Pcode: ' + pcode+'</font></span>\
+                  <table cellpadding="4" cellspacing="0" border="0" id="dogtable" class="tablesorter" style="color:black" bgcolor="#C0C0C0 ">\
                     <thead>\
                                   <tr>\
                                        <th><b>Date</b></th>\
@@ -435,7 +443,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     });
 
                     $("table").addTableFilter();
-                    $("#page-wrap").dialog({ width: 800, title: "Location: " + name + "| PCode: " + pcode });
+                   // $("#page-wrap").dialog({ width: 800, title: "Location: " + name + "| PCode: " + pcode });
 
                 }
             });
