@@ -26,7 +26,7 @@
     <!-- Table Sorter -->
     <script src="{{ STATIC_URL }}js/tablesort/js/jquery.tablesorter.min.js"></script>
     <script src="{{ STATIC_URL }}js/tablesort/js/jquery.tablesorter.widgets.min.js"></script>
-
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/sponge_bob.ico">
 </head>
 <body>
 
@@ -41,6 +41,10 @@
             <li data="5">Informal Settlements</li>
             <li data="6">Schools</li>
         </ul>
+		<form>
+		<span><input type="text" id="searchTxt" placeholder="Search..."></span>
+		<span><input type="button"  onclick="searchFunction()" value="Go"></span>
+	</form>
     </div>
 
 
@@ -451,6 +455,21 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             });
 
         }
+		function processFormData() {
+		return document.getElementById('searchTxt').value;
+    }
+		function searchFunction(){
+
+		var mySearch = processFormData();	
+		var sql = new cartodb.SQL({ user: 'unhcr' });  
+        sql.getBounds("SELECT * FROM ai_is where pcode LIKE '%" + mySearch + "%' OR pcode_name LIKE '%" +
+		mySearch + "%'").done(function(bounds) {
+			map.fitBounds(bounds);
+			if (map.getZoom() > 18) {
+   				map.setZoom(18);
+  			}
+		});				
+	}	
 
 
     </script>
