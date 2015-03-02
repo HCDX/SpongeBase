@@ -92,6 +92,7 @@
         </div>
 		<div id="page-wrap" class="wrapper"></div>
 		<div class="context footer">
+		
                 <p>Visit the Inter-agency information sharing webportal <a href="http://data.unhcr.org/syrianrefugees/country.php?id=122">Here</a></p>
                 </p>
             </div>
@@ -478,7 +479,8 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                                         </tr>\ ';
                     }
                     marker_content += '</tbody>\
-                                    </table>\ ';
+                                    </table>\
+									';
 
                     $("#page-wrap").attr("title", pcode);
                     $("#page-wrap").html(marker_content);
@@ -490,27 +492,31 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                     });
 
                     $("table").addTableFilter();
-                   // $("#page-wrap").dialog({ width: 800, title: "Location: " + name + "| PCode: " + pcode });
-
-                }
+					}
             });
+			 
 
         }
+		
 		function processFormData() {
 		return document.getElementById('searchTxt').value;
     }
+	
 		function searchFunction(){
 
 		var mySearch = processFormData();	
 		var sql = new cartodb.SQL({ user: 'unhcr' });  
-        sql.getBounds("SELECT * FROM ai_is where pcode LIKE '%" + mySearch + "%' OR pcode_name LIKE '%" +
+        sql.getBounds("SELECT * FROM ai_allsites where pcode LIKE '%" + mySearch + "%' OR site_name LIKE '%" +
 		mySearch + "%'").done(function(bounds) {
 			map.fitBounds(bounds);
 			if (map.getZoom() > 18) {
    				map.setZoom(18);
   			}
 		});				
-	}	
+	}
+
+    
+
 
 
     </script>
