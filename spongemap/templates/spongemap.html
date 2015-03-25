@@ -37,6 +37,7 @@
             <li data="1">Governorate</li>
             <li data="2">District</li>
             <li data="3">Cadastrals</li>
+			<li data="8">Municipalities</li>
             <li data="4">Villages/Localities</li>
             <li data="5">Informal Settlements</li>
             <li data="6">Schools</li>
@@ -120,6 +121,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         var itson = 0;
         var schoolon = 0;
 		var phcon = 0;
+		var municipalitieson = 0;
         var adm1layer;
         var adm2layer;
         var adm3layer;
@@ -127,6 +129,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         var itslayer;
         var schoolslayer;
 		var phclayer;
+		var municipalitieslayer;
         var itslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/6d01148e-ebbe-11e3-8ccb-0e230854a1cb/viz.json';
         var adm1layerurl = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json';
         var adm2layerurl = 'http://unhcr.cartodb.com/api/v2/viz/80a4de6a-f2eb-11e3-aea2-0e230854a1cb/viz.json';
@@ -134,6 +137,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
         var adm4layerurl = 'http://unhcr.cartodb.com/api/v2/viz/46e8c810-4f9a-11e4-bbdf-0e4fddd5de28/viz.json';
         var schoolslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json';
 		var phclayerurl='http://unhcr.cartodb.com/api/v2/viz/4704f114-bf68-11e4-a773-0e0c41326911/viz.json';
+		var municipalitieslayerurl='http://unhcr.cartodb.com/api/v2/viz/497cfb5a-d31b-11e4-ace7-0e0c41326911/viz.json';
         function createSelector(origin) {
 
             var $options = $('#layer_selector li');
@@ -250,6 +254,21 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                         phcon = 0;
                     }
                 }
+				
+				 if (origin == 'municipalities') {
+                    if (area == '8' && municipalitieson == 0) {
+                        //show adm1 layer
+                        municipalitieson = 1;
+                        municipalitieslayer.show();
+                        $li.addClass('selected');
+                    }
+                    else if (area == '8' && municipalitieson == 1) {
+                        //hide layer
+                        $li.removeClass('selected');
+                        municipalitieslayer.hide();
+                        municipalitieson = 0;
+                    }
+                }
 
                 selectedli = area;
                 // change the query in the layer to update the map
@@ -293,6 +312,7 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
             additslayer(itslayerurl);
             addschoolslayer(schoolslayerurl);
 			addphclayer(phclayerurl);
+			addmunicipalitieslayer(municipalitieslayerurl);
 
         }
         //Custom Layer
@@ -442,6 +462,27 @@ http://developers.cartodb.com/documentation/cartodb-js.html-->
                  });
 
             createSelector('phc');	
+        }
+		
+				 function addmunicipalitieslayer(layerurl) {
+            cartodb.createLayer(map, layerurl).addTo(map)
+                 .on('done',
+                 function (layer) {
+                    
+                     municipalitieslayer = layer.getSubLayer(0);
+                     municipalitieslayer.on('featureClick', function (e, pos, latlng, data) {
+                         //  alert("You clicked " + data.p_code);
+                         $(function () {
+                             Fetch(""+ data.pcode, data.mun_en);
+                   
+                         });
+                     });
+                     municipalitieslayer.hide();
+                 }).on('error', function () {
+                     console.log("some error occurred in municipalities layer");
+                 });
+
+            createSelector('municipalities');	
         }
 
         window.onload = main;
