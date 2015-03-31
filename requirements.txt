@@ -6,4 +6,4 @@ requests
 dj-static
 django-mongonaut
 djangorestframework
-django-rest-framework-mongoengine
+django-rest-framework-mongoengine<2.0
