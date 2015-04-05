@@ -59,6 +59,14 @@
 body { 
 	font: 14px/1.4 Georgia, Serif; 
 }
+      body {  /*overwrite boostrap */
+          margin: 0;
+          font-size: 14px;
+          line-height: 20px;
+          color: #fff !important;
+      }
+
+
 #page-wrap {
 	margin: 50px;
 }
