@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <!--Edit the title of the page-->
@@ -45,10 +45,13 @@
             <li data="6">Schools</li>
 			<li data="7">Primary Health Care Centres</li>
         </ul>
-		<form>
-		<span><input type="text" id="searchTxt" placeholder="Search..."></span>
-		<span><input type="button"  onclick="searchFunction()" value="Go"></span>
-	</form>
+
+
+		<form class="form-inline">
+            <input type="text" id="searchTxt" placeholder="Search...">
+            <input type="button" class="btn btn-info" value="Go" onclick="searchFunction()"></input>
+
+	    </form>
     </div>
 
 

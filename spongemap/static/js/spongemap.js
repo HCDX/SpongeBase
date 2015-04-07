@@ -401,11 +401,11 @@ function Fetch(pcode, name) {
           <table cellpadding="4" cellspacing="0" border="0" id="dogtable" class="table table-striped" style="color:black" bgcolor="#C0C0C0 ">\
             <thead>\
                           <tr>\
-                               <th><b>Date</b></th>\
-                                <th><b>Description</b></th>\
-                                <th><b>Value</b></th>\
-                                 <th><b>Category</b></th>\
-                                <th><b>Source</b></th>\
+                               <th class="header"><b>Date</b></th>\
+                                <th class="header"><b>Description</b></th>\
+                                <th class="header"><b>Value</b></th>\
+                                 <th class="header"><b>Category</b></th>\
+                                <th class="header"><b>Source</b></th>\
                           </tr>\
             </thead>\
             <tbody>\ ';
