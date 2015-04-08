@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'mongonaut',
 
     'rest_framework',
+    'rest_framework_mongoengine',
     'gunicorn',
 )
 
@@ -71,11 +72,8 @@ DATABASES = {
 }
 from mongoengine import connect
 connect(
-    os.environ.get('MONGODB_DATABASE', 'dog'),
-    username=os.environ.get('MONGODB_USERNAME'),
-    password=os.environ.get('MONGODB_PASSWORD'),
-    host=os.environ.get('MONGODB_HOST'),
-    port=int(os.environ.get('MONGODB_PORT', 27017)),
+    'spongemap',
+    host=os.environ.get('MONGODB_URL'),
 )
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
