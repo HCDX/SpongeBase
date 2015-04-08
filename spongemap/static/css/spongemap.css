@@ -58,10 +58,9 @@
 	margin: 0; 
 	padding: 0; 
 }
-body { 
-	font: 14px/1.4 Georgia, Serif; 
-}
+
       body {  /*overwrite boostrap */
+          font: 14px/1.4 Georgia, Serif;
           margin: 0;
           font-size: 14px;
           line-height: 20px;
