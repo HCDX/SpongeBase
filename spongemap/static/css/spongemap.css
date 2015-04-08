@@ -10,18 +10,16 @@
         top: 20px;
         right: 20px;
         padding: 0;
-
       }
 
       #layer_selector ul {
         padding: 0; margin: 0;
         list-style-type: none;
-
       }
 
       #layer_selector li {
         border-bottom: 1px solid #999;
-        padding: 10px 30px;
+        padding: 15px 30px;
         font-family: "Helvetica", Arial;
         font-size: 13px;
         color: #444;
@@ -58,16 +56,9 @@
 	margin: 0; 
 	padding: 0; 
 }
-
-      body {  /*overwrite boostrap */
-          font: 14px/1.4 Georgia, Serif;
-          margin: 0;
-          font-size: 14px;
-          line-height: 20px;
-          color: #fff !important;
-      }
-
-
+body { 
+	font: 14px/1.4 Georgia, Serif; 
+}
 #page-wrap {
 	margin: 50px;
 }
@@ -83,44 +74,19 @@ p {
 		border-collapse: collapse; 
 	}
 	/* Zebra striping */
-	    .table-striped tbody tr:nth-child(odd) td{
-            background: #d9d9d9;
-        }
-
-      /*tr:nth-of-type(odd) {*/
-		/*background: #eee; */
-	/*}*/
+	tr:nth-of-type(odd) { 
+		background: #eee; 
+	}
 	th { 
 		background: #333; 
-		color: black;
+		color: white; 
 		font-weight: bold; 
 	}
 	td, th { 
 		padding: 6px; 
 		border: 1px solid #ccc; 
-		text-align: left;
-        background: #ddd;
+		text-align: left; 
 	}
-
-      table.tablesorter thead tr .header {
-      background-image: url( http://tablesorter.com/themes/blue/bg.gif);
-      background-repeat: no-repeat;
-      background-position: center right;
-      cursor: pointer;
-      padding-right: 15px;
-    }
-   .tablesorter-headerAsc {
-       background-image: url(http://tablesorter.com/themes/blue/desc.gif) !important;
-       padding-right: 15px;
-    }
-    .tablesorter-headerDesc{
-       background-image: url(http://tablesorter.com/themes/blue/asc.gif) !important;
-       padding-right: 15px;
-    }
-
-
-
-
 
     /* 
 	Max width before this PARTICULAR table gets nasty
