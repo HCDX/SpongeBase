@@ -73,7 +73,7 @@ DATABASES = {
 from mongoengine import connect
 connect(
     'spongemap',
-    host=os.environ.get('MONGODB_URL'),
+    host=os.environ.get('MONGODB_URL', 'mongodb://localhost:27017'),
 )
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
