@@ -1,4 +1,4 @@
-﻿
+﻿﻿
       html, body, #map {
         height: 100%;
         padding: 0;
@@ -10,16 +10,18 @@
         top: 20px;
         right: 20px;
         padding: 0;
+          width: 13%;
       }
 
       #layer_selector ul {
         padding: 0; margin: 0;
         list-style-type: none;
+
       }
 
       #layer_selector li {
         border-bottom: 1px solid #999;
-        padding: 15px 30px;
+        padding: 10px 30px;
         font-family: "Helvetica", Arial;
         font-size: 13px;
         color: #444;
@@ -35,7 +37,7 @@
         background-color: #EEE;
       }
 
-     div.cartodb-popup.custom_infowindow {width:auto;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
+    div.cartodb-popup.custom_infowindow {width:auto;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
     div.cartodb-popup.custom_infowindow div.cartodb-popup-content-wrapper {width:407px;height:400px;max-width:407px;padding:0 5px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y}
     div.cartodb-popup.custom_infowindow div.cartodb-popup-tip-container{width:407px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
     div.cartodb-popup.custom_infowindow div.row{display:block;overflow:auto}
@@ -57,8 +59,14 @@
 	padding: 0; 
 }
 body { 
-	font: 14px/1.4 Georgia, Serif; 
+	font: 14px/1.4 Georgia, Serif;
+    color: #fff !important;
+    margin: 0;
+    line-height: 20px;
 }
+
+
+
 #page-wrap {
 	margin: 50px;
 }
@@ -74,19 +82,41 @@ p {
 		border-collapse: collapse; 
 	}
 	/* Zebra striping */
-	tr:nth-of-type(odd) { 
-		background: #eee; 
-	}
+	    .table-striped tbody tr:nth-child(odd) td{
+            background: #d9d9d9;
+        }
+
+      /*tr:nth-of-type(odd) {*/
+		/*background: #eee; */
+	/*}*/
 	th { 
 		background: #333; 
-		color: white; 
+		color: black;
 		font-weight: bold; 
 	}
 	td, th { 
 		padding: 6px; 
 		border: 1px solid #ccc; 
-		text-align: left; 
+		text-align: left;
+        background: #ddd;
 	}
+
+      table.tablesorter thead tr .header {
+      background-image: url( http://tablesorter.com/themes/blue/bg.gif);
+      background-repeat: no-repeat;
+      background-position: center right;
+      cursor: pointer;
+      padding-right: 15px;
+    }
+   .tablesorter-headerAsc {
+       background-image: url(http://tablesorter.com/themes/blue/desc.gif) !important;
+       padding-right: 15px;
+    }
+    .tablesorter-headerDesc{
+       background-image: url(http://tablesorter.com/themes/blue/asc.gif) !important;
+       padding-right: 15px;
+    }
+
 
     /* 
 	Max width before this PARTICULAR table gets nasty
