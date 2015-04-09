@@ -122,6 +122,10 @@ p {
        padding-right: 15px;
     }
 
+    #dogtable-filtering{
+        color: #444;
+    }
+
 
     /* 
 	Max width before this PARTICULAR table gets nasty
