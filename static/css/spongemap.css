@@ -54,6 +54,11 @@
     div.cartodb-popup.custom_infowindow p.margin{margin-top:12px}
     div.cartodb-popup.custom_infowindow p a{color:#459CBE;text-decoration:none}
 
+    .leaflet-right {
+        right: 0px;
+        margin-right: 100px ;
+    }
+
     * { 
 	margin: 0; 
 	padding: 0; 
