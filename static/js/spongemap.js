@@ -458,8 +458,8 @@ function searchFunction(){
 
 var mySearch = processFormData();
 var sql = new cartodb.SQL({ user: 'unhcr' });
-sql.getBounds("SELECT * FROM ai_allsites where pcode LIKE '%" + mySearch + "%' OR site_name LIKE '%" +
-mySearch + "%'").done(function(bounds) {
+sql.getBounds("SELECT * FROM ai_allsites where lower(pcode) LIKE lower('%" + mySearch + "%') OR lower(site_name) LIKE lower('%" +
+mySearch + "%')").done(function(bounds) {
     map.fitBounds(bounds);
     if (map.getZoom() > 18) {
         map.setZoom(18);
