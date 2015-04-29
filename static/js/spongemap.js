@@ -295,7 +295,7 @@ function addadm3layer(layerurl) {
              adm3layer = layer.getSubLayer(0);
              adm3layer.on('featureClick', function (e, pos, latlng, data) {
                  $(function () {
-                     Fetch(data.acs_code, data.acs_name);
+                     Fetch(data.cad_code, data.acs_name);
                   //   $("#page-wrap").dialog({ width: 800, title: "Location: " + data.acs_code + "| pcode: " + data.acs_name });
                  });
              });
@@ -342,7 +342,7 @@ function addschoolslayer(layerurl) {
              schoolslayer.on('featureClick', function (e, pos, latlng, data) {
                  //  alert("You clicked " + data.p_code);
                  $(function () {
-                     Fetch("cerd: "+ data.cerd, data.school_name);
+                     Fetch(data.cerd, data.school_name);
 
                  });
              });
