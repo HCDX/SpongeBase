@@ -421,12 +421,17 @@ function Fetch(pcode, name) {
 
             for (var i = 0; i < retdata.data.length; i++) {
                 var obj = retdata.data[i];
+				var cat = obj.category; 
+				if (cat="null")
+				{ 
+					cat=obj.activity;
+				}
                 marker_content += '\
           <tr>\
           <td style="vertical-align:top; white-space:nowrap;">' + obj.date + '</td>\
           <td style="vertical-align:top;">' + obj.indicator_name + '</td>\
-          <td style="vertical-align:top;">' + obj.value + '</td>\
-          <td style="vertical-align:top;">' + obj.category + '</td>\
+          <td style="vertical-align:top;">' + obj.value.replace(".00","") + '</td>\
+          <td style="vertical-align:top;">' + cat + '</td>\
           <td style="vertical-align:top;">ActivityInfo: ' + obj.partner_name + '</td>\
                                 </tr>\ ';
             }
