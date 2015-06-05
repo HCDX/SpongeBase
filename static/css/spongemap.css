@@ -299,7 +299,7 @@ p {
     width:25px;
     height:16px;
     display:block;
-    background-image:url(../images/tweet-actions.png);
+    background-image:url(/static/img/tweet-actions.png);
     float:left;
 }
 .intent a:hover{
@@ -317,14 +317,4 @@ p {
 }
 #intent-fave a:hover{
     background-position:-25px -36px;
-}
-
-/* -------- RETWEET INDICATOR ------*/
-#retweet-indicator {
-    width:14px;
-    height:10px;
-    background-image:url(../images/tweet-actions.png);
-    background-position:-5px -54px;
-    margin-top:3px;
-    float:left;
 }
