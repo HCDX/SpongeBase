@@ -1,3 +1,5 @@
+from os import environ
+
 from flask import Flask
 from flask import g, session, request, url_for, flash
 from flask import redirect, render_template, jsonify
@@ -16,8 +18,8 @@ twitter = oauth.remote_app(
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
-    consumer_key='fBmNVseiOzmDdfhoQzxIxAm8s',
-    consumer_secret='zVu4dwz2H9m6rMuhxIWnE1hRJ9BlBw05ySJhCViGZj95gTPhQE',
+    consumer_key=environ.get('TWITTER_CONSUMNER_KEY', ''),
+    consumer_secret=environ.get('TWITTER_CONSUMNER_SECRET', ''),
     access_token_method='GET'
 )
 
@@ -25,22 +27,15 @@ twitter = oauth.remote_app(
 @twitter.tokengetter
 def get_twitter_token(token=None):
         return session.get('twitter_oauth')
-        # print(resp['oauth_token'], resp['oauth_token_secret'])
-        # return resp['oauth_token'], resp['oauth_token_secret']
 
-# @app.before_request
-# def before_request():
-#     if 'twitter_oauth' in session:
-#         g.user = session['twitter_oauth']
+@app.route('/')
+def index():
+    return render_template('spongemap.html')
 
 @app.route('/login')
 def login():
     callback_url = url_for('oauthorized', next=request.args.get('next'))
     return twitter.authorize(callback=callback_url or request.referrer or None)
-
-@app.route('/')
-def index():
-    return render_template('spongemap.html')
 
 @app.route('/tweets')
 def tweets():
