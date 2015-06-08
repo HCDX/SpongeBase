@@ -22,7 +22,6 @@ twitter = oauth.remote_app(
     access_token_method='GET'
 )
 
-
 @twitter.tokengetter
 def get_twitter_token(token=None):
         return session.get('twitter_oauth')
