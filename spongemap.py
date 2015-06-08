@@ -9,7 +9,6 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = 'development'
 
-
 oauth = OAuth()
 
 twitter = oauth.remote_app(
@@ -40,8 +39,8 @@ def login():
 @app.route('/tweets')
 def tweets():
     tweets = None
-    geocode = request.args.get('geocode')
-    resp = twitter.get('search/tweets.json?geocode=' + geocode)
+    q = request.args.get('q')
+    resp = twitter.get('search/tweets.json?q=' + q)
     if resp.status == 200:
         tweets = resp.data
     else:

@@ -20,11 +20,8 @@ function fetchTweets(pos) {
 	loadingHTML += '<div id="loading-container"><img src="/static/img/ajax-loader.gif" width="32" height="32" alt="tweet loader" /></div>';
 
 	$('#twitter-feed').html(headerHTML + loadingHTML);
-
-    //$.getJSON('http://www.webdevdoor.com/demos/jquery-twitter-feed/get-tweets1.1.php',
-
-
-        $.getJSON("/tweets?geocode=" + pos + ",100km", function (data) {
+        //$.getJSON("/tweets?geocode=" + pos + ",100km", function (data) {
+        $.getJSON("/tweets?q=" + pos, function (data) {
             //loop the tweets
             var feedHTML = '';
             var displayCounter = 1;
@@ -82,12 +79,13 @@ function fetchTweets(pos) {
                         displayCounter++;
                     }
                 }
-                if(displayCounter==1){
-                    feedHTML = '<a href="/login"><img src="/static/img/twitter_logo.png" width="60px"></a><p><h6>No tweets available for this location!</h6></p>';
-                }
             });
-            $('#twitter-feed').html(feedHTML);
 
+            if(displayCounter==1){
+                feedHTML = '<a href="/login"><img src="/static/img/twitter_logo.png" width="60px"></a><p><h6>No tweets available for this location!</h6></p>';
+            }
+
+            $('#twitter-feed').html(feedHTML);
 
         }).error(function(jqXHR, textStatus, errorThrown) {
             $('#twitter-feed').html('<a href="/login"><img src="/static/img/twitter_logo.png" width="60px"></a><p><h6>No tweets? Please login by clicking the logo!</h6></p>');

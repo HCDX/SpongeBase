@@ -274,7 +274,7 @@ function addadm4layer(layerurl) {
                  $(function () {
                      Fetch(data.pcode, data.location_name_en);
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.pcode);
              });
              adm4layer.hide();
          }).on('error', function () {
@@ -298,7 +298,7 @@ function addadm3layer(layerurl) {
                      Fetch(data.cad_code, data.acs_name);
                   //   $("#page-wrap").dialog({ width: 800, title: "Location: " + data.acs_code + "| pcode: " + data.acs_name });
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.cad_code);
              });
              adm3layer.hide();
          }).on('error', function () {
@@ -322,7 +322,7 @@ function additslayer(layerurl) {
                      Fetch(data.pcode, data.pcode_name);
 
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.pcode);
              });
 
 
@@ -347,7 +347,7 @@ function addschoolslayer(layerurl) {
                      Fetch(data.cerd, data.school_name);
 
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.cerd);
              });
              schoolslayer.hide();
          }).on('error', function () {
@@ -369,7 +369,7 @@ function addschoolslayer(layerurl) {
                      Fetch(""+ data.p_code, data.name_of_health_facility);
 
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.p_code);
              });
              phclayer.hide();
          }).on('error', function () {
@@ -391,7 +391,7 @@ function addschoolslayer(layerurl) {
                      Fetch(""+ data.pcode, data.mun_en);
 
                  });
-                 fetchTweets(pos);
+                 fetchTweets(data.pcode);
              });
              municipalitieslayer.hide();
          }).on('error', function () {
