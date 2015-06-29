@@ -1,4 +1,8 @@
+import requests
+import json
+from requests.auth import HTTPBasicAuth
 from os import environ
+import ast
 
 from flask import Flask
 from flask import g, session, request, url_for, flash
@@ -17,11 +21,30 @@ twitter = oauth.remote_app(
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
-    consumer_key=environ.get('TWITTER_CONSUMNER_KEY', ''),
-    consumer_secret=environ.get('TWITTER_CONSUMNER_SECRET', ''),
+    consumer_key=environ.get('TWITTER_CONSUMER_KEY', ''),
+    consumer_secret=environ.get('TWITTER_CONSUMER_SECRET', ''),
     access_token_method='GET'
 )
 
+@app.route('/tweets')
+def tweets():
+    tweets = None
+    bearerToken = requests.post("https://api.twitter.com/oauth2/token",
+                auth=HTTPBasicAuth(environ.get('TWITTER_CONSUMER_KEY', ''),
+                                     environ.get('TWITTER_CONSUMER_SECRET', '')),
+                data={"grant_type":"client_credentials"})
+    access_token = json.loads(bearerToken.content)["access_token"]
+
+    q = request.args.get('q')
+    resp = requests.get("https://api.twitter.com/1.1/search/tweets.json?q=" + q,
+                        headers={'Authorization': 'Bearer ' + access_token})
+    if resp.status_code == 200:
+        tweets = resp.json()
+    else:
+        flash('Unable to load tweets from Twitter.')
+    return jsonify(tweets)
+
+# below code is used for Oauth user authentication, not needed at the moment
 @twitter.tokengetter
 def get_twitter_token(token=None):
         return session.get('twitter_oauth')
@@ -34,17 +57,6 @@ def index():
 def login():
     callback_url = url_for('oauthorized', next=request.args.get('next'))
     return twitter.authorize(callback=callback_url or request.referrer or None)
-
-@app.route('/tweets')
-def tweets():
-    tweets = None
-    q = request.args.get('q')
-    resp = twitter.get('search/tweets.json?q=' + q)
-    if resp.status == 200:
-        tweets = resp.data
-    else:
-        flash('Unable to load tweets from Twitter.')
-    return jsonify(tweets)
 
 @app.route('/oauthorized')
 def oauthorized():
