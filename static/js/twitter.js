@@ -16,7 +16,7 @@ function fetchTweets(pos) {
 	var headerHTML = '';
 	var loadingHTML = '';
 
-	headerHTML += ' <a href="/login"><img src="/static/img/twitter_logo.png" width="60px"></a>';
+	headerHTML += ' <a href="https://twitter.com"><img src="/static/img/twitter_logo.png" width="60px"></a>';
 	loadingHTML += '<div id="loading-container"><img src="/static/img/ajax-loader.gif" width="32" height="32" alt="tweet loader" /></div>';
 
 	$('#twitter-feed').html(headerHTML + loadingHTML);
