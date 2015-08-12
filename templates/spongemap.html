@@ -7,7 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/static/css/dark-theme.css">
     <link rel="stylesheet" href="/static/css/makeitresponsive.css">
@@ -17,7 +19,7 @@
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <script src="/static/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="/static/js/jquery.table-filter-0.2.2/jquery.table-filter.js"></script>
     <script src="/static/js/jquery.table-filter-0.2.2/jquery.table-filter.min.js"></script>
     <!--[if lte IE 8]>
@@ -29,37 +31,70 @@
     <script src="/static/js/tablesort/js/jquery.tablesorter.min.js"></script>
     <script src="/static/js/tablesort/js/jquery.tablesorter.widgets.min.js"></script>
     <link rel="shortcut icon" href="/static/images/sponge_bob.ico">
+	<style>
+	nav ul ul {
+	display: none;
+}	
+	nav ul li:hover > ul {
+		display: block;
+	}
+
+	 ul {
+	background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);  
+	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%); 
+	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%); 
+	box-shadow: 0px 0px 9px rgba(0,0,0,0.15);
+	padding: 0 20px;
+	list-style: none;
+	position: relative;
+	
+}
+</style>
+    <!-- Table Sorter -->
+    <script src="/static/js/tablesort/js/jquery.tablesorter.min.js"></script>
+    <script src="/static/js/tablesort/js/jquery.tablesorter.widgets.min.js"></script>
+    <link rel="shortcut icon" href="/static/img/sponge_bob.ico">
 </head>
 <body>
 
     <div class="map" id="map"></div>
     <div id="layer_selector" class="cartodb-infobox" style="position: relative; margin-left: 2em; margin-top: 4em;">
-        <ul>
-            <!--<li data="all" class="selected">All Layers</li>-->
-            <li data="1">Governorate</li>
+	
+	<nav>
+       <ul>
+			<li data="1">Governorate</li>
             <li data="2">District</li>
             <li data="3">Cadastrals</li>
 			<li data="8">Municipalities</li>
             <li data="4">Villages/Localities</li>
             <li data="5">Informal Settlements</li>
-            <li data="6">Schools</li>
-			<li data="7">Primary Health Care Centres</li>
-        </ul>
+            
+
+		<li id="edu"> Education 
+			<ul id="education">
+				<li data="6" id="school" >School</li>
+			</ul>
+		</li>
+		<li> Health 
+			<ul id="health">
+				<li data="7"> Primary Health Care </li>
+				<li data="9"> Secondary Health Care</li>
+			</ul>
+		</li>
+	</ul>
+	</nav>
 		<form class="form-inline">
-            <input type="text" id="searchTxt" placeholder="Search..." style="color: #444;">
-            <input type="button" class="btn btn-info" value="Go" onclick="searchFunction()" >
+
+            <input type="text" id="searchTxt" placeholder="Search..." style="color: #444;"/>
+            <input type="button" class="btn btn-info" value="Go" onclick="searchFunction()" id="btnSearch" >
 
 	    </form>
     </div>
-
-
    <!-- <div id="page-wrap" title="DOG fetched this"></div> -->
-
-
     <script type="infowindow/html" id="infowindow_template">
         {% raw %}
         <span> custom </span>
-          <div class="cartodb-popup custom_infowindow" id="popid"}">
+          <div class="cartodb-popup custom_infowindow" id="popid" >
 
             <a href="#close" class="cartodb-popup-close-button close">x</a>
 
@@ -74,9 +109,6 @@
           </div>
         {% endraw %}
     </script>
-
-
-
     <div class="sidepanel">
         <div class="wrapper">
             <div class="context subheader">
@@ -112,9 +144,8 @@
             <p>Visit the Inter-agency information sharing webportal <a href="http://data.unhcr.org/syrianrefugees/country.php?id=122">Here</a></p>
         </div>
     </div>
-
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.8"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
         <script src="/static/js/twitter.js"></script>
     <script src="/static/js/spongemap.js"></script>
 
