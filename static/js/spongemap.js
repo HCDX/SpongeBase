@@ -570,7 +570,7 @@ function addshclayer(layerurl) {
 window.onload = main;
 function Fetch(pcode, name) {
     $.ajax({
-         url: "http://ai-aggregator.apps.uniceflebanon.org/reports/?p_code=" + pcode,
+         url: "/reports/?p_code=" + pcode,
         //dataType: "jsonp",
         success: function (retdata, statuss) {
             var marker_content = '\
