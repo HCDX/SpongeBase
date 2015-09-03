@@ -37,7 +37,7 @@
         var schoolslayerurl = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json';
 		var phclayerurl='http://unhcr.cartodb.com/api/v2/viz/4704f114-bf68-11e4-a773-0e0c41326911/viz.json';
 		var shclayerurl='https://unhcr.cartodb.com/api/v2/viz/f4eea356-36a5-11e5-be09-0e9d821ea90d/viz.json';
-		var municipalitieslayerurl='http://unhcr.cartodb.com/api/v2/viz/497cfb5a-d31b-11e4-ace7-0e0c41326911/viz.json';
+		var municipalitieslayerurl='https://unhcr.cartodb.com/api/v2/viz/92c8de3a-5243-11e5-9d20-0e853d047bba/viz.json';
 
 $(document).ready( function(){
     map = L.map('map', {
