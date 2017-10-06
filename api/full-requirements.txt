@@ -1,0 +1,25 @@
+## flask stuff ##
+Flask
+Flask-OAuthlib
+Flask-Views
+Flask-Script
+Flask-MongoEngine
+flask-login
+flask-admin
+
+## 3rd party data producers stuff ##
+activityinfo-python==1.6.0
+cartodb
+
+## stuff i woud like to remove ##
+git+https://github.com/jamescw/flask-mongorest.git
+
+## gunicorn
+## cleancat
+## mimerender
+raven[flask]
+requests
+celery
+redis
+newrelic
+DateTime

@@ -8,7 +8,7 @@ import StringIO
 import datetime
 import logging
 
-from pandas import DataFrame
+# from pandas import DataFrame
 from raven.contrib.flask import Sentry
 
 from flask import g, session, request, url_for, flash
@@ -426,10 +426,10 @@ class ReportView(ModelView):
             for attr in report.attributes:
                 dict[attr.name] = attr.value
             dicts.append(dict)
-        df = DataFrame.from_records(dicts)
+        # df = DataFrame.from_records(dicts)
 
         buffer = StringIO.StringIO()  # use stringio for temp file
-        df.to_csv(buffer, encoding='utf-8')
+        # df.to_csv(buffer, encoding='utf-8')
         buffer.seek(0)
 
         filename = "ai_reports_" + datetime.datetime.now().strftime("%Y_%m_%d_%H_%M") + ".csv"
