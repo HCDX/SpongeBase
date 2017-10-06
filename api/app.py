@@ -9,8 +9,19 @@ client = MongoClient(
     27017)
 db = client.tododb
 
+
 ## todo list .. ##
 @app.route('/')
+def index():
+
+    return render_template('spongemap.html')
+
+#############################################
+#### BOILER PLATE STUFF TO BE REMOVED .. ####
+#############################################
+
+## todo list .. ##
+@app.route('/todo')
 def todo():
 
     _items = db.tododb.find()

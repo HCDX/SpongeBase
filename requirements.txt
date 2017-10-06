@@ -6,7 +6,7 @@ Flask-MongoEngine
 flask-login
 flask-admin
 git+https://github.com/jamescw/flask-mongorest.git
-git+https://github.com/HCDX/ActvityInfoPython.git
+activityinfo-python==1.6.0
 gunicorn
 cartodb
 pandas

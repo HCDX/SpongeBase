@@ -1,9 +1,6 @@
 *idea*
-
 *.pyc
-
 *.db
-
 *.box
-
 .vagrant
+venv
