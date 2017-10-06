@@ -1,0 +1,12 @@
+api:
+  build: ./api
+  command: python -u app.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - ./api/:/todo
+  links:
+    - db
+db:
+  image: mvertes/alpine-mongo:3.4.9-0
+# frontend:
