@@ -9,4 +9,10 @@ api:
     - db
 db:
   image: mvertes/alpine-mongo:3.4.9-0
-# frontend:
+frontend:
+  build: ./frontend/web-sponge
+  command: npm start
+  ports:
+    - "3000:3000"
+  volumes:
+    - ./frontend/web-sponge:/watcher-app

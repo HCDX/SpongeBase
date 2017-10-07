@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title"> Duasfsfsde</h1>
+          <h1 className="App-title"> asfsfs</h1>
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
