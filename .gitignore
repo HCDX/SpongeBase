@@ -4,3 +4,4 @@
 *.box
 .vagrant
 venv
+*node_modules/
