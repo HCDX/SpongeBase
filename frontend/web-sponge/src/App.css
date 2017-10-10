@@ -26,3 +26,373 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.nav ul ul {
+display: none;
+}
+.nav ul li:hover > ul {
+  display: block;
+}
+
+.ul {
+  background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+  background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+  background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%);
+  box-shadow: 0px 0px 9px rgba(0,0,0,0.15);
+  padding: 0 20px;
+  list-style: none;
+  position: relative;
+}
+
+/* Change the styles below in order to customize your template */
+
+body{font-family: Helvetica, Arial; font-weight: regular; font-size: 15px; color: #CBCBCB; background-color: #333; margin: 0;}
+h1{font-weight: bold; font-size: 31px; letter-spacing: -1px; color: #FFF; line-height: 33px;}
+h3{font-weight: bold; font-size: 12px; color: #777; text-transform: uppercase; margin: 18px 0 0 0;}
+p{margin: 8px 0 20px 0; line-height: 18px;}
+a, a:visited{color: #72B6E5; text-decoration: none;}
+a:hover{text-decoration: underline;}
+
+.wrapper{display: block; padding: 4px 30px 0 30px;}
+
+.map{background-color:#eee; position: absolute; top: 0; left: 0; bottom: 0; width: 67%; *height:100%;}
+.sidepanel{background-color:#333; position: absolute; top: 0; right: 0; bottom: 0; width: 38%; height: 100%; overflow: auto;}
+
+.context{font-family: Helvetica, Arial; font-size: 13px; color: #999; padding: 10px 0 0 0;}
+.subheader{border-bottom: 1px solid #555;}
+.footer{border-top: 1px solid #555; margin-top: 30px;}
+.titleBlock{text-align: right;}
+
+/* Here are the styles that makes the template responsive */
+
+@media only screen and (max-width: 768px) {
+  .map{position: inherit; height: 400px; width: 100%; display: block;}
+  .sidepanel{position: inherit; width: 100%;}
+}
+
+@media only screen and (max-width: 480px) {
+  .map {height: 300px;}
+}
+
+/* SPONGEMAP .css */
+
+
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #layer_selector {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 0;
+          /* width: 13%; */
+      }
+
+      #layer_selector ul {
+        padding: 0; margin: 0;
+        list-style-type: none;
+
+      }
+
+      #layer_selector li {
+        border-bottom: 1px solid #999;
+        padding: 10px 30px;
+        font-family: "Helvetica", Arial;
+        font-size: 13px;
+        color: #444;
+        cursor: auto;
+      }
+
+      #layer_selector li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+      }
+
+      #layer_selector li.selected {
+        background-color: #EEE;
+      }
+
+    div.cartodb-popup.custom_infowindow {width:auto;padding-top:5px;margin-left:-POSITION_OF_THE_TIP;background:url("http://vizzuality.github.io/icij/img/map/infowindow-top.png") no-repeat}
+    div.cartodb-popup.custom_infowindow div.cartodb-popup-content-wrapper {width:407px;height:400px;max-width:407px;padding:0 5px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-content.png") repeat-y}
+    div.cartodb-popup.custom_infowindow div.cartodb-popup-tip-container{width:407px;background:url("http://vizzuality.github.io/icij/img/map/infowindow-bottom.png") no-repeat}
+    div.cartodb-popup.custom_infowindow div.row{display:block;overflow:auto}
+    div.cartodb-popup.custom_infowindow div.row div.label,div.cartodb-popup.custom_infowindow div.row div.info{padding:20px 0;margin:0 20px}
+    div.cartodb-popup.custom_infowindow div.row div.label{float:left;width:407px}
+    div.cartodb-popup.custom_infowindow div.row div.info{float:right;width:407px}
+    div.cartodb-popup.custom_infowindow div.row div.info.border{border-bottom:1px solid #E1E2E4}
+    div.cartodb-popup.custom_infowindow div.row.no-pad div.info,div.cartodb-popup.custom_infowindow div.row.no-pad div.label{padding-top:0}
+    div.cartodb-popup.custom_infowindow a.cartodb-popup-close-button{display:-moz-inline-stack;display:inline-block;vertical-align:middle;*vertical-align:auto;zoom:1;*display:inline;top:10px;right:10px;width:20px !important;height:auto !important;padding:5px 0;text-align:center;background:0;text-indent:0;font:bold 11px "Helvetica",Arial;text-decoration:none}
+    div.cartodb-popup.custom_infowindow a.cartodb-popup-close-button:hover{text-decoration:underline}
+    div.cartodb-popup.custom_infowindow label{display:block;margin-top:2px;font:bold 11px "Helvetica",Arial;line-height:12px;color:#4CA7CC}
+    /* div.cartodb-popup.custom_infowindow p{display:block;max-width:none !important;width:auto !importantfont-size:14px;color:#999999} */
+    div.cartodb-popup.custom_infowindow p strong{font-weight:bold}
+    div.cartodb-popup.custom_infowindow p.margin{margin-top:12px}
+    div.cartodb-popup.custom_infowindow p a{color:#459CBE;text-decoration:none}
+
+    .leaflet-right {
+        right: 0px;
+        margin-right: 100px ;
+    }
+
+    * {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font: 14px/1.4 Georgia, Serif;
+    color: #fff !important;
+    margin: 0;
+    line-height: 20px;
+}
+
+
+
+#page-wrap {
+	margin: 10px;
+}
+
+.tab-pane{
+    padding-top: 10px;
+}
+p {
+	margin: 20px 0;
+}
+
+	/*
+	Generic Styling, for Desktops/Laptops
+	*/
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	/* Zebra striping */
+	    .table-striped tbody tr:nth-child(odd) td{
+            background: #d9d9d9;
+        }
+
+      /*tr:nth-of-type(odd) {*/
+		/*background: #eee; */
+	/*}*/
+	th {
+		background: #333;
+		color: black;
+		font-weight: bold;
+	}
+	td, th {
+		padding: 6px;
+		border: 1px solid #ccc;
+		text-align: left;
+        background: #ddd;
+	}
+
+      table.tablesorter thead tr .header {
+      background-image: url( http://tablesorter.com/themes/blue/bg.gif);
+      background-repeat: no-repeat;
+      background-position: center right;
+      cursor: pointer;
+      padding-right: 15px;
+    }
+   .tablesorter-headerAsc {
+       background-image: url(http://tablesorter.com/themes/blue/desc.gif) !important;
+       padding-right: 15px;
+    }
+    .tablesorter-headerDesc{
+       background-image: url(http://tablesorter.com/themes/blue/asc.gif) !important;
+       padding-right: 15px;
+    }
+
+    #dogtable-filtering{
+        color: #444;
+    }
+
+
+    /*
+	Max width before this PARTICULAR table gets nasty
+	This query will take effect for any screen smaller than 760px
+	and also iPads specifically.
+	*/
+	@media
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+		tr { border: 1px solid #ccc; }
+
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%;
+			padding-right: 10px;
+			white-space: nowrap;
+		}
+
+		/*
+		Label the data
+		*/
+		td:nth-of-type(1):before { content: "First Name"; }
+		td:nth-of-type(2):before { content: "Last Name"; }
+		td:nth-of-type(3):before { content: "Job Title"; }
+		td:nth-of-type(4):before { content: "Favorite Color"; }
+		td:nth-of-type(5):before { content: "Wars of Trek?"; }
+		td:nth-of-type(6):before { content: "Porn Name"; }
+		td:nth-of-type(7):before { content: "Date of Birth"; }
+		td:nth-of-type(8):before { content: "Dream Vacation City"; }
+		td:nth-of-type(9):before { content: "GPA"; }
+		td:nth-of-type(10):before { content: "Arbitrary Data"; }
+	}
+
+	/* Smartphones (portrait and landscape) ----------- */
+	@media only screen
+	and (min-device-width : 320px)
+	and (max-device-width : 480px) {
+		body {
+			padding: 0;
+			margin: 0;
+			width: 320px; }
+		}
+
+	/* iPads (portrait and landscape) ----------- */
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		body {
+			width: 495px;
+		}
+	}
+
+/* ------ Twitter feed ------------------------------ */
+
+#loading-container {
+    padding:16px 0px 16px 0px;
+    text-align:center;
+}
+
+#twitter-feed {
+    /*width:298px;*/
+    margin:50px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top:20px;
+    padding:8px 10px 5px 10px;
+    border-radius:12px;
+    background-color:#FFF;
+    color:#333;
+    overflow:auto;
+}
+
+
+.twitter-article, #loading-container {
+    width:100%;
+    border-top:1px dotted #CCC;
+    float:left;
+    padding:8px 0px 8px 0px;
+    position:relative;
+}
+.twitter-pic {
+    position:absolute;
+}
+
+.twitter-pic img {
+    float:left;
+    border-radius:7px;
+    border:none;
+
+}
+
+/* -------- TEXT STYLING ------*/
+.twitter-text {
+    width:100%;
+    float:left;
+    font-size:11px;
+    padding-left:52px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.twitter-text p {
+    margin:0px;
+    line-height:15px;
+}
+.twitter-text a,   {
+    color: #00acee;
+    text-decoration: none;
+}
+.twitter-text a:hover,  {
+    text-decoration: underline;
+    color: #00acee;
+}
+
+.tweet-time {
+    font-size:10px;
+    color:#878787;
+    float:right;
+}
+.tweet-time a, .tweet-time a:hover {
+    color:#878787;
+}
+
+.tweetprofilelink a {
+    color:#444;
+}
+.tweetprofilelink a:hover {
+    color:#444;
+}
+
+/* -------- FEED  ACTIONS ------*/
+#twitter-actions {
+    width:75px;
+    float:right;
+    margin-right:5px;
+    margin-top:3px;
+        display:none;
+}
+.intent {
+    width:25px;
+    height:16px;
+    float:left;
+}
+.intent a{
+    width:25px;
+    height:16px;
+    display:block;
+    background-image:url(/static/img/tweet-actions.png);
+    float:left;
+}
+.intent a:hover{
+    background-position:-25px 0px;
+}
+
+#intent-retweet a{
+    background-position:0px -17px;
+}
+#intent-retweet a:hover{
+    background-position:-25px -17px;
+}
+#intent-fave a{
+    background-position:0px -36px;
+}
+#intent-fave a:hover{
+    background-position:-25px -36px;
+}
