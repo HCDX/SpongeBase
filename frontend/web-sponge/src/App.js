@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Map from './components/Map';
+
 import './App.css';
 
 import { clickSomething } from './actions'
@@ -6,7 +8,7 @@ import { clickSomething } from './actions'
 import NavControl from './components/NavControl'
 import InfoPanel from './components/InfoPanel'
 import SearchForm from './components/SearchForm'
-import CartoWrapper from './components/CartoWrapper'
+// import CartoWrapper from './components/CartoWrapper'
 
 class App extends Component {
   _clickSomething(e) {
@@ -15,7 +17,7 @@ class App extends Component {
 
   render() {
 
-    const cartoScript = <CartoWrapper />
+    const cartoWrapper = <Map/> //// <CartoWrapper />
 
     /* Styles */
     const selectorStyle = {
@@ -24,13 +26,11 @@ class App extends Component {
       marginTop: '40px'
     }
 
-    const mapComponent = <div className="map" id="map"> </div>
     const navControl = <NavControl/>
     const rightInfoPanel = <InfoPanel/>
     const searchForm = <SearchForm/>
 
     const appContent = <div>
-        {mapComponent}
         <div
               id="layer_selector"
               className="leftcontroller"
@@ -38,7 +38,7 @@ class App extends Component {
           {navControl}
           {searchForm}
         </div>
-      {cartoScript}
+      {cartoWrapper}
       {rightInfoPanel}
     </div>
 
