@@ -30,16 +30,17 @@ class App extends Component {
     const rightInfoPanel = <InfoPanel/>
     const searchForm = <SearchForm/>
 
+    // <div
+    //        id="layer_selector"
+    //        className="leftcontroller"
+    //        style={selectorStyle}>
+    //    {navControl}
+    //    {searchForm}
+    //  </div>
+    // {rightInfoPanel}
+
     const appContent = <div>
-        <div
-              id="layer_selector"
-              className="leftcontroller"
-              style={selectorStyle}>
-          {navControl}
-          {searchForm}
-        </div>
       {cartoWrapper}
-      {rightInfoPanel}
     </div>
 
     return (

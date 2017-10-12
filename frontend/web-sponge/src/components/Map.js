@@ -3,18 +3,23 @@ import L from 'leaflet';
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
 // using webpack json loader we can import our geojson file like this
+// import geojson from './fixtures/lbGeoJson.js'
 import geojson from './fixtures/nyGeoJson.js'
 // import local components Filter and ForkMe
-import Filter from './Filter';
+import Filter from './Filter'
+
+import axios from 'axios'
+
+import jsonp from 'jsonp'
 
 
 // store the map configuration properties in an object,
 // we could also move this to a separate file & import it if desired.
 let config = {};
 config.params = {
-  center: [40.655769,-73.938503],
-  zoomControl: false,
-  zoom: 13,
+  zoomControl: true,
+  center: [34, 36.1],
+  zoom: 9,
   maxZoom: 19,
   minZoom: 11,
   scrollwheel: false,
@@ -23,10 +28,10 @@ config.params = {
   attributionControl: true
 };
 config.tileLayer = {
-  uri: 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+  uri: 'http://{s}otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
   params: {
-    minZoom: 11,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+    minZoom: 1,
+    attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
     id: '',
     accessToken: ''
   }
@@ -56,6 +61,44 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    // https://unhcr.carto.com/viz/7f739340-ae88-40fc-b2b0-14140d499310/public_map
+
+    const cartoHeaders = {
+      'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+      'Access-Control-Allow-Origin': 'localhost'
+    }
+
+    const baseURL = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
+
+    jsonp(baseURL, null, function (err, data) {
+      if (err) {
+        console.error(err.message);
+      } else {
+        console.log(data);
+      }
+    });
+
+
+    // axios.get(baseURL, {
+    //       headers: {
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
+    //         'Content-Type': 'application/x-www-form-urlencoded',
+    //         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+    //       }})
+    //   .then(function (response) {
+    //     console.log(response.data);
+    //   }).catch(function (error) {
+    //     console.log('ERROR FETCHING')
+    //     console.log('ERROR HasfasfasfNG')
+    //     console.log('ERROR FETCHING')
+    //     console.log('ERROR TEST')
+    //     console.log(error);
+    //   })
+
+
+
     // code to run just after the component "mounts" / DOM elements are created
     // we could make an AJAX request for the GeoJSON data here if it wasn't stored locally
     this.getData();
@@ -87,6 +130,7 @@ class Map extends Component {
   getData() {
     // could also be an AJAX request that results in setting state with the geojson data
     // for simplicity sake we are just importing the geojson data using webpack's json loader
+
     this.setState({
       numEntrances: geojson.features.length,
       geojson
