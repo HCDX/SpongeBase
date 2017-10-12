@@ -6,7 +6,6 @@ import { createStore } from 'redux'
 
 // SpongeBase app modules
 import App from './App'
-import './index.css'
 
 import spongeApp from './reducers'
 

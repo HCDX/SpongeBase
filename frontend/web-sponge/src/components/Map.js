@@ -3,20 +3,24 @@ import L from 'leaflet';
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
 // using webpack json loader we can import our geojson file like this
-import geojson from './fixtures/lbGeoJson.js'
-// import geojson from './fixtures/nyGeoJson.js'
+// import geojson from './fixtures/lbGeoJson.js'
+import geojson from './fixtures/nyGeoJson.js'
 // import local components Filter and ForkMe
 import Filter from './Filter'
 
 import jsonp from 'jsonp'
 
 
+// SPONGEMAP CONFIGS ( replace these.. ) :
+// URL:  http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg
+// CENTER:
+
 // store the map configuration properties in an object,
 // we could also move this to a separate file & import it if desired.
 let config = {};
 config.params = {
   zoomControl: true,
-  center: [34, 36.1],
+  center: [33.893791, 35.501777], // [40.655769,-73.938503],
   zoom: 9,
   maxZoom: 19000,
   minZoom: 0,
@@ -26,9 +30,9 @@ config.params = {
   attributionControl: true
 };
 config.tileLayer = {
-  uri: 'http://{s}otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
-  maxZoom: 19000,
-  minZoom: 0,
+  uri: 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+  maxZoom: 20,
+  minZoom: 10,
   params: {
     attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
     id: '',

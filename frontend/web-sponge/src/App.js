@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-// import './App.css';
-import './Leaflet.css'
+import './App.css';
+// import './Leaflet.css'
 
 import { clickSomething } from './actions'
 
