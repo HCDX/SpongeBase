@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@panorama/toolkit": "^0.1.7",
     "jsonp": "^0.2.1",
     "leaflet": "^1.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-leaflet": "^1.7.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",

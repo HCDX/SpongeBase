@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class CartoWrapper extends Component {
-
+  // this is from the old code base.. 
   render() {
     // <!-- <div id="page-wrap" title="DOG fetched this"></div> -->
     // <script type="infowindow/html" id="infowindow_template">

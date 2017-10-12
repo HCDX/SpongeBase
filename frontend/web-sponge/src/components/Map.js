@@ -3,12 +3,10 @@ import L from 'leaflet';
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
 // using webpack json loader we can import our geojson file like this
-// import geojson from './fixtures/lbGeoJson.js'
-import geojson from './fixtures/nyGeoJson.js'
+import geojson from './fixtures/lbGeoJson.js'
+// import geojson from './fixtures/nyGeoJson.js'
 // import local components Filter and ForkMe
 import Filter from './Filter'
-
-import axios from 'axios'
 
 import jsonp from 'jsonp'
 
@@ -20,8 +18,8 @@ config.params = {
   zoomControl: true,
   center: [34, 36.1],
   zoom: 9,
-  maxZoom: 19,
-  minZoom: 11,
+  maxZoom: 19000,
+  minZoom: 0,
   scrollwheel: false,
   legends: true,
   infoControl: false,
@@ -29,8 +27,9 @@ config.params = {
 };
 config.tileLayer = {
   uri: 'http://{s}otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
+  maxZoom: 19000,
+  minZoom: 0,
   params: {
-    minZoom: 1,
     attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
     id: '',
     accessToken: ''
@@ -63,12 +62,6 @@ class Map extends Component {
   componentDidMount() {
     // https://unhcr.carto.com/viz/7f739340-ae88-40fc-b2b0-14140d499310/public_map
 
-    const cartoHeaders = {
-      'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-      'Access-Control-Allow-Origin': 'localhost'
-    }
-
     const baseURL = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
 
     jsonp(baseURL, null, function (err, data) {
@@ -78,26 +71,6 @@ class Map extends Component {
         console.log(data);
       }
     });
-
-
-    // axios.get(baseURL, {
-    //       headers: {
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-    //       }})
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //   }).catch(function (error) {
-    //     console.log('ERROR FETCHING')
-    //     console.log('ERROR HasfasfasfNG')
-    //     console.log('ERROR FETCHING')
-    //     console.log('ERROR TEST')
-    //     console.log(error);
-    //   })
-
-
 
     // code to run just after the component "mounts" / DOM elements are created
     // we could make an AJAX request for the GeoJSON data here if it wasn't stored locally
@@ -181,16 +154,17 @@ class Map extends Component {
       paddingBottomRight: [10,10]
     };
     // set the map's center & zoom so that it fits the geographic extent of the layer
-    this.state.map.fitBounds(target.getBounds(), fitBoundsParams);
+    // this.state.map.fitBounds(target.getBounds(), fitBoundsParams);
   }
 
   filterFeatures(feature, layer) {
     // filter the subway entrances based on the map's current search filter
     // returns true only if the filter value matches the value of feature.properties.LINE
-    const test = feature.properties.LINE.split('-').indexOf(this.state.subwayLinesFilter);
-    if (this.state.subwayLinesFilter === '*' || test !== -1) {
-      return true;
-    }
+    // const test = feature.properties.LINE.split('-').indexOf(this.state.subwayLinesFilter);
+    // if (this.state.subwayLinesFilter === '*' || test !== -1) {
+    //   return true;
+    // }
+    console.log('skipping this')
   }
 
   pointToLayer(feature, latlng) {

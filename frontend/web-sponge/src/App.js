@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import Map from './components/Map';
 
-import './App.css';
+// import './App.css';
+import './Leaflet.css'
 
 import { clickSomething } from './actions'
 
 import NavControl from './components/NavControl'
 import InfoPanel from './components/InfoPanel'
 import SearchForm from './components/SearchForm'
-// import CartoWrapper from './components/CartoWrapper'
+
+import SimpleMap from './components/SimpleMap';
+import Map from './components/Map';
+
 
 class App extends Component {
   _clickSomething(e) {
@@ -17,7 +20,7 @@ class App extends Component {
 
   render() {
 
-    const cartoWrapper = <Map/> //// <CartoWrapper />
+    const cartoWrapper = <Map/> // <SimpleMap/> //// <CartoWrapper />
 
     /* Styles */
     const selectorStyle = {
@@ -30,17 +33,16 @@ class App extends Component {
     const rightInfoPanel = <InfoPanel/>
     const searchForm = <SearchForm/>
 
-    // <div
-    //        id="layer_selector"
-    //        className="leftcontroller"
-    //        style={selectorStyle}>
-    //    {navControl}
-    //    {searchForm}
-    //  </div>
-    // {rightInfoPanel}
-
     const appContent = <div>
       {cartoWrapper}
+      <div
+             id="layer_selector"
+             className="leftcontroller"
+             style={selectorStyle}>
+         {navControl}
+         {searchForm}
+       </div>
+      {rightInfoPanel}
     </div>
 
     return (
