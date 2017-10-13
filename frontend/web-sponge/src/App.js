@@ -10,7 +10,7 @@ import InfoPanel from './components/InfoPanel'
 import SearchForm from './components/SearchForm'
 
 import SimpleMap from './components/SimpleMap';
-import Map from './components/Map';
+import CartoWrapper from './components/CartoWrapper';
 
 
 class App extends Component {
@@ -20,7 +20,7 @@ class App extends Component {
 
   render() {
 
-    const cartoWrapper = <Map/> // <SimpleMap/> //// <CartoWrapper />
+    const cartoWrapper = <CartoWrapper/>
 
     /* Styles */
     const selectorStyle = {
