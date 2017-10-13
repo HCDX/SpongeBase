@@ -5,24 +5,14 @@ const cartodb = window.cartodb
 let config = {}
 config.params = {
   zoomControl: true,
-  center: [33.893791, 35.501777], // [40.655769,-73.938503],
-  zoom: 9,
-  maxZoom: 19000,
-  minZoom: 0,
+  center: [33.793791, 35.801777],
+  zoom: 8,
+  maxZoom: 15,
+  minZoom: 4,
   scrollwheel: false,
   legends: true,
   infoControl: false,
   attributionControl: true
-}
-config.tileLayer = {
-  uri: 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-  maxZoom: 20,
-  minZoom: 10,
-  params: {
-    attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-    id: '',
-    accessToken: ''
-  }
 }
 
 class CartoWrapper extends Component {
@@ -55,7 +45,7 @@ class CartoWrapper extends Component {
     const cartoVizUrl = 'http://unhcr.carto.com/api/v2/viz/'
       + vizGUID + '/viz.json'
 
-    cartodb.createVis('map', cartoVizUrl, config.params)
+    cartodb.createVis('mapUI', cartoVizUrl, config.params)
       .done(function(vis, layers) {
           layers[1].setInteraction(true)
           layers[1].on('featureOver',
@@ -103,7 +93,6 @@ class CartoWrapper extends Component {
         Show Schools in Lebanon
       </button>
       <div id="mapUI" style={mapPositionStyle}>
-        <div ref={(node) => this._mapNode = node} id="map" />
       </div>
       </div>
     )
