@@ -9,7 +9,7 @@ import geojson from './fixtures/nyGeoJson.js'
 import Filter from './Filter'
 
 import jsonp from 'jsonp'
-
+import cartodb from 'cartodb'
 
 // SPONGEMAP CONFIGS ( replace these.. ) :
 // URL:  http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg
@@ -61,6 +61,7 @@ class CartoWrapper extends Component {
     this.pointToLayer = this.pointToLayer.bind(this);
     this.filterFeatures = this.filterFeatures.bind(this);
     this.filterGeoJSONLayer = this.filterGeoJSONLayer.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
@@ -230,7 +231,22 @@ class CartoWrapper extends Component {
     this.setState({ map, tileLayer });
   }
 
+  onClick () {
+    console.log('doign stuff')
+    // const map = this.state.map
+    // const layerurl = 'https://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
+    // cartodb.createLayer(map, layerurl).addTo(map)
+    //       .on('done', function ( layer ) {
+    //        console.log('layer: ', layer)
+    //      })
+    // }
+
+    // <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    // <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+  }
+
   render() {
+
     const mapPositionStyle = {
       margin:'0 auto',
       width:'500px',
@@ -238,16 +254,18 @@ class CartoWrapper extends Component {
     }
     const { subwayLinesFilter } = this.state;
     return (
+      <div>
+      <div>
+        HEY CLICK THIS
+      <button
+        onClick={this.onClick}>
+      </button>
+      </div>
       <div id="mapUI" style={mapPositionStyle}>
-        {
-          /* render the Filter component only after the subwayLines array has been created */
-          subwayLineNames.length &&
-            <Filter lines={subwayLineNames}
-              curFilter={subwayLinesFilter}
-              filterLines={this.updateMap} />
-        }
         <div ref={(node) => this._mapNode = node} id="map" />
       </div>
+      </div>
+
     );
   }
 }

@@ -14,6 +14,9 @@ db = client.tododb
 @app.route('/')
 def index():
 
+    some_var = os.getenv('X')
+    print ' SPOME VAR: ' + some_var 
+
     return render_template('spongemap.html')
 
 #############################################

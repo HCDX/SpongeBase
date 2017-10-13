@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@panorama/toolkit": "^0.1.7",
+    "cartodb": "file:../vendor/cartodb.js",
     "jsonp": "^0.2.1",
     "leaflet": "^1.2.0",
     "react": "^16.0.0",
