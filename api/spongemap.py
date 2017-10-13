@@ -51,6 +51,15 @@ class JSONEncoder(MongoEngineJSONEncoder):
         return super(MongoEngineJSONEncoder, self).default(self, o)
 
 
+def get_db(app):
+# Create models
+    db = MongoEngine()
+    db.init_app(app)
+    login_manager.init_app(app)
+    app.json_encoder = JSONEncoder
+
+    return db
+
 # Create application
 app = Flask(__name__)
 login_manager = login.LoginManager()
@@ -68,11 +77,7 @@ app.config.update(
     CELERY_RESULT_BACKEND=os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 )
 
-# Create models
-db = MongoEngine()
-db.init_app(app)
-login_manager.init_app(app)
-app.json_encoder = JSONEncoder
+db = get_db(app)
 
 
 # Create user loader function
@@ -426,10 +431,10 @@ class ReportView(ModelView):
             for attr in report.attributes:
                 dict[attr.name] = attr.value
             dicts.append(dict)
-        # df = DataFrame.from_records(dicts)
+        df = DataFrame.from_records(dicts)
 
         buffer = StringIO.StringIO()  # use stringio for temp file
-        # df.to_csv(buffer, encoding='utf-8')
+        df.to_csv(buffer, encoding='utf-8')
         buffer.seek(0)
 
         filename = "ai_reports_" + datetime.datetime.now().strftime("%Y_%m_%d_%H_%M") + ".csv"
