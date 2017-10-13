@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import SearchForm from './SearchForm'
+
 class NavControl extends Component {
 
   render() {
@@ -12,8 +14,18 @@ class NavControl extends Component {
     //   5: "Informal Settlements",
     // }
     //
+    /* Styles */
+    const selectorStyle = {
+      position: 'relative',
+      marginLeft: '20px',
+      marginTop: '40px'
+    }
 
     return (
+      <div
+         id="layer_selector"
+         className="leftcontroller"
+         style={selectorStyle}>
       <nav>
         <ul>
             <li data="1">Governorate</li>
@@ -36,6 +48,8 @@ class NavControl extends Component {
           </li>
         </ul>
       </nav>
+      <SearchForm/>
+    </div>
     );
   }
 }

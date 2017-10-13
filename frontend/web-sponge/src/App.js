@@ -5,12 +5,13 @@ import './App.css';
 
 import { clickSomething } from './actions'
 
-import NavControl from './components/NavControl'
 import InfoPanel from './components/InfoPanel'
 import SearchForm from './components/SearchForm'
+import NavControl from './components/NavControl'
 
 import CartoWrapper from './components/CartoWrapper';
 
+import { Container, Row, Col } from 'reactstrap'
 
 class App extends Component {
   _clickSomething(e) {
@@ -19,31 +20,13 @@ class App extends Component {
 
   render() {
 
-    const cartoWrapper = <CartoWrapper/>
-
-    /* Styles */
-    const selectorStyle = {
-      position: 'relative',
-      marginLeft: '20px',
-      marginTop: '40px'
-    }
-
-    const navControl = <NavControl/>
-    const rightInfoPanel = <InfoPanel/>
-    const searchForm = <SearchForm/>
-
-    const appContent = <div>
-      {cartoWrapper}
-      <div
-             id="layer_selector"
-             className="leftcontroller"
-             style={selectorStyle}>
-         {navControl}
-         {searchForm}
-       </div>
-      {rightInfoPanel}
-    </div>
-
+    const appContent = <Container>
+      <Row>
+        <NavControl/>
+        <CartoWrapper/>
+        <InfoPanel/>
+      </Row>
+    </Container>
     return (
       <div className="App">
         {appContent}

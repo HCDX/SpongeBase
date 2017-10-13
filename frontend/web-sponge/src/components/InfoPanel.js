@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 
+import NavControl from './NavControl'
+
 class InfoPanel extends Component {
 
+
+
   render() {
+    const navControl = <NavControl/>
 
     return (
       <div className="sidepanel">
+          {navControl}
           <div className="wrapper">
               <div className="context subheader">
                   <p>A joint UNHCR/UNICEF innovation project</p>

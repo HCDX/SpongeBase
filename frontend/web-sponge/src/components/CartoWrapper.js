@@ -50,7 +50,13 @@ class CartoWrapper extends Component {
 
   initMap(id) {
     const self = this
-    const cartoVizUrl = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json'
+
+    // const vizGUID = '7f739340-ae88-40fc-b2b0-14140d499310'
+    const vizGUID = '2b13c956-e7c1-11e2-806b-5404a6a683d5'
+
+
+    const cartoVizUrl = 'http://documentation.carto.com/api/v2/viz/'
+      + vizGUID + '/viz.json'
     cartodb.createVis('map', cartoVizUrl, config.params)
     .done(function(vis, layers) {
       // layer 0 is the base layer, layer 1 is cartodb layer
