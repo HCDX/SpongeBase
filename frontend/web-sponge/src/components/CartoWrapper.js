@@ -5,11 +5,10 @@ import 'leaflet/dist/leaflet.css';
 // using webpack json loader we can import our geojson file like this
 // import geojson from './fixtures/lbGeoJson.js'
 import geojson from './fixtures/nyGeoJson.js'
-// import local components Filter and ForkMe
-import Filter from './Filter'
 
 import jsonp from 'jsonp'
-import cartodb from 'cartodb'
+
+const cartodb = window.cartodb
 
 // SPONGEMAP CONFIGS ( replace these.. ) :
 // URL:  http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg
@@ -65,18 +64,6 @@ class CartoWrapper extends Component {
   }
 
   componentDidMount() {
-    // https://unhcr.carto.com/viz/7f739340-ae88-40fc-b2b0-14140d499310/public_map
-
-    const baseURL = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
-
-    jsonp(baseURL, null, function (err, data) {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log(data);
-      }
-    });
-
     // code to run just after the component "mounts" / DOM elements are created
     // we could make an AJAX request for the GeoJSON data here if it wasn't stored locally
     this.getData();
@@ -153,11 +140,12 @@ class CartoWrapper extends Component {
   }
 
   zoomToFeature(target) {
+    console.log('target: ', target)
     // pad fitBounds() so features aren't hidden under the Filter UI element
-    var fitBoundsParams = {
-      paddingTopLeft: [200,10],
-      paddingBottomRight: [10,10]
-    };
+    // var fitBoundsParams = {
+    //   paddingTopLeft: [200,10],
+    //   paddingBottomRight: [10,10]
+    // };
     // set the map's center & zoom so that it fits the geographic extent of the layer
     // this.state.map.fitBounds(target.getBounds(), fitBoundsParams);
   }
@@ -218,31 +206,97 @@ class CartoWrapper extends Component {
   }
 
   init(id) {
-    if (this.state.map) return;
-    // this function creates the Leaflet map object and is called after the Map component mounts
-    let map = L.map(id, config.params);
-    L.control.zoom({ position: "bottomleft"}).addTo(map);
-    L.control.scale({ position: "bottomleft"}).addTo(map);
+    const self = this
+    // if (this.state.map) return;
+    // // this function creates the Leaflet map object and is called after the Map component mounts
+    // let map = L.map(id, config.params);
+    // L.control.zoom({ position: "bottomleft"}).addTo(map);
+    // L.control.scale({ position: "bottomleft"}).addTo(map);
+    //
+    // // a TileLayer is used as the "basemap"
+    // const tileLayer = L.tileLayer(config.tileLayer.uri, config.tileLayer.params).addTo(map);
+    //
+    // // set our state to include the tile layer
+    const cartoVizUrl = 'http://documentation.carto.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json'
+    cartodb.createVis('map', cartoVizUrl, config.params)
+    .done(function(vis, layers) {
+      // layer 0 is the base layer, layer 1 is cartodb layer
+      // when setInteraction is disabled featureOver is triggered
+      layers[1].setInteraction(true);
+      layers[1].on('featureOver', function(e, latlng, pos, data, layerNumber) {
+        console.log(e, latlng, pos, data, layerNumber);
+      });
 
-    // a TileLayer is used as the "basemap"
-    const tileLayer = L.tileLayer(config.tileLayer.uri, config.tileLayer.params).addTo(map);
+      // you can get the native map to work with it
+      var map = vis.getNativeMap();
+      console.log('map: ', map)
+      self.setState({ map, map });
 
-    // set our state to include the tile layer
-    this.setState({ map, tileLayer });
+      // now, perform any operations you need, e.g. assuming map is a L.Map object:
+      // map.setZoom(3);
+      // map.panTo([50.5, 30.5]);
+    });
+
+    // this.setState({ map, tileLayer });
   }
 
   onClick () {
+
+    const self = this
     console.log('doign stuff')
     // const map = this.state.map
-    // const layerurl = 'https://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
+    // const layerurl = 'https://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.jsonp'
     // cartodb.createLayer(map, layerurl).addTo(map)
     //       .on('done', function ( layer ) {
     //        console.log('layer: ', layer)
     //      })
-    // }
 
-    // <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-    // <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    const map = this.state.map
+
+    // const baseURL = 'http://unhcr.cartodb.com/api/v2/viz/37b3bf66-ed76-11e3-abe6-0e230854a1cb/viz.json'
+    const newLayer = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json'
+    //
+    // jsonp(baseURL, null, function (err, data) {
+    //   if (err) {
+    //     console.error(err.message);
+    //   } else {
+    //     console.log('data: ', data)
+    //     cartodb.createLayer(map)
+    //       .addTo(map)
+    //       .on('done', function(layer) {
+    //         console.log('layer: ', layer)
+    //     })
+    //   }
+    // });
+
+    // const newLayer = {
+    //       user_name: 'examples',
+    //       type: 'cartodb',
+    //       sublayers: [
+    //         {
+    //           type: "http",
+    //           urlTemplate: "http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png",
+    //           subdomains: [ "a", "b", "c" ]
+    //         },
+    //         {
+    //          sql: 'select * from country_boundaries',
+    //          cartocss: '#layer { polygon-fill: #F00; polygon-opacity: 0.3; line-color: #F00; }'
+    //         },
+    //       ],
+    //     }, { filter: ['http', 'mapnik'] }
+    //
+
+    console.log('before carto coll: ')
+    cartodb.createLayer(map, newLayer )
+      .addTo(map)
+      .on('done', function(layer) {
+      console.log('layer: ', layer)
+    })
+    .on('error', function(err) {
+      alert("some error occurred: " + err);
+    })
+    console.log('afet carto coll: ', 'sfsfsfs')
+
   }
 
   render() {
@@ -252,20 +306,17 @@ class CartoWrapper extends Component {
       width:'500px',
       height:'500px'
     }
-    const { subwayLinesFilter } = this.state;
+    // const { subwayLinesFilter } = this.state;
     return (
       <div>
-      <div>
-        HEY CLICK THIS
       <button
         onClick={this.onClick}>
+        HEY CLICK THIS
       </button>
-      </div>
       <div id="mapUI" style={mapPositionStyle}>
         <div ref={(node) => this._mapNode = node} id="map" />
       </div>
       </div>
-
     );
   }
 }

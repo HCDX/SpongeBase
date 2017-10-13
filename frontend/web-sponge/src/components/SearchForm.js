@@ -7,7 +7,7 @@ class InfoPanel extends Component {
     return (
       <form className="form-inline">
             <input type="text" id="searchTxt" placeholder="Search..." />
-            <input type="button" className="btn btn-info" value="Go" onclick="searchFunction()" id="btnSearch" />
+            <input type="button" className="btn btn-info" value="Go" onClick="searchFunction()" id="btnSearch" />
         </form>
     )
   }

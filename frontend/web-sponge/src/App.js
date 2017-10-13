@@ -9,7 +9,6 @@ import NavControl from './components/NavControl'
 import InfoPanel from './components/InfoPanel'
 import SearchForm from './components/SearchForm'
 
-import SimpleMap from './components/SimpleMap';
 import CartoWrapper from './components/CartoWrapper';
 
 
