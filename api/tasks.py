@@ -44,7 +44,9 @@ def run_import():
     dbs = os.environ.get('AI_DBS')
     username = os.environ.get('AI_USERNAME')
     password = os.environ.get('AI_PASSWORD')
+
     if dbs:
+        print 'DB: {0}'.format(dbs)
         import_ai(dbs, username, password)
 
 if __name__ == "__main__":

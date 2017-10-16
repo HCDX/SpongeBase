@@ -19,22 +19,22 @@ from flask import redirect
 from flask import request
 from flask import send_file
 from flask import url_for
-from flask.ext import admin
-from flask.ext.mongoengine import MongoEngine
-from flask.ext.mongoengine.json import MongoEngineJSONEncoder
-from flask.ext.admin.contrib.mongoengine import ModelView
-from flask.ext.admin import expose, helpers
-from flask.ext.admin.actions import action
-from flask.ext.admin.babel import gettext
-from flask.ext.admin.contrib.mongoengine.filters import BaseMongoEngineFilter
+from flask_mongoengine import MongoEngine
+from flask_mongoengine.json import MongoEngineJSONEncoder
+from flask_admin.contrib.mongoengine import ModelView
+from flask_admin import expose, helpers
+from flask_admin.actions import action
+from flask_admin.babel import gettext
+from flask_admin.contrib.mongoengine.filters import BaseMongoEngineFilter
 
-from flask.ext.mongorest import MongoRest
-from flask.ext.mongorest.authentication import AuthenticationBase
-from flask.ext.mongorest.views import ResourceView
-from flask.ext.mongorest.resources import Resource
-from flask.ext.mongorest import operators as ops
-from flask.ext.mongorest import methods
+from flask_mongorest import MongoRest
+from flask_mongorest.authentication import AuthenticationBase
+from flask_mongorest.views import ResourceView
+from flask_mongorest.resources import Resource
+from flask_mongorest import operators as ops
+from flask_mongorest import methods
 
+import flask_admin as admin
 import flask_login as login
 from flask_login import AnonymousUserMixin
 
