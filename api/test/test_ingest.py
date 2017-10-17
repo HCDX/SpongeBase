@@ -23,7 +23,7 @@ class IngestTest(BaseTest):
         with patch('activityinfo_client.ActivityInfoClient.get_database') as fake_ai:
             fake_ai.return_value = ai_fixt
 
-            x = import_ai('123')
+            x = import_ai('6354')
 
 
         self.assertEqual(1,x)
