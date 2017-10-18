@@ -38,8 +38,7 @@ from manage import app, import_ai # , update_sites
 def run_import():
     from spongemap import get_db, app
 
-
-    get_db(app)
+    db_con = get_db(app)
 
     dbs = os.environ.get('AI_DBS')
     username = os.environ.get('AI_USERNAME')
@@ -47,7 +46,7 @@ def run_import():
 
     if dbs:
         print 'DB: {0}'.format(dbs)
-        import_ai(dbs, username, password)
+        import_ai(dbs, username, password, db_con)
 
 if __name__ == "__main__":
     run_import()

@@ -35,6 +35,7 @@ from pprint import pprint
 mongo_client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
 ai = mongo_client['ai-aggregator']
 
+
 def send_message(message):
     logging.info('[MESSAGE] :%s', message)
     # requests.post(
@@ -114,13 +115,17 @@ def import_ai(dbs, username='', password=''):
                 attrib['_id'] = attrib['id']
                 ai.attributeGroups.update({'_id': attrib['id']}, attrib, upsert=True)
 
+        ai_client_sites = client.get_sites(database=db_id)
+
         # 'create an index of sites by id'
         sites = dict(
             (site['id'], dict(site, index=i))
-            for (i, site) in enumerate(
-                client.get_sites(database=db_id)
-            )
+            for (i, site) in enumerate(ai_client_sites)
         )
+
+        print '====\n' * 5
+        pprint(sites)
+        print '====\n' * 5
 
         # 'create an index of activities by id'
         activities = dict(
@@ -155,7 +160,11 @@ def import_ai(dbs, username='', password=''):
 
         for indicator in forms:
 
-            indicator_id = indicator['key']['Site']['id']
+            ## need help looking at validity of the data / logic..
+            ## i see this in the "sites" dict, so using for now
+            indicator_id = 854655430 # indicator['key']['Site']['id']
+
+
             site = sites.get(indicator_id, {})
 
             attributes = []
@@ -167,20 +176,33 @@ def import_ai(dbs, username='', password=''):
                     )
                 ]
 
-            ## this is where i left off --
-            ## localhost:27017: [Errno 111] Connection refused
             if indicator['sum']:
-                report, created = Report.objects.get_or_create(
-                    db_name=db_info['name'],
-                    date='{}-{}'.format(
-                        indicator['key']['Date']['year'],
-                        indicator['key']['Date']['month'],
-                    ),
+
+                date_info = indicator.get('key', {}).get('DateDimension.MONTH')
+                year, month = date_info.get('year'), date_info.get('month')
+
+                created = False
+                try:
+                    report = Report.objects.get(
+                        db_name=db_info['name'],
+                        date='{year}-{month}'.format(year=year, month=month)
+                    )
+                # http://docs.mongoengine.org/guide/querying.html#retrieving-unique-results
+                except Report.DoesNotExist:
+                    report = Report.objects.create(
+                        db_name=db_info['name'],
+                        date='{year}-{month}'.format(year=year, month=month)
+                    )
+                    created = True
+
+                report.update(
                     site_id=site['id'],
                     activity_id=site['activity'],
                     partner_id=site['partner']['id'],
                     indicator_id=indicator['key']['Indicator']['id'],
                 )
+                report.save()
+
                 activity = activities[report.activity_id]
                 report.value = indicator['sum']
                 report.category = activity['category']

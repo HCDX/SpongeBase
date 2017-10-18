@@ -42,6 +42,7 @@ from bson import ObjectId
 from wtforms import form, fields, validators
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from pymongo import MongoClient
 
 class JSONEncoder(MongoEngineJSONEncoder):
 
@@ -53,7 +54,9 @@ class JSONEncoder(MongoEngineJSONEncoder):
 
 def get_db(app):
 # Create models
-    db = MongoEngine()
+    # db = MongoEngine(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
+    # db = MongoEngine()
+    db = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)['ai-aggregator']
     db.init_app(app)
     login_manager.init_app(app)
     app.json_encoder = JSONEncoder
@@ -64,21 +67,18 @@ def get_db(app):
 app = Flask(__name__)
 login_manager = login.LoginManager()
 
-app.config['DEBUG'] = True
-
-# Create dummy secrey key so we can use sessions
-app.config['SECRET_KEY'] = '123456790'
+# app.config['DEBUG'] = True
+#
+# # Create dummy secrey key so we can use sessions
+# app.config['SECRET_KEY'] = '123456790'
 app.config['MONGODB_SETTINGS'] = {
     'db': 'ai-aggregator',
-    'host': os.environ.get('MONGODB_URL', 'mongodb://localhost:27017/ai-aggregator'),
+    'host': '172.17.0.2',
+    'port': 27017
 }
-app.config.update(
-    CELERY_BROKER_URL=os.environ.get('REDIS_URL', 'redis://localhost:6379/0'),
-    CELERY_RESULT_BACKEND=os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-)
 
-db = get_db(app)
-
+db = MongoEngine()
+db.init_app(app)
 
 # Create user loader function
 @login_manager.user_loader
