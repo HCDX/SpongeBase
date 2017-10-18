@@ -9,12 +9,7 @@ from pprint import pprint
 
 class IngestTest(BaseTest):
 
-    #  bin/test_local test.test_ingest
-    def test_1_plus_2(self):
-        actual = 1 + 1
-        target = 2
-        self.assertEqual(actual, target)
-
+    # bin/test_local test.test_ingest.IngestTest.test_ai_ingest
     def test_ai_ingest(self):
 
         with open('test/fixtures/ai_stub.json') as fixt:

@@ -67,10 +67,10 @@ def get_db(app):
 app = Flask(__name__)
 login_manager = login.LoginManager()
 
-# app.config['DEBUG'] = True
-#
-# # Create dummy secrey key so we can use sessions
-# app.config['SECRET_KEY'] = '123456790'
+app.config['DEBUG'] = True
+
+# Create dummy secrey key so we can use sessions
+app.config['SECRET_KEY'] = '123456790'
 app.config['MONGODB_SETTINGS'] = {
     'db': 'ai-aggregator',
     'host': '172.17.0.2',
@@ -463,7 +463,6 @@ admin.add_view(CartoDBTableView(CartoDbTable))
 # Add API
 api = MongoRest(app)
 
-
 class AttributeResource(Resource):
     document = Attribute
 
@@ -566,3 +565,7 @@ def oauthorized():
 
 if __name__ == '__main__':
     app.run()
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
