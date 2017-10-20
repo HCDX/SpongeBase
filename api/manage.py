@@ -25,9 +25,6 @@ from spongemap import app, Report, Attribute
 manager = Manager(app)
 
 
-from pprint import pprint
-
-
 # db = MongoClient(
 #     os.environ.get('MONGODB_URL', 'mongodb://localhost:27017'))['ai-aggregator']
 
@@ -83,7 +80,6 @@ def import_ai(dbs, username='', password=''):
     date = '2017-10'
 
     db_ids = dbs.split(',')
-
     client = ActivityInfoClient(username, password)
 
     for db_id in db_ids:
@@ -115,17 +111,16 @@ def import_ai(dbs, username='', password=''):
                 attrib['_id'] = attrib['id']
                 ai.attributeGroups.update({'_id': attrib['id']}, attrib, upsert=True)
 
-        ai_client_sites = client.get_sites(database=db_id)
+        try:
+            ai_client_sites = client.get_sites(database=db_id)
+        except Exception:
+            continue
 
         # 'create an index of sites by id'
         sites = dict(
             (site['id'], dict(site, index=i))
             for (i, site) in enumerate(ai_client_sites)
         )
-
-        print '====\n' * 5
-        pprint(sites)
-        print '====\n' * 5
 
         # 'create an index of activities by id'
         activities = dict(
@@ -156,16 +151,21 @@ def import_ai(dbs, username='', password=''):
             params={},
             auth=HTTPBasicAuth(os.getenv('AI_USERNAME'), os.getenv('AI_PASSWORD')),
         )
-        forms = response.json()
+        try:
+            forms = response.json()
+        except Exception:
+            continue
 
         for indicator in forms:
 
             ## need help looking at validity of the data / logic..
             ## i see this in the "sites" dict, so using for now
-            indicator_id = 854655430 # indicator['key']['Site']['id']
+            indicator_id = indicator['key']['Site']['id']
+            site = sites.get(indicator_id)
 
-
-            site = sites.get(indicator_id, {})
+            if not site:
+                print '==-=-= no site =-=-=-='
+                continue
 
             attributes = []
             if 'attributes' in site:
@@ -182,28 +182,32 @@ def import_ai(dbs, username='', password=''):
                 year, month = date_info.get('year'), date_info.get('month')
 
                 created = False
+
+                report_data = {
+                    'db_name':db_info['name'],
+                    'date':'{year}-{month}'.format(year=year, month=month),
+                    'site_id':site['id'],
+                    'activity_id':site['activity'],
+                    'partner_id':site['partner']['id'],
+                    'indicator_id':indicator['key']['Indicator']['id'],
+                }
+
                 try:
-                    report = Report.objects.get(
-                        db_name=db_info['name'],
-                        date='{year}-{month}'.format(year=year, month=month)
-                    )
-                # http://docs.mongoengine.org/guide/querying.html#retrieving-unique-results
+                    report = Report.objects.get(**report_data)
+                    # http://docs.mongoengine.org/guide/querying.html#retrieving-unique-results
                 except Report.DoesNotExist:
-                    report = Report.objects.create(
-                        db_name=db_info['name'],
-                        date='{year}-{month}'.format(year=year, month=month)
-                    )
+                    report = Report.objects.create(**report_data)
                     created = True
 
-                report.update(
-                    site_id=site['id'],
-                    activity_id=site['activity'],
-                    partner_id=site['partner']['id'],
-                    indicator_id=indicator['key']['Indicator']['id'],
-                )
                 report.save()
 
-                activity = activities[report.activity_id]
+                try:
+                    activity = activities[report.activity_id]
+                except Exception as er:
+                    print 'activity exception'
+                    print err
+                    continue
+
                 report.value = indicator['sum']
                 report.category = activity['category']
                 report.activity = activity['name']
@@ -237,6 +241,7 @@ def import_ai(dbs, username='', password=''):
                         )
                     reports_created += 1
 
+                print '=save report at bottom='
                 report.save()
 
         send_message('AI import finished, {} site reports created'.format(reports_created))

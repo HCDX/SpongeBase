@@ -22,7 +22,7 @@ app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = '123456790'
 app.config['MONGODB_SETTINGS'] = {
     'db': 'ai-aggregator',
-    'host': '172.17.0.2',
+    'host': ['DB_PORT_27017_TCP_ADDR'],
     'port': 27017
 }
 db = MongoEngine()

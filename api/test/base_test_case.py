@@ -7,7 +7,6 @@ class BaseTest(unittest.TestCase):
 
     def setUp(self):
 
-
         logging.info('start test')
 
 

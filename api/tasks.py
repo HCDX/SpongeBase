@@ -36,9 +36,6 @@ from manage import app, import_ai # , update_sites
 
 # @celery.task
 def run_import():
-    from spongemap import get_db, app
-
-    db_con = get_db(app)
 
     dbs = os.environ.get('AI_DBS')
     username = os.environ.get('AI_USERNAME')
@@ -46,13 +43,11 @@ def run_import():
 
     if dbs:
         print 'DB: {0}'.format(dbs)
-        import_ai(dbs, username, password, db_con)
+        import_ai(dbs, username, password)
 
 if __name__ == "__main__":
     run_import()
 
-
-#
 # @celery.task
 # def run_sites_update(
 #         api_key,
