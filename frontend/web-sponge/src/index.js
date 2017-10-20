@@ -4,31 +4,31 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 
 // SpongeBase app modules
 import App from './App'
 
-import spongeApp from './reducers'
+import spongeReducer from './reducers/index'
 
-let store = createStore(spongeApp)
-
+// Store
+const store = createStore(spongeReducer)
 
 const rootEl = document.getElementById('root')
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  rootEl
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    rootEl
 )
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default
-    ReactDOM.render(
-      <NextApp />,
-      rootEl
-    )
-  })
+    module.hot.accept('./App', () => {
+        const NextApp = require('./App').default
+        ReactDOM.render(
+            <NextApp />,
+            rootEl
+        )
+    })
 }

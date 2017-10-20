@@ -1,26 +1,25 @@
 import { combineReducers } from 'redux'
 
-const clickSomething = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return action.filter
-    default:
-      return state
-  }
+const defaultState = {
+    count: 0,
+    infoPanelHidden: false
 }
 
-const clickSomethingElse = (state = 'BLA', action) => {
-  switch (action.type) {
-    case 'BLEE':
-      return action.filter
+// Reducer
+function spongeReducer (state = defaultState, action) {
+    const count = state.count
+    switch (action.type) {
+    case 'increase':
+        return {
+            count: count + 1
+        }
+    case 'TOGGLE_PANEL':
+        return {
+            infoPanelHidden: !state.infoPanelHidden
+        }
     default:
-      return state
-  }
+        return state
+    }
 }
 
-const todoApp = combineReducers({
-  clickSomething,
-  clickSomethingElse
-})
-
-export default todoApp
+export default spongeReducer
