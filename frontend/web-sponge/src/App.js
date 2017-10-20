@@ -8,21 +8,17 @@ import './App.css'
 import InfoPanel from './components/InfoPanel'
 import NavControl from './components/NavControl'
 import CartoWrapper from './components/CartoWrapper'
-import { togglePanel, increaseAction } from './actions'
+import { togglePanel } from './actions'
 
 class SpongeWrapper extends Component {
     render () {
         const {
-            value,
-            onIncreaseClick,
             onTogglePanel,
             infoPanelHidden
         } = this.props
 
-        console.log('infoPanelHidden: ', infoPanelHidden)
-
         const infoPanel = infoPanelHidden ? ''
-            :  <InfoPanel
+            : <InfoPanel
                 togglePanel={onTogglePanel}
                 hidden={infoPanelHidden}
             />
@@ -33,12 +29,11 @@ class SpongeWrapper extends Component {
                 <Container>
                     <Row>
                         <NavControl/>
-                        <CartoWrapper/>
+                        <CartoWrapper
+                            width={infoPanelHidden ? '600px' : '500px'}
+                            height={infoPanelHidden ? '600px' : '500px'}
+                        />
                         {infoPanel}
-                    </Row>
-                    <Row>
-                        <span>{value}</span>
-                        <button onClick={onIncreaseClick}>Increase</button>
                     </Row>
                 </Container>
             </div>
@@ -48,9 +43,7 @@ class SpongeWrapper extends Component {
 
 // Map Redux state to component props
 function mapStateToProps (state) {
-    console.log('state:', state)
     return {
-        value: state.count,
         infoPanelHidden: state.infoPanelHidden
     }
 }
@@ -58,14 +51,13 @@ function mapStateToProps (state) {
 // Map Redux actions to component props
 function mapDispatchToProps (dispatch) {
     return {
-        onIncreaseClick: () => dispatch(increaseAction),
         onTogglePanel: () => dispatch(togglePanel)
     }
 }
 
 SpongeWrapper.propTypes = {
-    value: PropTypes.number,
-    onIncreaseClick: PropTypes.func.isRequired
+    onTogglePanel: PropTypes.func.isRequired,
+    infoPanelHidden:  PropTypes.bool
 }
 
 const App = connect(

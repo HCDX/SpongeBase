@@ -68,10 +68,13 @@ class CartoWrapper extends Component {
     }
 
     render () {
+        const { width, height } = this.props
+        console.log('this.props', width)
+        console.log('this.props', height)
         const mapPositionStyle = {
             margin:'0 auto',
-            width:'500px',
-            height:'500px'
+            width: width,
+            height: height
         }
         const buttonStyle = {
             backgroundColor: '#f41919',

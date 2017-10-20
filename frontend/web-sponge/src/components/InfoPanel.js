@@ -3,14 +3,9 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 class InfoPanel extends Component {
-    // fixme - use props directly
-    togglePanel (e) {
-        this.props.togglePanel(e)
-    }
-
     render () {
         const hideButton = <Button
-            onClick={ (e) => this.togglePanel(e) }>
+            onClick={ this.props.togglePanel }>
             {this.props.hidden ? 'show' : 'hide'}
         </Button>
 
