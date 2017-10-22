@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { Button } from 'reactstrap'
+
+// FIXME - package this in NPM and remove CDN!
 const cartodb = window.cartodb
 
 // store the map configuration properties in an object,
@@ -22,8 +25,6 @@ class CartoWrapper extends Component {
             map: null,
         }
         this._mapNode = null
-
-        // temporary fn name to layer schools on the map
         this._renderNewLayer = this._renderNewLayer.bind(this)
     }
 
@@ -38,6 +39,26 @@ class CartoWrapper extends Component {
         this.state.map.remove()
     }
 
+    componentWillReceiveProps (nextProps) {
+        const newLayer = nextProps.activeLayers[0]
+        this._renderNewLayer(newLayer)
+    }
+
+    _renderNewLayer (newLayerID) {
+        console.log('renderaaangg: ', newLayerID)
+        const newLayerUrl = 'http://unhcr.cartodb.com/api/v2/viz/'
+          + newLayerID + '/viz.json'
+
+        const map = this.state.map
+
+        cartodb.createLayer(map, newLayerUrl)
+            .addTo(map)
+            .on('done', function (layer) { console.log('layer: ', layer) })
+            .on('error', function (err) { console.log('error: ', err) })
+
+        this.forceUpdate()
+    }
+
     initMap (id) {
         const self = this
 
@@ -45,7 +66,7 @@ class CartoWrapper extends Component {
         const cartoVizUrl = 'http://unhcr.carto.com/api/v2/viz/'
       + vizGUID + '/viz.json'
 
-        cartodb.createVis('mapUI', cartoVizUrl, config.params)
+        cartodb.createVis('mapUI', cartoVizUrl, this.props.configParams)
             .done(function (vis, layers) {
                 layers[1].setInteraction(true)
                 layers[1].on('featureOver',
@@ -57,44 +78,17 @@ class CartoWrapper extends Component {
             })
     }
 
-    _renderNewLayer () {
-        const newLayerUrl = 'http://unhcr.cartodb.com/api/v2/viz/430d4bb0-face-11e3-ac1a-0e230854a1cb/viz.json'
-        const map = this.state.map
-
-        cartodb.createLayer(map, newLayerUrl)
-            .addTo(map)
-            .on('done', function (layer) { console.log('layer: ', layer) })
-            .on('error', function (err) { console.log('error: ', err) })
-    }
-
     render () {
         const { width, height } = this.props
-        console.log('this.props', width)
-        console.log('this.props', height)
         const mapPositionStyle = {
             margin:'0 auto',
             width: width,
             height: height
         }
-        const buttonStyle = {
-            backgroundColor: '#f41919',
-            border: 'none',
-            color: 'white',
-            padding: '15px 32px',
-            textAlign: 'center',
-            textDecoration: 'none',
-            display: 'inline-block',
-            fontSize: '16px'
-        }
+
         return (
             <div>
-                <button
-                    onClick={this._renderNewLayer}
-                    style={buttonStyle}>
-        Show Schools in Lebanon
-                </button>
-                <div id="mapUI" style={mapPositionStyle}>
-                </div>
+                <div id="mapUI" style={mapPositionStyle}></div>
             </div>
         )
     }
