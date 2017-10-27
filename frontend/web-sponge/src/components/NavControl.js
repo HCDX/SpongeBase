@@ -4,6 +4,15 @@ import { Button, Label, Input } from 'reactstrap'
 import SearchForm from './SearchForm'
 
 class NavControl extends Component {
+    constructor (props) {
+        super(props)
+        this._handleOnCheck = this._handleOnCheck.bind(this)
+    }
+
+    _handleOnCheck (e, layerType) {
+        this.props.renderNewLayer(layerType)
+    }
+
     render () {
         const pCodes = {
             1: 'Governorate',
@@ -38,28 +47,33 @@ class NavControl extends Component {
         // const indicatorOptions = Object.keys(indicators).map(ind =>{
         //   return <li data={ind}> {indicators[ind]} </li>
         // })
+
+        const checkBoxData = [{
+            'displayName': 'Show Schools',
+            'value': 'schools'
+        },{
+            'displayName': 'Show Health Facilities',
+            'value': 'health'
+        }]
+
+        const checkboxes = checkBoxData.map(c => {
+            return   <Label check>
+                <Input
+                    type="checkbox"
+                    onChange={(e) => this._handleOnCheck(e, c.value)}
+                />
+                {c.displayName}
+            </Label>
+        })
+
         return (
             <div
                 id="layer_selector"
                 className="leftcontroller"
                 style={selectorStyle}>
                 <nav>
-                    <Label check>
-                        <Input
-                            type="checkbox"
-                            onClick={(e) => console.log(e)}
-                        />
-                        {' '}
-                        Check me
-                    </Label>
-
+                    {checkboxes}
                     <ul>
-                        <Button onClick={ () => this.props.renderNewLayer('schools') }>
-                          Show Schools in Lebanon
-                        </Button>
-                        <Button onClick={ () => this.props.renderNewLayer('health') }>
-                          Show HEALTH
-                        </Button>
                         {geoOptions}
                     </ul>
                 </nav>

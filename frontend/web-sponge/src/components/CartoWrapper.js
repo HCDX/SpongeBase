@@ -23,10 +23,12 @@ class CartoWrapper extends Component {
         super(props)
         this.state = {
             map: null,
-            activeLayers: {}
+            activeLayers: {},
+            layerState: {}
         }
         this._mapNode = null
         this._renderNewLayer = this._renderNewLayer.bind(this)
+        this._removeLayer = this._removeLayer.bind(this)
     }
 
     componentDidMount () {
@@ -44,34 +46,60 @@ class CartoWrapper extends Component {
         console.log('RECEIVING :', nextProps)
         // find if there are any new or removed keys fron the active layers obj
 
-        const oldLayers = Object.keys(this.state.activeLayers)
-        const newLayers = Object.keys(nextProps.activeLayers)
+        // this.props is same as nextProps here.. i want to compare old props
+        // vs new props so i dont have to deal with the state .
 
-        console.log('oldLayers: ', oldLayers)
-        console.log('newLayers: ', newLayers)
+        // console.log('this.props.activeLayers:', this.props.activeLayers)
+        // console.log('nextProps.activeLayers:', nextProps.activeLayers)
+        // console.log('this.state.activeLayers:', this.state.activeLayers)
+        //
+        // const oldLayers = Object.keys(this.state.layerState)
+        // const newLayers = Object.keys(nextProps.activeLayers)
+        //
+        // console.log('oldLayers: ', oldLayers)
+        // console.log('newLayers: ', newLayers)
+        //
+        // const newDiff = newLayers.filter(x => oldLayers.indexOf(x) == -1)
+        // const rmDiff = oldLayers.filter(x => newLayers.indexOf(x) == -1)
+        //
+        // console.log('newDiff: ', newDiff)
+        // console.log('rmDiff: ', rmDiff)
 
-        const diff = newLayers.filter(x => oldLayers.indexOf(x) == -1)
-        const newGUID = nextProps.activeLayers[diff[0]]['layerGUID']
+        if (nextProps.deleteLayer) {
+            this._removeLayer(nextProps.layerGUID)
+        }
+        else if (!nextProps.deleteLayer) {
+            this._renderNewLayer(nextProps.layerGUID)
+        }
+    }
+    _removeLayer (removeLayerID) {
+        console.log('===DELETE===')
+        const layerToRemove = this.state.layerState[removeLayerID]
+        layerToRemove.remove()
 
-        console.log('newGUID:', newGUID)
+        const activeLayerState = this.state.activeLayers
+        delete activeLayerState[removeLayerID]
 
-        // const newLayerGUID = nextProps.newLayerGUID
-        this._renderNewLayer(newGUID)
+        console.log('activeLayerState: ', activeLayerState)
+
+        this.setState({activeLayers: activeLayerState})
+        this.forceUpdate()
     }
 
     _renderNewLayer (newLayerID) {
-        console.log('_renderNewLayer: ', newLayerID)
+        const self = this
         const newLayerUrl = 'http://unhcr.cartodb.com/api/v2/viz/'
           + newLayerID + '/viz.json'
 
         const map = this.state.map
 
-        console.log('newLayerUrl: ', newLayerUrl)
         cartodb.createLayer(map, newLayerUrl)
             .addTo(map)
             .on('done', function (layer) {
-                console.log('show style..')
-                // layer.setCartoCSS('marker-width: ramp([pop_max], range(3,25), quantiles(7))')
+                // keep track of the layers in the state so we can remove them
+                const layerState = self.state.layerState
+                layerState[newLayerID] = layer
+                self.setState({layerState: layerState})
             })
             .on('error', function (err) { console.log('error: ', err) })
 

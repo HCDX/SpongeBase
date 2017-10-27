@@ -19,11 +19,23 @@ function spongeReducer (state = defaultState, action) {
         const activeLayers = state.activeLayers || {}
         const newLayer = action.payload.newLayer
 
-        activeLayers[newLayer.layerType] = newLayer
+        let deleteLayer = false
 
-        console.log('HEY:', newLayer.layerGUID)
+        // FIXME -- somehow get the state of the checkbox.. and
+        // create a REMOVE_LAYER action..
+        if (activeLayers[newLayer.layerType]) {
+            console.log('DELETE PART')
+            delete activeLayers[newLayer.layerType]
+            deleteLayer = true
+        } else {
+            console.log('ADD PART')
+            activeLayers[newLayer.layerType] = newLayer
+        }
+
         return {
             ...state,
+            deleteLayer: deleteLayer,
+            layerGUID: newLayer.layerGUID,
             infoPanelHidden: !state.infoPanelHidden,
             activeLayers: activeLayers
         }

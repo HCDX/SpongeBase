@@ -13,12 +13,12 @@ import * as Actions from './actions'
 
 class SpongeWrapper extends Component {
     render () {
-        console.log('this.props: ', this.props)
         const {
             infoPanelHidden,
             activeLayers,
             actions,
-            newLayerGUID
+            deleteLayer,
+            layerGUID
         } = this.props
 
         const infoPanel = infoPanelHidden ? ''
@@ -30,9 +30,10 @@ class SpongeWrapper extends Component {
         const cartoWrapper = <CartoWrapper
             hidden={infoPanelHidden}
             activeLayers={activeLayers}
-            newLayerGUID={newLayerGUID}
             width={infoPanelHidden ? '600px' : '500px'}
             height={infoPanelHidden ? '600px' : '500px'}
+            deleteLayer={deleteLayer}
+            layerGUID={layerGUID}
         />
 
         return (
@@ -56,7 +57,9 @@ class SpongeWrapper extends Component {
 function mapStateToProps (state) {
     return {
         activeLayers: state.activeLayers,
-        infoPanelHidden: state.infoPanelHidden
+        infoPanelHidden: state.infoPanelHidden,
+        deleteLayer: state.deleteLayer,
+        layerGUID: state.layerGUID,
     }
 }
 
