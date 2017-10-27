@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'reactstrap'
+import { Button, Label, Input } from 'reactstrap'
 
 import SearchForm from './SearchForm'
 
@@ -38,18 +38,28 @@ class NavControl extends Component {
         // const indicatorOptions = Object.keys(indicators).map(ind =>{
         //   return <li data={ind}> {indicators[ind]} </li>
         // })
-
         return (
             <div
                 id="layer_selector"
                 className="leftcontroller"
                 style={selectorStyle}>
                 <nav>
+                    <Label check>
+                        <Input
+                            type="checkbox"
+                            onClick={(e) => console.log(e)}
+                        />
+                        {' '}
+                        Check me
+                    </Label>
+
                     <ul>
                         <Button onClick={ () => this.props.renderNewLayer('schools') }>
                           Show Schools in Lebanon
                         </Button>
-
+                        <Button onClick={ () => this.props.renderNewLayer('health') }>
+                          Show HEALTH
+                        </Button>
                         {geoOptions}
                     </ul>
                 </nav>

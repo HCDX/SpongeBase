@@ -23,6 +23,7 @@ class CartoWrapper extends Component {
         super(props)
         this.state = {
             map: null,
+            activeLayers: {}
         }
         this._mapNode = null
         this._renderNewLayer = this._renderNewLayer.bind(this)
@@ -40,20 +41,38 @@ class CartoWrapper extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        const newLayer = nextProps.activeLayers[0]
-        this._renderNewLayer(newLayer)
+        console.log('RECEIVING :', nextProps)
+        // find if there are any new or removed keys fron the active layers obj
+
+        const oldLayers = Object.keys(this.state.activeLayers)
+        const newLayers = Object.keys(nextProps.activeLayers)
+
+        console.log('oldLayers: ', oldLayers)
+        console.log('newLayers: ', newLayers)
+
+        const diff = newLayers.filter(x => oldLayers.indexOf(x) == -1)
+        const newGUID = nextProps.activeLayers[diff[0]]['layerGUID']
+
+        console.log('newGUID:', newGUID)
+
+        // const newLayerGUID = nextProps.newLayerGUID
+        this._renderNewLayer(newGUID)
     }
 
     _renderNewLayer (newLayerID) {
-        console.log('renderaaangg: ', newLayerID)
+        console.log('_renderNewLayer: ', newLayerID)
         const newLayerUrl = 'http://unhcr.cartodb.com/api/v2/viz/'
           + newLayerID + '/viz.json'
 
         const map = this.state.map
 
+        console.log('newLayerUrl: ', newLayerUrl)
         cartodb.createLayer(map, newLayerUrl)
             .addTo(map)
-            .on('done', function (layer) { console.log('layer: ', layer) })
+            .on('done', function (layer) {
+                console.log('show style..')
+                // layer.setCartoCSS('marker-width: ramp([pop_max], range(3,25), quantiles(7))')
+            })
             .on('error', function (err) { console.log('error: ', err) })
 
         this.forceUpdate()
@@ -76,6 +95,7 @@ class CartoWrapper extends Component {
 
                 self.setState({ map: vis.getNativeMap() })
             })
+        self.setState({activeLayers: {'province': 'x'}})
     }
 
     render () {

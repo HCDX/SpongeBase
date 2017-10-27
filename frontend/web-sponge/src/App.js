@@ -17,7 +17,8 @@ class SpongeWrapper extends Component {
         const {
             infoPanelHidden,
             activeLayers,
-            actions
+            actions,
+            newLayerGUID
         } = this.props
 
         const infoPanel = infoPanelHidden ? ''
@@ -29,6 +30,7 @@ class SpongeWrapper extends Component {
         const cartoWrapper = <CartoWrapper
             hidden={infoPanelHidden}
             activeLayers={activeLayers}
+            newLayerGUID={newLayerGUID}
             width={infoPanelHidden ? '600px' : '500px'}
             height={infoPanelHidden ? '600px' : '500px'}
         />
@@ -69,7 +71,7 @@ SpongeWrapper.propTypes = {
     renderNewLayer: PropTypes.func.isRequired,
     togglePanel: PropTypes.func.isRequired,
     infoPanelHidden:  PropTypes.bool,
-    activeLayers:  PropTypes.array,
+    activeLayers:  PropTypes.object,
 }
 
 const App = connect(

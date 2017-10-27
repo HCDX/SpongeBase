@@ -1,6 +1,10 @@
 const defaultState = {
     infoPanelHidden: false,
-    activeLayers: []
+    activeLayers: {
+        'province': {
+            'guid': '7f739340-ae88-40fc-b2b0-14140d499310'
+        }
+    }
 }
 
 function spongeReducer (state = defaultState, action) {
@@ -12,11 +16,12 @@ function spongeReducer (state = defaultState, action) {
             infoPanelHidden: !state.infoPanelHidden
         }
     case 'RENDER_NEW_LAYER':
-        const activeLayers = state.activeLayers || []
-        const newLayer = action.payload
-        activeLayers.push(newLayer)
+        const activeLayers = state.activeLayers || {}
+        const newLayer = action.payload.newLayer
 
-        console.log('RENDER_NEW_LAYER: ', action.payload)
+        activeLayers[newLayer.layerType] = newLayer
+
+        console.log('HEY:', newLayer.layerGUID)
         return {
             ...state,
             infoPanelHidden: !state.infoPanelHidden,
