@@ -1,0 +1,1394 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sponge|Base</title>
+    <meta name="keywords" content="">
+    <meta name="language" content="en">
+    <meta name="author" content="United Nations High Commissioner for Refugees - Lebanon Operation">
+    <link rel="shortcut icon" type="image/ico" href="http://www.unhcr.org/favicon.ico" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!--<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.13/themes/css/cartodb.css" />-->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <style type="text/css">
+        #map {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .map_wrapper {
+            position: relative;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .cartodb-tooltip {
+            margin-top: 10px !important;
+            margin-left: 10px !important;
+            border-radius: 4px;
+        }
+
+        .mini-submenu {
+            display: none;
+            background-color: rgba(0, 0, 0, 0);
+            border: 1px solid rgba(0, 0, 0, 0.9);
+            border-radius: 4px;
+            padding: 9px;
+            /*position: relative;*/
+            width: 42px;
+        }
+
+            .mini-submenu:hover {
+                cursor: pointer;
+            }
+
+            .mini-submenu .icon-bar {
+                border-radius: 1px;
+                display: block;
+                height: 2px;
+                width: 22px;
+                margin-top: 3px;
+            }
+
+            .mini-submenu .icon-bar {
+                background-color: #000;
+            }
+
+        #slide-submenu {
+            background: rgba(0, 0, 0, 0.45);
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+
+            <a href="#" class="logo">
+                <span class="logo-mini"><b>S</b>B</span>
+                <span class="logo-lg"><b>SPONGE</b> Base</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!--<img src="image/interagencylogo160x160.jpg" class="img-rounded" alt="User Image">-->
+                                <span class="hidden-xs">Inter-agency Coordination, UNHCR Lebanon</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <!--<img src="image/interagencylogo160x160.jpg" class="img-rounded" alt="User Image">-->
+                                    <p>
+                                        Inter-Agency Coordination
+                                        <small>Designed and developed by the Information Management Unit</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-xs-4 text-center">
+                                            <strong><a href="http://data.unhcr.org/lebanon/">Information Hub</a></strong>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <strong><a href="http://data.unhcr.org/syrianrefugees/country.php?id=122">Data Portal</a></strong>
+
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <strong><a href="http://lebanonfactbook.azurewebsites.net/">FactBook</a></strong>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        For more information please contact <a href="mailto:ghosn@unhcr.org">Jad Ghosn</a>.<br>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- =============================================== -->
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="image/sponge.jpg" class="img-rounded" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p> Response Mapping</p>
+                    </div>
+
+                </div>
+                <div class="infobox">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><label id="lblTitle"></label></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body text-left">
+                        <label id="lblText" style="color:black">Click on a feature on the map to show details.</label>
+                    </div>
+                    <style type="text/css">
+                        infobox {
+                            margin: 0;
+                            padding: 0;
+                        }
+
+
+                        ol, ul {
+                            list-style: none;
+                        }
+
+                        .infobox {
+                            position: absolute;
+                            right: 10px;
+                            top: 160px;
+                            z-index: 10;
+                            box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+                            background: #fff;
+                            border: 1px solid #999;
+                            width: 210px;
+                            overflow: hidden;
+                            border-radius: 2px;
+                            padding: 10px;
+                            font-size: 12px;
+                            font-weight: bold;
+                            font-family: Helvetica,Arial;
+                            color: #999;
+                        }
+
+                            .infobox li {
+                                margin-bottom: 8px;
+                            }
+
+                                .infobox li:last-child {
+                                    margin-bottom: 0;
+                                }
+
+                            .infobox label, .infobox input {
+                                display: inline-block;
+                                vertical-align: middle;
+                                cursor: pointer;
+                            }
+
+                            .infobox input {
+                                margin-right: 8px;
+                                -webkit-appearance: none;
+                                width: 12px;
+                                height: 12px;
+                                border-radius: 50%;
+                                border: 2px solid #999;
+                                position: relative;
+                            }
+
+                                .infobox input:focus {
+                                    outline: none;
+                                }
+
+                                .infobox input:checked:before {
+                                    content: "";
+                                    width: 4px;
+                                    height: 4px;
+                                    position: absolute;
+                                    display: inline-block;
+                                    left: 50%;
+                                    top: 50%;
+                                    margin-left: -2px;
+                                    margin-top: -2px;
+                                    background: #999;
+                                    border-radius: 50%;
+                                }
+
+                            .infobox .layer input {
+                                border-color: #42a4dc;
+                            }
+
+                                .infobox .layer input:checked:before {
+                                    background: #42a4dc;
+                                }
+
+                            .infobox h2 {
+                                margin-bottom: 3px;
+                                color: #333;
+                                font-size: 20px;
+                            }
+                    </style>
+
+                </div>
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input id="txtSearch" type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="button" id="btnSearch" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </form>
+
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <!-- Main content -->
+            <section class="content">
+                <!-- Small boxes (Stat box) -->
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="container-fluid">
+                    <!-- Left col -->
+                    <section class="col-lg-12 connectedSortable">
+                        <div class="box box-solid bg-light-blue-gradient">
+                            <div class="box-header">
+
+                                <i class="fa fa-map"></i>
+                                <h3 class="box-title">
+                                    Map of Lebanon
+                                </h3>
+
+                                <div class="map_wrapper">
+                                    <div id="map" style="height: 700px; width: 100%;"></div>
+
+                                </div>
+                                <div class="col-md-2 sidebar" style="position:absolute;top:120px; ">
+                                    <div class="mini-submenu">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+
+                                    </div>
+                                    <div class="list-group">
+                                        <span href="#" class="list-group-item active">
+                                            Layers
+                                            <span class="pull-right" id="slide-submenu">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </span>
+                                        <div class="layers">
+                                            <ul>
+                                                <li class="layer-grey">
+                                                    <input type="checkbox" id="all" name="layer">
+                                                    <label for="all">All</label>
+
+                                                </li>
+
+                                                <li class="layer-grey">
+                                                    <input type="checkbox" class="checkBoxClass" id="district" name="layer">
+                                                    <label for="district">District</label>
+                                                </li>
+                                                <li class="layer-grey">
+                                                    <input type="checkbox" class="checkBoxClass" id="cadastre" name="layer">
+                                                    <label for="cadastre">Cadastre</label>
+                                                </li>
+                                                <li class="layer-black">
+                                                    <input type="checkbox" class="checkBoxClass" id="localities" name="layer">
+                                                    <label for="localities">Localities</label>
+                                                </li>
+                                                <li class="layer-navy">
+                                                    <input type="checkbox" class="checkBoxClass" id="municipality" name="layer" checked="checked">
+                                                    <label for="municipality">Municipality</label>
+                                                </li>
+                                                <li class="layer-pink">
+                                                    <input type="checkbox" class="checkBoxClass" id="ai_is" name="layer">
+                                                    <label for="ai_is">Informal Settlement</label>
+                                                </li>
+                                                <li class="layer-orange">
+                                                    <input type="checkbox" class="checkBoxClass" id="ai_schools" name="layer">
+                                                    <label for="ai_schools">Schools</label>
+                                                </li>
+                                                <li class="layer-red">
+                                                    <input type="checkbox" class="checkBoxClass" id="sdc" name="layer">
+                                                    <label for="sdc">Social Development Center</label>
+                                                </li>
+                                                <li class="layer-purple">
+                                                    <input type="checkbox" class="checkBoxClass" id="shc" name="layer">
+                                                    <label for="shc">Secondary Health Center</label>
+                                                </li>
+                                                <li class="layer-black">
+                                                    <input type="checkbox" class="checkBoxClass" id="ccs" name="layer">
+                                                    <label for="ccs">Collective Centers Sites</label>
+                                                </li>
+                                                <li class="layer-green">
+                                                    <input type="checkbox" class="checkBoxClass" id="pc" name="layer">
+                                                    <label for="pc">Palestinian Camps</label>
+                                                </li>
+                                                <li class="layer-red">
+                                                    <input type="checkbox" class="checkBoxClass" id="bcp" name="layer">
+                                                    <label for="bcp">Border Crossing Points</label>
+                                                </li>
+                                                <li class="layer-navy">
+                                                    <input type="checkbox" class="checkBoxClass" id="phc" name="layer">
+                                                    <label for="phc">Public Health Center</label>
+                                                </li>
+                                            </ul>
+                                            <style type="text/css">
+                                                * {
+                                                    margin: 0;
+                                                    padding: 0;
+                                                }
+
+
+                                                ol, ul {
+                                                    list-style: none;
+                                                }
+
+                                                .layers {
+                                                    /*position: absolute;
+                                                        right: 10px;
+                                                        top: 160px;*/
+                                                    z-index: 10;
+                                                    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+                                                    background: #fff;
+                                                    border: 1px solid #999;
+                                                    /*width: 210px;*/
+                                                    overflow: hidden;
+                                                    border-radius: 2px;
+                                                    padding: 10px;
+                                                    font-size: 12px;
+                                                    font-weight: bold;
+                                                    font-family: Helvetica,Arial;
+                                                    color: #999;
+                                                }
+
+                                                    .layers li {
+                                                        margin-bottom: 8px;
+                                                    }
+
+                                                        .layers li:last-child {
+                                                            margin-bottom: 0;
+                                                        }
+
+                                                    .layers label, .layers input {
+                                                        display: inline-block;
+                                                        vertical-align: middle;
+                                                        cursor: pointer;
+                                                    }
+
+                                                    .layers input {
+                                                        margin-right: 8px;
+                                                        -webkit-appearance: none;
+                                                        width: 12px;
+                                                        height: 12px;
+                                                        border-radius: 50%;
+                                                        border: 2px solid #999;
+                                                        position: relative;
+                                                    }
+
+                                                        .layers input:focus {
+                                                            outline: none;
+                                                        }
+
+                                                        .layers input:checked:before {
+                                                            content: "";
+                                                            width: 4px;
+                                                            height: 4px;
+                                                            position: absolute;
+                                                            display: inline-block;
+                                                            left: 50%;
+                                                            top: 50%;
+                                                            margin-left: -2px;
+                                                            margin-top: -2px;
+                                                            background: #999;
+                                                            border-radius: 50%;
+                                                        }
+
+                                                    .layers .layer-red input {
+                                                        border-color: red;
+                                                    }
+
+                                                        .layers .layer-red input:checked:before {
+                                                            background: red;
+                                                        }
+
+                                                    .layers .layer-blue input {
+                                                        border-color: blue;
+                                                    }
+
+                                                        .layers .layer-blue input:checked:before {
+                                                            background: blue;
+                                                        }
+
+                                                    .layers .layer-green input {
+                                                        border-color: green;
+                                                    }
+
+                                                        .layers .layer-green input:checked:before {
+                                                            background: green;
+                                                        }
+
+
+                                                    .layers .layer-purple input {
+                                                        border-color: purple;
+                                                    }
+
+                                                        .layers .layer-purple input:checked:before {
+                                                            background: purple;
+                                                        }
+
+                                                    .layers .layer-pink input {
+                                                        border-color: pink;
+                                                    }
+
+                                                        .layers .layer-pink input:checked:before {
+                                                            background: pink;
+                                                        }
+
+
+                                                    .layers .layer-orange input {
+                                                        border-color: orange;
+                                                    }
+
+                                                        .layers .layer-orange input:checked:before {
+                                                            background: orange;
+                                                        }
+
+
+                                                    .layers .layer-black input {
+                                                        border-color: black;
+                                                    }
+
+                                                        .layers .layer-black input:checked:before {
+                                                            background: black;
+                                                        }
+
+                                                    .layers .layer-grey input {
+                                                        border-color: grey;
+                                                    }
+
+                                                        .layers .layer-grey input:checked:before {
+                                                            background: grey;
+                                                        }
+
+                                                    .layers .layer-navy input {
+                                                        border-color: navy;
+                                                    }
+
+                                                        .layers .layer-navy input:checked:before {
+                                                            background: navy;
+                                                        }
+                                            </style>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <script type="tooltip/html" id="tooltip_template">
+                                <div class="cartodb-tooltip-content-wrapper">
+                                    <div class="cartodb-tooltip-content">
+                                        <h4></h4>
+                                        <p><b>{{k_code_n}} {{pcode}} {{m_code_n}} {{mun_en}} {{site_name}} {{kadaa_code}}</b> {{pcode_name}} {{location_name_en}} {{m_ref_name}} {{school_name}} {{cad_code}} {{site_name}} {{centers_name_english}} {{municipality_name_en}} {{district}} {{k_ref_name}} {{c_ref_name}}</p>
+                                    </div>
+                                </div>
+                            </script>
+
+
+                            <script type="infowindow/html" id="infowindow_template">
+                                <div class="cartodb-popup v2">
+                                    <a href="#close" class="cartodb-popup-close-button close">x</a>
+                                    <div class="cartodb-popup-content-wrapper">
+                                        <div class="cartodb-popup-header">
+                                            <h4>PCode: </h4>
+                                        </div>
+                                        <div class="cartodb-popup-content">
+                                            <!-- content.data contains the field info -->
+                                            <p>{{content.data.district}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="cartodb-popup-tip-container"></div>
+                                </div>
+                            </script>
+
+                            <!--<style type="text/css">
+                                .modal {
+                                    position: fixed;
+                                    top: 0;
+                                    left: 0;
+                                    background-color: rgba(0,0,0,0);
+                                    z-index: 99;
+                                    opacity: 0.8;
+                                    filter: alpha(opacity=80);
+                                    -moz-opacity: 0.8;
+                                    min-height: 200px;
+                                    width: 100px;
+                                }
+
+                                .loading {
+                                    font-family: Arial;
+                                    font-size: 10pt;
+                                    border: #ffffff;
+                                    width: 200px;
+                                    height: 200px;
+                                    display: none;
+                                    position: fixed;
+                                    background-color: transparent;
+                                    z-index: 999;
+                                }
+                            </style>-->
+ 
+
+                            <script>
+
+
+
+                                function main() {
+                                    var map;
+                                    // create google maps map
+                                    var mapOptions = {
+                                        zoom: 9,
+                                        center: new google.maps.LatLng(33.85, 35.8),
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                        gestureHandling: 'greedy'
+                                    };
+                                    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                                    // Layers definition
+                                    var layers = {
+                                        //Admin2
+                                        'district': {
+                                            sql: 'SELECT * FROM lebanon_admin2',
+                                            cartocss: '#lebanon_admin2 {polygon-opacity: 0.5;line-color: #FFF;line-width: 0.5;line-opacity: 1;}' +
+                                                        '#lebanon_admin2[m_ref_name="Akkar"] {polygon-fill: #A6CEE3;}' +
+                                                        '#lebanon_admin2[m_ref_name="Baalbek-El Hermel"] {polygon-fill: #1F78B4;}' +
+                                                        '#lebanon_admin2[m_ref_name="Beirut"] {polygon-fill: #B2DF8A;}' +
+                                                        '#lebanon_admin2[m_ref_name="Bekaa"] {polygon-fill: #33A02C;}' +
+                                                        '#lebanon_admin2[m_ref_name="El Nabatieh"] {polygon-fill: #FB9A99;}' +
+                                                        '#lebanon_admin2[m_ref_name="Mount Lebanon"] {polygon-fill: #E31A1C;}' +
+                                                        '#lebanon_admin2[m_ref_name="North"] {polygon-fill: #FDBF6F;}' +
+                                                        '#lebanon_admin2[m_ref_name="South"] {polygon-fill: #FF7F00;}',
+                                            interactivity: 'cartodb_id, the_geom, district, district_a, governorat, k_code_n, m_code_n, m_ref_name, unhcr_aop',
+                                            id: 'district'
+                                        },
+                                        'cadastre': {
+                                            sql: 'SELECT * FROM lebanon_admin3',
+                                            cartocss: '#lebanon_admin2 {polygon-opacity: 0.7;line-color: #FFF;line-width: 0.5;line-opacity: 1;}' +
+                                                        '#lebanon_admin2[m_ref_name="Akkar"] {polygon-fill: #A6CEE3;}' +
+                                                        '#lebanon_admin2[m_ref_name="Baalbek-El Hermel"] {polygon-fill: #1F78B4;}' +
+                                                        '#lebanon_admin2[m_ref_name="Beirut"] {polygon-fill: #B2DF8A;}' +
+                                                        '#lebanon_admin2[m_ref_name="Bekaa"] {polygon-fill: #33A02C;}' +
+                                                        '#lebanon_admin2[m_ref_name="El Nabatieh"] {polygon-fill: #FB9A99;}' +
+                                                        '#lebanon_admin2[m_ref_name="Mount Lebanon"] {polygon-fill: #E31A1C;}' +
+                                                        '#lebanon_admin2[m_ref_name="North"] {polygon-fill: #FDBF6F;}' +
+                                                        '#lebanon_admin2[m_ref_name="South"] {polygon-fill: #FF7F00;}',
+                                            interactivity: 'cartodb_id,the_geom,acs_code,acs_name,c_ref_ar,c_ref_name,cad_code,cad_name,k_code_n,k_ref_name,m_code_n,m_ref_name,vulnerabil',
+                                            id: 'cadastre'
+                                        },//Admin4
+
+
+                                        'localities': {
+                                            sql: 'SELECT * FROM ai_localities',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.8; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: black; }',
+                                            interactivity: 'cartodb_id, the_geom,pcode,location_name_en,governorate,district,cas_name',
+                                            infowindow: true,
+                                            id: 'localities'
+                                        },//Informal Settlement
+                                        'ai_is': {
+                                            sql: 'SELECT * FROM ai_is',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: pink; }',
+                                            interactivity: 'cartodb_id, the_geom,cadaster,district,governorate,health,local_name,number_of_hh,number_of_ind,number_of_ind_in_ssbs,number_of_latrines,number_of_ssbs,number_of_tents,pcode,pcode_name,shelter,shelter_type,updated_by,status,type_of_water_source,waste_disposal,water_capacity_in_l',
+                                            id: 'ai_is'
+                                        },//School
+                                        'ai_schools': {
+                                            sql: 'SELECT * FROM ai_schools',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: orange; }',
+                                            interactivity: 'cartodb_id, the_geom,acs_code,cad_code,cadastral,caza,governorate,school_name',
+                                            id: 'ai_schools'
+                                        }
+                                        ,//Social Development Center
+                                        'sdc': {
+                                            sql: 'SELECT * FROM table_5_sdc',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: red; }',
+                                            interactivity: 'cartodb_id, the_geom,acs_code ,activities,cad_code,cadastral,center_type ,director_name,district,functioning_as_cc,governorate,pcode,phone,site_name,specialtiy,supported_unhcr,type,type_code',
+                                            id: 'sdc'
+                                        }
+                                        ,//Secondary Health Center
+                                        'shc': {
+                                            sql: 'SELECT * FROM ai_shc',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: purple; }',
+                                            interactivity: 'cartodb_id, the_geom,address_arabic,address_english,cadastre,condition_arabic,condition_english,district,governorate,name_arabic,name_of_hospital,number,p_code,phone_number,type,village',
+                                            id: 'shc'
+                                        }
+                                        ,//Collective Centers Sites
+                                        'ccs': {
+                                            sql: 'SELECT * FROM table_1_collective_centers_sites',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: black; }',
+                                            interactivity: 'cartodb_id, the_geom,acs_code,cad_code,cadastral,district,governorate,pcode,site_name,type',
+                                            id: 'css'
+                                        }
+                                        ,//Palestinian Camps in Lebanon
+                                        'pc': {
+                                            sql: 'SELECT * FROM ai_palestinian_camps_in_lebanon',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: green; }',
+                                            interactivity: 'cartodb_id, the_geom,cad_code,camp,pcode',
+                                            id: 'pc'
+                                        }
+                                        ,//Border Crossing Points
+                                        'bcp': {
+                                            sql: 'SELECT * FROM ai_border_crossing',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: red; }',
+                                            interactivity: 'cartodb_id, the_geom,acs_code,acsname,cad_code,common_name,name,type',
+                                            id: 'bcp'
+                                        }
+                                        ,//Public Health Centers
+                                        'phc': {
+                                            sql: 'SELECT * FROM ai_phc',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: navy; }',
+                                            interactivity: 'cartodb_id, the_geom,pcode,centers_name_english,health_partner_supporting_the_facility,address_english,address_arabic, centers_name_arabic, phc_ownership,centers_name_english,phc_ownership,phone,description_of_support, type_of_health_facility',
+                                            id: 'phc'
+                                        },
+                                        //Municipality
+                                        'municipality': {
+                                            sql: 'SELECT * FROM ai_municipality_v1 ',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: navy; }',
+                                            interactivity: 'cartodb_id, the_geom,cad_code,municipality_name_ar,municipality_name_en,pcode',
+                                            id: 'municipality'
+                                        }
+                                    }
+
+                                    // Empty layer
+                                    cartodb.createLayer(map, {
+                                        user_name: 'unhcr',
+                                        type: 'cartodb',
+                                        sublayers: []
+                                    })
+                                      .addTo(map)
+                                      .done(function (layer) {
+
+                                          layer.setInteraction(true);
+
+                                          //Creation of the layer for the map
+                                          layer.createSubLayer(layers["district"]); //0
+                                          layer.createSubLayer(layers["cadastre"]); //1
+                                          layer.createSubLayer(layers["localities"]); //2
+                                          layer.createSubLayer(layers["ai_is"]); //3
+                                          layer.createSubLayer(layers["ai_schools"]); //4
+                                          layer.createSubLayer(layers["sdc"]); //5
+                                          layer.createSubLayer(layers["shc"]); //6
+                                          layer.createSubLayer(layers["ccs"]); //7
+                                          layer.createSubLayer(layers["pc"]); //8
+                                          layer.createSubLayer(layers["bcp"]); //9
+                                          layer.createSubLayer(layers["phc"]); //10
+                                          layer.createSubLayer(layers["municipality"]); //11
+
+                                          //Initializing
+                                          layer.getSubLayer(0).hide();
+                                          layer.getSubLayer(1).hide();
+                                          layer.getSubLayer(2).hide();
+                                          layer.getSubLayer(3).hide();
+                                          layer.getSubLayer(4).hide();
+                                          layer.getSubLayer(5).hide();
+                                          layer.getSubLayer(6).hide();
+                                          layer.getSubLayer(7).hide();
+                                          layer.getSubLayer(8).hide();
+                                          layer.getSubLayer(9).hide();
+                                          layer.getSubLayer(10).hide();
+                                          layer.getSubLayer(11).show();
+
+                                          cdb.vis.Vis.addInfowindow(
+                                                           map, layer, ['cartodb_id'],
+                                                           {
+                                                               infowindowTemplate: $('#infowindow_template').html()
+                                                           });
+
+                                          var tooltip = new cdb.geo.ui.Tooltip({
+                                              layer: layer,
+                                              template: $('#tooltip_template').html(),
+                                              //template: '<p>{{pcode}},{{pcode_name}}</p>', mustaph :)
+                                              width: 200,
+                                              position: 'bottom|right'
+                                          });
+                                          $('.map_wrapper').append(tooltip.render().el);
+
+                                          //District
+                                          layer.getSubLayer(0).setInteraction(true);
+                                          layer.getSubLayer(0).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Cadastre';
+                                              var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n='" + data.k_code_n + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Cadastre
+                                          layer.getSubLayer(1).setInteraction(true);
+                                          layer.getSubLayer(1).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Cadastre';
+                                              var labvalue = '<p>Cadastre: ' + data.c_ref_name + '<br>District: ' + data.k_ref_name + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where cad_code='" + data.cad_code + "'";
+                                              FillDataTable(sqlquery);
+
+                                          });
+
+                                          //Localities
+                                          layer.getSubLayer(2).setInteraction(true);
+                                          layer.getSubLayer(2).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Locality';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Location Name: ' + data.location_name_en + '<br>Cadastre: ' + data.cas_name + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //ai_is
+                                          layer.getSubLayer(3).setInteraction(true);
+                                          layer.getSubLayer(3).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Informal Settlement';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>PCode Name: ' + data.pcode_name + '<br>Cadastre: ' + data.cadaster + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Schools
+                                          layer.getSubLayer(4).setInteraction(true);
+                                          layer.getSubLayer(4).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Schools';
+                                              var labvalue = '<p>CadCode: ' + data.school_name + '<br>ACS Code: ' + data.acs_code + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where caza='" + data.cadastral + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Social Development Center
+                                          layer.getSubLayer(5).setInteraction(true);
+                                          layer.getSubLayer(5).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Social Development Center';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '<br>Phone: ' + data.phone + '<br>Director Name: ' + data.director_name + '<br>Speciality: ' + data.specialtiy + '<br>Supported UNHCR: ' + data.supported_unhcr + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Secondary Health Center
+                                          layer.getSubLayer(6).setInteraction(true);
+                                          layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Secondary Health Center';
+                                              var labvalue = '<p>PCode: ' + data.p_code + '<br>Hospital Name: ' + data.name_of_hospital + " (" + data.name_arabic + ")" + '<br>Village: ' + data.village + '<br>Cadastre: ' + data.cadastre + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.p_code + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Collective Centers Sites
+                                          layer.getSubLayer(7).setInteraction(true);
+                                          layer.getSubLayer(7).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Collective Centers Sites';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Palestinian Camps in Lebanon
+                                          layer.getSubLayer(8).setInteraction(true);
+                                          layer.getSubLayer(8).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Palestinian Camps';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Camp Name: ' + data.camp + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Border Crossing Points
+                                          layer.getSubLayer(9).setInteraction(true);
+                                          layer.getSubLayer(9).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Border Crossing Points';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Cadastre: ' + data.acsname + '<br>Common Name: ' + data.common_name + '<br>Name: ' + data.name + '+ <br>Type: ' + data.type + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Public Health Center
+                                          layer.getSubLayer(10).setInteraction(true);
+                                          layer.getSubLayer(10).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Public Health Center';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Name: ' + data.centers_name_english + ' (' + data.centers_name_arabic + ') ' + '<br>Address: ' + data.address_english + ' (' + data.centers_name_arabic + ') ' + '<br>Description of Support: ' + data.description_of_support +
+                                                  +'<br>Ownership: ' + data.phc_ownership + '<br>Phone: ' + data.phone + '<br>Type of Facility: ' + data.type_of_health_facility + '<br>Supporting Partner: ' + data.health_partner_supporting_the_facility + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+
+                                          //Municipality
+                                          layer.getSubLayer(11).setInteraction(true);
+                                          layer.getSubLayer(11).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Municipality';
+                                              var labvalue = '<p>PCode: ' + data.municipality_name_en + '<br>Name: ' + data.municipality_name_en + " (" + data.municipality_name_ar + " )" + '</p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              //Fill DataTable
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where municipality_id='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Hiding and showing layers
+                                          $("#district").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(0).show();
+                                              } else {
+                                                  layer.getSubLayer(0).hide();
+                                              }
+                                          });
+
+                                          $("#cadastre").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(1).show();
+                                              } else {
+                                                  layer.getSubLayer(1).hide();
+                                              }
+                                          });
+                                          $("#localities").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(2).show();
+                                              } else {
+                                                  layer.getSubLayer(2).hide();
+                                              }
+                                          });
+
+                                          $("#ai_is").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(3).show();
+                                              } else {
+                                                  layer.getSubLayer(3).hide();
+                                              }
+                                          });
+
+
+                                          $("#ai_schools").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(4).show();
+                                              } else {
+                                                  layer.getSubLayer(4).hide();
+                                              }
+                                          });
+
+                                          $("#sdc").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(5).show();
+                                              } else {
+                                                  layer.getSubLayer(5).hide();
+                                              }
+                                          });
+
+                                          $("#shc").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(6).show();
+                                              } else {
+                                                  layer.getSubLayer(6).hide();
+                                              }
+                                          });
+
+                                          $("#ccs").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(7).show();
+                                              } else {
+                                                  layer.getSubLayer(7).hide();
+                                              }
+                                          });
+
+                                          $("#pc").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(8).show();
+                                              } else {
+                                                  layer.getSubLayer(8).hide();
+                                              }
+                                          });
+
+
+                                          $("#bcp").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(9).show();
+                                              } else {
+                                                  layer.getSubLayer(9).hide();
+                                              }
+                                          });
+
+                                          $("#phc").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(10).show();
+                                              } else {
+                                                  layer.getSubLayer(10).hide();
+                                              }
+                                          });
+
+                                          $("#municipality").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(11).show();
+                                              } else {
+                                                  layer.getSubLayer(11).hide();
+                                              }
+                                          });
+
+                                          $("#all").click(function () {
+                                              $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(0).show();
+                                                  layer.getSubLayer(1).show();
+                                                  layer.getSubLayer(2).show();
+                                                  layer.getSubLayer(3).show();
+                                                  layer.getSubLayer(4).show();
+                                                  layer.getSubLayer(5).show();
+                                                  layer.getSubLayer(6).show();
+                                                  layer.getSubLayer(7).show();
+                                                  layer.getSubLayer(8).show();
+                                                  layer.getSubLayer(9).show();
+                                                  layer.getSubLayer(10).show();
+                                                  layer.getSubLayer(11).show();
+                                                  //Add the check of input
+                                              } else {
+                                                  layer.getSubLayer(0).hide();
+                                                  layer.getSubLayer(1).hide();
+                                                  layer.getSubLayer(2).hide();
+                                                  layer.getSubLayer(3).hide();
+                                                  layer.getSubLayer(4).hide();
+                                                  layer.getSubLayer(5).hide();
+                                                  layer.getSubLayer(6).hide();
+                                                  layer.getSubLayer(7).hide();
+                                                  layer.getSubLayer(8).hide();
+                                                  layer.getSubLayer(9).hide();
+                                                  layer.getSubLayer(10).hide();
+                                                  layer.getSubLayer(11).hide();
+                                              }
+                                          });
+
+                                          $('#btnSearch').click(function () {
+                                              if (Boolean(txtSearch.value)) {
+                                                  var sqlDistrict = "SELECT * FROM lebanon_admin2  where UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_a) like upper('%" + txtSearch.value + "%') or UPPER(governorat) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(unhcr_aop) like upper('%" + txtSearch.value + "%')";
+
+                                                  var sqlCadastre = "SELECT * FROM lebanon_admin3 where UPPER(acs_name) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_ar) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(cad_name) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(k_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n ) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name ) like upper('%" + txtSearch.value + "%')";
+
+                                                  var sqlLocalities = "SELECT * FROM ai_localities WHERE UPPER(cas_code_un) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cas_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE UPPER ('%" + txtSearch.value + "%')  OR UPPER (governorate) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (governorate_ar) LIKE UPPER ('%" + txtSearch.value + "%') ";
+                                                  +" OR UPPER (location_name_arabic) LIKE ('%" + txtSearch.value + "%') OR UPPER (location_name_en) LIKE ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation_ar) LIKE UPPER (%" + txtSearch.value + "%) OR UPPER (unhcr_location ) LIKE UPPER ('%" + txtSearch.value + "%')";
+
+                                                  var sqlschools = "SELECT * FROM ai_schools where UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(caza) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(school_name) like upper('%" + txtSearch.value + "%') or UPPER(school_name___arabic) like upper('%" + txtSearch.value + "%')";
+                                                  var sqlsdc = " SELECT * FROM ai_sdc where UPPER(activities) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(center_type) like upper('%" + txtSearch.value + "%') or UPPER(director_name) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') "
+                                                 + " or UPPER(functioning_as_cc) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(health) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%') or UPPER(protection) like upper('%" + txtSearch.value + "%')"
+                                                 + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(specialtiy) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(type_code) like upper('%" + txtSearch.value + "%')";
+
+                                                  var sqlshc = "SELECT * FROM ai_shc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadastre) like upper('%" + txtSearch.value + "%') or UPPER(condition_arabic) like upper('%" + txtSearch.value + "%') or UPPER(condition_english) like upper('%" + txtSearch.value + "%') "
+                                                  + " or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(name_arabic) like upper('%" + txtSearch.value + "%') or UPPER(name_of_hospital) like upper('%" + txtSearch.value + "%') or UPPER(p_code) like upper('%" + txtSearch.value + "%') or UPPER(phone_number) like upper('%" + txtSearch.value + "%')"
+                                                  + " or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(village) like upper('%" + txtSearch.value + "%')  ";
+
+                                                  var sqlccs = "SELECT * FROM table_1_collective_centers_sites where UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') "
+                                                + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') ";
+
+                                                  var sqlpc = "SELECT * FROM ai_palestinian_camps_in_lebanon where UPPER(camp) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%')";
+
+                                                  var sqlbcp = "SELECT * FROM ai_border_crossing where UPPER(acsname) like upper('%" + txtSearch.value + "%') or UPPER(common_name) like upper('%" + txtSearch.value + "%') or UPPER(name) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') ";
+
+                                                  var sqlphc = "SELECT * FROM ai_phc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadaster) like upper('%" + txtSearch.value + "%') or UPPER(cadaster_ar) like upper('%" + txtSearch.value + "%') or UPPER(centers_name_arabic) like upper('%" + txtSearch.value + "%') "
+                                                + " or UPPER(description_of_support) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_ar) like upper('%" + txtSearch.value + "%') or UPPER(donor) like upper('%" + txtSearch.value + "%') or UPPER(focal_point) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%')"
+                                                 + " or UPPER(governorate_ar) like upper('%" + txtSearch.value + "%') or UPPER(health_partner_supporting_the_facility) like upper('%" + txtSearch.value + "%') or UPPER(most_vulnerable_localities) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phc_ownership) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%')"
+                                                + "  or UPPER(support_secured_till) like upper('%" + txtSearch.value + "%') or UPPER(type_of_health_facility) like upper('%" + txtSearch.value + "%')";
+
+
+                                                  var sqlqueryAI = "SELECT * FROM responsedata where UPPER(cad_code) like upper('%25" + txtSearch.value + "%25') or UPPER(cadastral) like upper('%25" + txtSearch.value + "%25') or UPPER(district) like upper('%25" + txtSearch.value + "%25') or UPPER(district_ai) like upper('%25" + txtSearch.value + "%25') "
+                                                  + " or UPPER(fact) like upper('%25" + txtSearch.value + "%25') or UPPER(funded_by) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate_ai) like upper('%25" + txtSearch.value + "%25') or UPPER(k_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(m_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(municipality_id) like upper('%25" + txtSearch.value + "%25') "
+                                                  + " or UPPER(partner_name) like upper('%25" + txtSearch.value + "%25') or UPPER(pcode) like upper('%25" + txtSearch.value + "%25') or UPPER(sector) like upper('%25" + txtSearch.value + "%25') or UPPER(site_name) like upper('%25" + txtSearch.value + "%25') or UPPER(type) like upper('%25" + txtSearch.value + "%25') or UPPER(type_code) like upper('%25" + txtSearch.value + "%25')";
+
+                                                  var sqlqueryIS = "SELECT * FROM ai_is WHERE UPPER (basic_assistance) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cadaster) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (child_protection) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE  UPPER ('%" + txtSearch.value + "%') OR UPPER (education)  LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER(governorate) LIKE  UPPER ('%" + txtSearch.value + "%') "
+                                                  + " OR UPPER (health) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (local_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (notes) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode_name) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (protection) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter) LIKE UPPER('%" + txtSearch.value + "%')"
+                                                  + " OR UPPER (shelter_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter_type) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (site_flodded_last_winter) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (status) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (type_of_water_source) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (updated_by) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (wash) LIKE UPPER('%" + txtSearch.value + "%') "
+                                                  + " OR UPPER (wash_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') ";
+
+                                                  var sqlmunicipality = "SELECT * FROM ai_municipality_v1 where UPPER(municipality_name_en) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(municipality_name_ar) like upper('%" + txtSearch.value + "%')";
+
+                                              }
+                                              else {
+                                                  sqlDistrict = "SELECT * FROM lebanon_admin2";
+                                                  sqlCadastre = "SELECT * FROM lebanon_admin3";
+                                                  sqlLocalities = "SELECT * FROM ai_localities";
+                                                  sqlqueryAI = "select *  from responsedata";
+                                                  sqlqueryIS = "select *  from ai_is";
+                                                  sqlschools = 'SELECT * FROM ai_schools';
+                                                  sqlsdc = "SELECT * FROM ai_sdc";
+                                                  sqlshc = "SELECT * FROM ai_shc";
+                                                  sqlccs = " SELECT * FROM table_1_collective_centers_sites ";
+                                                  sqlpc = "SELECT * FROM ai_palestinian_camps_in_lebanon";
+                                                  sqlbcp = "SELECT * FROM ai_border_crossing";
+                                                  sqlphc = "SELECT * FROM ai_phc";
+                                                  sqlmunicipality = "SELECT * FROM ai_municipality_v1 ";
+                                              };
+
+                                              //Filing the map with the retrieved data from SQL queries
+                                              layer.getSubLayer(0).setSQL(sqlDistrict);
+                                              layer.getSubLayer(1).setSQL(sqlCadastre);
+                                              layer.getSubLayer(2).setSQL(sqlLocalities);
+                                              layer.getSubLayer(3).setSQL(sqlqueryIS);
+                                              layer.getSubLayer(4).setSQL(sqlschools);
+                                              layer.getSubLayer(5).setSQL(sqlsdc);
+                                              layer.getSubLayer(6).setSQL(sqlshc);
+                                              layer.getSubLayer(7).setSQL(sqlccs);
+                                              layer.getSubLayer(8).setSQL(sqlpc);
+                                              layer.getSubLayer(9).setSQL(sqlbcp);
+                                              layer.getSubLayer(10).setSQL(sqlphc);
+                                              layer.getSubLayer(11).setSQL(sqlmunicipality);
+
+                                              //Filling data in DataTabale
+
+                                              link = "https://unhcr.carto.com/api/v2/sql?q=" + sqlqueryAI;
+                                              FillDataTable(link);
+                                              var sql = new cartodb.SQL({ user: 'unhcr' });
+                                              sql.getBounds(sqlmunicipality).done(function (bounds) {
+                                                  var southWest = L.latLng(bounds[0]);
+                                                  var northEast = L.latLng(bounds[1]);
+                                                  gbounds = new google.maps.LatLngBounds();
+                                                  loc = new google.maps.LatLng(southWest);
+                                                  gbounds.extend(southWest);
+                                                  gbounds.extend(northEast);
+                                                  map.fitBounds(gbounds);
+                                                  map.panToBounds(gbounds);
+                                                  map.setZoom(10);
+                                              });
+                                          });
+
+
+
+
+                                      });
+
+                                    //Enter button to trigger the search
+                                    $("#txtSearch").keyup(function (event) {
+                                        if (event.keyCode === 13) {
+                                            $("#btnSearch").click();
+                                        }
+                                    });
+
+
+                                    function addAllColumnHeaders(myList) {
+                                        var columnSet = [];
+                                        var headerTr$ = $('<tr/>');
+
+                                        for (var i = 0; i < myList.length; i++) {
+                                            var rowHash = myList[i];
+                                            for (var key in rowHash) {
+                                                if ($.inArray(key, columnSet) == -1) {
+                                                    columnSet.push(key);
+                                                    headerTr$.append($('<th/>').html(key));
+                                                }
+                                            }
+                                        }
+                                        $("#dtTable").append(headerTr$);
+                                        return columnSet;
+                                    }
+
+                                    function FillDataTable(link) {
+                                        $.getJSON(link, function (ResultData) {
+                                            $('#dtTable').DataTable({
+                                                data: ResultData.rows,
+                                                //columnDefs: [{
+                                                //    "targets": -1,
+                                                //    "data": null,
+                                                //    "defaultContent": "<button>View !</button>",
+                                                //    "searchable": false,
+                                                //    "sortable": false
+                                                //}],
+                                                data: ResultData.rows,
+                                                columns: [
+                                                    { data: 'sector', title: "Sector", "width": "12%" },
+                                                    { data: 'pcode', title: "PCode", "width": "10%" },
+                                                    { data: 'type', title: "Type", "width": "15%" },
+                                                    { data: 'funded_by', title: "Funded By", "width": "10%" },
+                                                    {
+                                                        data: 'date', title: "Date", "width": "10%",
+                                                        render: function (d) {
+                                                            return moment(d).format("DD MMM  YYYY");
+                                                        }
+                                                    },
+                                                    { data: 'partner_name', title: "Partner Name", "width": "10%" },
+                                                    { data: 'fact', title: "Fact" },
+                                                    { data: 'value', title: "Value", "width": "6%" },
+                                                    //{ data: '', title: "", "width": "6%" }
+                                                ],
+                                                dom: 'Bfrtip',
+                                                buttons: [
+                                                    'copyHtml5',
+                                                    'excelHtml5',
+                                                    'csvHtml5',
+                                                    'pdfHtml5'
+                                                ],
+                                                //rowGroup: {
+                                                //    dataSrc: 'sector'
+                                                //},
+                                                searching: true,
+                                                stripe: true,
+                                                hover: true,
+                                                "bDestroy": true,
+
+                                                //"footerCallback": function (row, data, start, end, display) {
+                                                //    var api = this.api(), data;
+                                                //    // Remove the formatting to get integer data for summation
+                                                //    var intVal = function (i) {
+                                                //        return typeof i === 'string' ?
+                                                //            i.replace(/[\$,]/g, '') * 1 :
+                                                //            typeof i === 'number' ?
+                                                //            i : 0;
+                                                //    };
+
+                                                //    // Total over all pages
+                                                //    total = api
+                                                //        .column(6)
+                                                //        .data()
+                                                //        .reduce(function (a, b) {
+                                                //            return intVal(a) + intVal(b);
+                                                //        }, 0);
+                                                //    // Total over this page
+                                                //    pageTotal = api
+                                                //        .column(6, { page: 'current' })
+                                                //        .data()
+                                                //        .reduce(function (a, b) {
+                                                //            return intVal(a) + intVal(b);
+                                                //        }, 0);
+                                                //    // Update footer
+                                                //    $(api.column(6).footer()).html(
+                                                //        pageTotal
+                                                //    );
+
+                                                //    // $(api.column(6).footer()).html(
+                                                //    //    pageTotal + ' (' + total + ' out of)'
+                                                //    //);
+                                                //}
+ 
+                                            });
+                                             
+                                        });
+                                       
+                                    }
+
+                                    //function ShowProgress() {
+                                    //    setTimeout(function () {
+                                    //        var modal = $('<div />');
+                                    //        modal.addClass("modal");
+                                    //        $('body').append(modal);
+                                    //        var loading = $(".loading");
+                                    //        loading.show();
+                                    //        var top = Math.max($(window).height() / 2 - loading[0].offsetHeight / 2, 0);
+                                    //        var left = Math.max($(window).width() / 2 - loading[0].offsetWidth / 2, 0);
+                                    //        loading.css({ top: top, left: left });
+                                    //    }, 200);
+                                    //}
+                                    //$('form').live("submit", function () {
+                                    //    ShowProgress();
+                                    //});
+                                }
+                                window.onload = main;
+                            </script>
+
+
+                        </div>
+                    </section>
+
+                    <!--DataTables & Graphs-->
+                    <section class="col-lg-12 connectedSortable">
+                        <!-- Map box -->
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <!-- tools box -->
+                                <div class="pull-right box-tools">
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <h3 class="box-title">
+                                    <img src="image/logo-activityinfo.png" class="img-circle">
+                                    Response Information
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                                <table id="dtTable" class="table table-bordered table-striped" cellspacing="0" width="100%">
+                                    <!--<tfoot>
+                                        <tr>
+                                            <th colspan="6" style="text-align:right">Total:</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>-->
+                                </table>
+
+                            </div>
+
+                            <!-- /.box-body-->
+                            <div class="box-footer no-border">
+                                <div class="row">
+
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                        <!-- /.box -->
+                    </section>
+                    <!-- right col -->
+                </div>
+                <!-- /.row (main row) -->
+            </section>
+            <!-- /.content -->
+
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.2
+            </div>
+            <strong>2018 <a href="http://data.unhcr.org/lebanon/">Information Management Unit, Inter-Agency Coordination</a>.</strong>
+        </footer>
+        <!--<!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 2.2.3 -->
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+
+    <!--Google Library-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQSWbwVQ2d0OwDj7lEr3i8BP6wI_pw7rI"></script>
+
+
+    <!-- CartoDB  -->
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.13/cartodb.js"></script>
+
+    <!--DataTables-->
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/DataTables-1.10.16/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/AutoFill-2.2.2/css/autoFill.bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/Buttons-1.5.1/css/buttons.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/ColReorder-1.4.1/css/colReorder.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/FixedColumns-3.2.4/css/fixedColumns.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/FixedHeader-3.1.3/css/fixedHeader.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/KeyTable-2.3.2/css/keyTable.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/Responsive-2.2.1/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/RowGroup-1.0.2/css/rowGroup.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/RowReorder-1.2.3/css/rowReorder.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/Scroller-1.4.4/css/scroller.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/datatables/Select-1.2.5/css/select.bootstrap.min.css" />
+
+    <script type="text/javascript" src="plugins/datatables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/pdfmake-0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/pdfmake-0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="plugins/datatables/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/DataTables-1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/AutoFill-2.2.2/js/dataTables.autoFill.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/AutoFill-2.2.2/js/autoFill.bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/ColReorder-1.4.1/js/dataTables.colReorder.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/FixedColumns-3.2.4/js/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/FixedHeader-3.1.3/js/dataTables.fixedHeader.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/KeyTable-2.3.2/js/dataTables.keyTable.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Responsive-2.2.1/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Responsive-2.2.1/js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/RowGroup-1.0.2/js/dataTables.rowGroup.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/RowReorder-1.2.3/js/dataTables.rowReorder.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Scroller-1.4.4/js/dataTables.scroller.min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/Select-1.2.5/js/dataTables.select.min.js"></script>
+
+    <!--Moment JS-->
+    <script type="text/javascript" src="plugins/moment/moment.min.js"></script>
+
+
+    <!--Toggle for Layers-->
+    <script type="text/javascript">
+        $(function () {
+
+            $('#slide-submenu').on('click', function () {
+                $(this).closest('.list-group').fadeOut('slide', function () {
+                    $('.mini-submenu').fadeIn();
+                });
+
+            });
+
+            $('.mini-submenu').on('click', function () {
+                $(this).next('.list-group').toggle('slide');
+                $('.mini-submenu').hide();
+            })
+        })
+
+    </script>
+
+    <!--HighCharts-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</body>
+</html>
