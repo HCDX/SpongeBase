@@ -85,6 +85,10 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        #chart {
+            width: 100%;
+        }
     </style>
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -160,7 +164,7 @@
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <!-- Sidebar user panel -->
-                <div class="user-panel">
+                <!--<div class="user-panel">
                     <div class="pull-left image">
                         <img src="image/sponge.jpg" class="img-rounded" alt="User Image">
                     </div>
@@ -168,7 +172,7 @@
                         <p> Response Mapping</p>
                     </div>
 
-                </div>
+                </div>-->
                 <div class="infobox">
                     <div class="box-header with-border">
                         <h3 class="box-title"><label id="lblTitle"></label></h3>
@@ -327,6 +331,10 @@
                                                 </li>
 
                                                 <li class="layer-grey">
+                                                    <input type="checkbox" class="checkBoxClass" id="governorate" name="layer">
+                                                    <label for="governorate">Governorate</label>
+                                                </li>
+                                                <li class="layer-grey">
                                                     <input type="checkbox" class="checkBoxClass" id="district" name="layer">
                                                     <label for="district">District</label>
                                                 </li>
@@ -394,7 +402,7 @@
                                                     box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
                                                     background: #fff;
                                                     border: 1px solid #999;
-                                                    /*width: 210px;*/
+                                                    width: 100%;
                                                     overflow: hidden;
                                                     border-radius: 2px;
                                                     padding: 10px;
@@ -581,7 +589,7 @@
                                     z-index: 999;
                                 }
                             </style>-->
- 
+
 
                             <script>
 
@@ -597,9 +605,26 @@
                                         gestureHandling: 'greedy'
                                     };
                                     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
+                                    var Table;
                                     // Layers definition
                                     var layers = {
+
+                                        'governorate': {
+                                            sql: 'SELECT * FROM lebanon_admin1',
+                                            cartocss: '#lebanon_admin1 {polygon-opacity: 0.5;line-color: #FFF;line-width: 0.5;line-opacity: 1;}' +
+                                                        '#lebanon_admin2[m_ref_name="Akkar"] {polygon-fill: #A6CEE3;}' +
+                                                        '#lebanon_admin2[m_ref_name="Baalbek-El Hermel"] {polygon-fill: #1F78B4;}' +
+                                                        '#lebanon_admin2[m_ref_name="Beirut"] {polygon-fill: #B2DF8A;}' +
+                                                        '#lebanon_admin2[m_ref_name="Bekaa"] {polygon-fill: #33A02C;}' +
+                                                        '#lebanon_admin2[m_ref_name="El Nabatieh"] {polygon-fill: #FB9A99;}' +
+                                                        '#lebanon_admin2[m_ref_name="Mount Lebanon"] {polygon-fill: #E31A1C;}' +
+                                                        '#lebanon_admin2[m_ref_name="North"] {polygon-fill: #FDBF6F;}' +
+                                                        '#lebanon_admin2[m_ref_name="South"] {polygon-fill: #FF7F00;}',
+                                            interactivity: 'cartodb_id, the_geom, gov_new, governorat, m_code_n, m_name_cp, m_ref_name, moh_cod, moh_na_i ',
+                                            id: 'governorate',
+                                            setInteraction: true
+                                        },
+
                                         //Admin2
                                         'district': {
                                             sql: 'SELECT * FROM lebanon_admin2',
@@ -613,7 +638,8 @@
                                                         '#lebanon_admin2[m_ref_name="North"] {polygon-fill: #FDBF6F;}' +
                                                         '#lebanon_admin2[m_ref_name="South"] {polygon-fill: #FF7F00;}',
                                             interactivity: 'cartodb_id, the_geom, district, district_a, governorat, k_code_n, m_code_n, m_ref_name, unhcr_aop',
-                                            id: 'district'
+                                            id: 'district',
+                                            setInteraction: true
                                         },
                                         'cadastre': {
                                             sql: 'SELECT * FROM lebanon_admin3',
@@ -713,18 +739,19 @@
                                           layer.setInteraction(true);
 
                                           //Creation of the layer for the map
-                                          layer.createSubLayer(layers["district"]); //0
-                                          layer.createSubLayer(layers["cadastre"]); //1
-                                          layer.createSubLayer(layers["localities"]); //2
-                                          layer.createSubLayer(layers["ai_is"]); //3
-                                          layer.createSubLayer(layers["ai_schools"]); //4
-                                          layer.createSubLayer(layers["sdc"]); //5
-                                          layer.createSubLayer(layers["shc"]); //6
-                                          layer.createSubLayer(layers["ccs"]); //7
-                                          layer.createSubLayer(layers["pc"]); //8
-                                          layer.createSubLayer(layers["bcp"]); //9
-                                          layer.createSubLayer(layers["phc"]); //10
-                                          layer.createSubLayer(layers["municipality"]); //11
+                                          layer.createSubLayer(layers["governorate"]);//0
+                                          layer.createSubLayer(layers["district"]); //1
+                                          layer.createSubLayer(layers["cadastre"]); //2
+                                          layer.createSubLayer(layers["localities"]); //3
+                                          layer.createSubLayer(layers["ai_is"]); //4
+                                          layer.createSubLayer(layers["ai_schools"]); //5
+                                          layer.createSubLayer(layers["sdc"]); //6
+                                          layer.createSubLayer(layers["shc"]); //7
+                                          layer.createSubLayer(layers["ccs"]); //8
+                                          layer.createSubLayer(layers["pc"]); //9
+                                          layer.createSubLayer(layers["bcp"]); //10
+                                          layer.createSubLayer(layers["phc"]); //11
+                                          layer.createSubLayer(layers["municipality"]); //12
 
                                           //Initializing
                                           layer.getSubLayer(0).hide();
@@ -738,7 +765,8 @@
                                           layer.getSubLayer(8).hide();
                                           layer.getSubLayer(9).hide();
                                           layer.getSubLayer(10).hide();
-                                          layer.getSubLayer(11).show();
+                                          layer.getSubLayer(11).hide();
+                                          layer.getSubLayer(12).show();
 
                                           cdb.vis.Vis.addInfowindow(
                                                            map, layer, ['cartodb_id'],
@@ -755,19 +783,32 @@
                                           });
                                           $('.map_wrapper').append(tooltip.render().el);
 
-                                          //District
+                                          //Governorate
                                           layer.getSubLayer(0).setInteraction(true);
                                           layer.getSubLayer(0).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              
                                               document.getElementById("lblTitle").innerHTML = 'Cadastre';
                                               var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
+                                              //cartodb_id, the_geom, gov_new, governorat, m_code_n, m_name_cp, m_ref_name, moh_cod, moh_na_i
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n='" + data.k_code_n + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //District
+                                          layer.getSubLayer(1).setInteraction(true);
+                                          layer.getSubLayer(1).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Cadastre';
+                                              var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
+
                                               document.getElementById("lblText").innerHTML = labvalue;
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n='" + data.k_code_n + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Cadastre
-                                          layer.getSubLayer(1).setInteraction(true);
-                                          layer.getSubLayer(1).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(2).setInteraction(true);
+                                          layer.getSubLayer(2).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Cadastre';
                                               var labvalue = '<p>Cadastre: ' + data.c_ref_name + '<br>District: ' + data.k_ref_name + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -776,9 +817,11 @@
 
                                           });
 
+
+
                                           //Localities
-                                          layer.getSubLayer(2).setInteraction(true);
-                                          layer.getSubLayer(2).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(3).setInteraction(true);
+                                          layer.getSubLayer(3).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Locality';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Location Name: ' + data.location_name_en + '<br>Cadastre: ' + data.cas_name + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -788,8 +831,8 @@
                                           });
 
                                           //ai_is
-                                          layer.getSubLayer(3).setInteraction(true);
-                                          layer.getSubLayer(3).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(4).setInteraction(true);
+                                          layer.getSubLayer(4).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Informal Settlement';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>PCode Name: ' + data.pcode_name + '<br>Cadastre: ' + data.cadaster + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -799,8 +842,8 @@
                                           });
 
                                           //Schools
-                                          layer.getSubLayer(4).setInteraction(true);
-                                          layer.getSubLayer(4).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(5).setInteraction(true);
+                                          layer.getSubLayer(5).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Schools';
                                               var labvalue = '<p>CadCode: ' + data.school_name + '<br>ACS Code: ' + data.acs_code + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -810,8 +853,8 @@
                                           });
 
                                           //Social Development Center
-                                          layer.getSubLayer(5).setInteraction(true);
-                                          layer.getSubLayer(5).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(6).setInteraction(true);
+                                          layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Social Development Center';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '<br>Phone: ' + data.phone + '<br>Director Name: ' + data.director_name + '<br>Speciality: ' + data.specialtiy + '<br>Supported UNHCR: ' + data.supported_unhcr + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -821,8 +864,8 @@
                                           });
 
                                           //Secondary Health Center
-                                          layer.getSubLayer(6).setInteraction(true);
-                                          layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(7).setInteraction(true);
+                                          layer.getSubLayer(7).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Secondary Health Center';
                                               var labvalue = '<p>PCode: ' + data.p_code + '<br>Hospital Name: ' + data.name_of_hospital + " (" + data.name_arabic + ")" + '<br>Village: ' + data.village + '<br>Cadastre: ' + data.cadastre + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -832,8 +875,8 @@
                                           });
 
                                           //Collective Centers Sites
-                                          layer.getSubLayer(7).setInteraction(true);
-                                          layer.getSubLayer(7).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(8).setInteraction(true);
+                                          layer.getSubLayer(8).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Collective Centers Sites';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -843,8 +886,8 @@
                                           });
 
                                           //Palestinian Camps in Lebanon
-                                          layer.getSubLayer(8).setInteraction(true);
-                                          layer.getSubLayer(8).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(9).setInteraction(true);
+                                          layer.getSubLayer(9).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Palestinian Camps';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Camp Name: ' + data.camp + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -854,8 +897,8 @@
                                           });
 
                                           //Border Crossing Points
-                                          layer.getSubLayer(9).setInteraction(true);
-                                          layer.getSubLayer(9).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(10).setInteraction(true);
+                                          layer.getSubLayer(10).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Border Crossing Points';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Cadastre: ' + data.acsname + '<br>Common Name: ' + data.common_name + '<br>Name: ' + data.name + '+ <br>Type: ' + data.type + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -865,8 +908,8 @@
                                           });
 
                                           //Public Health Center
-                                          layer.getSubLayer(10).setInteraction(true);
-                                          layer.getSubLayer(10).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(11).setInteraction(true);
+                                          layer.getSubLayer(11).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Public Health Center';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Name: ' + data.centers_name_english + ' (' + data.centers_name_arabic + ') ' + '<br>Address: ' + data.address_english + ' (' + data.centers_name_arabic + ') ' + '<br>Description of Support: ' + data.description_of_support +
                                                   +'<br>Ownership: ' + data.phc_ownership + '<br>Phone: ' + data.phone + '<br>Type of Facility: ' + data.type_of_health_facility + '<br>Supporting Partner: ' + data.health_partner_supporting_the_facility + '</p>';
@@ -878,8 +921,8 @@
 
 
                                           //Municipality
-                                          layer.getSubLayer(11).setInteraction(true);
-                                          layer.getSubLayer(11).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(12).setInteraction(true);
+                                          layer.getSubLayer(12).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Municipality';
                                               var labvalue = '<p>PCode: ' + data.municipality_name_en + '<br>Name: ' + data.municipality_name_en + " (" + data.municipality_name_ar + " )" + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
@@ -889,7 +932,7 @@
                                           });
 
                                           //Hiding and showing layers
-                                          $("#district").click(function () {
+                                          $("#governorate").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(0).show();
                                               } else {
@@ -897,22 +940,22 @@
                                               }
                                           });
 
-                                          $("#cadastre").click(function () {
+                                          $("#district").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(1).show();
                                               } else {
                                                   layer.getSubLayer(1).hide();
                                               }
                                           });
-                                          $("#localities").click(function () {
+
+                                          $("#cadastre").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(2).show();
                                               } else {
                                                   layer.getSubLayer(2).hide();
                                               }
                                           });
-
-                                          $("#ai_is").click(function () {
+                                          $("#localities").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(3).show();
                                               } else {
@@ -920,8 +963,7 @@
                                               }
                                           });
 
-
-                                          $("#ai_schools").click(function () {
+                                          $("#ai_is").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(4).show();
                                               } else {
@@ -929,7 +971,8 @@
                                               }
                                           });
 
-                                          $("#sdc").click(function () {
+
+                                          $("#ai_schools").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(5).show();
                                               } else {
@@ -937,7 +980,7 @@
                                               }
                                           });
 
-                                          $("#shc").click(function () {
+                                          $("#sdc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(6).show();
                                               } else {
@@ -945,7 +988,7 @@
                                               }
                                           });
 
-                                          $("#ccs").click(function () {
+                                          $("#shc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(7).show();
                                               } else {
@@ -953,7 +996,7 @@
                                               }
                                           });
 
-                                          $("#pc").click(function () {
+                                          $("#ccs").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(8).show();
                                               } else {
@@ -961,8 +1004,7 @@
                                               }
                                           });
 
-
-                                          $("#bcp").click(function () {
+                                          $("#pc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(9).show();
                                               } else {
@@ -970,7 +1012,8 @@
                                               }
                                           });
 
-                                          $("#phc").click(function () {
+
+                                          $("#bcp").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(10).show();
                                               } else {
@@ -978,11 +1021,19 @@
                                               }
                                           });
 
-                                          $("#municipality").click(function () {
+                                          $("#phc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(11).show();
                                               } else {
                                                   layer.getSubLayer(11).hide();
+                                              }
+                                          });
+
+                                          $("#municipality").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(12).show();
+                                              } else {
+                                                  layer.getSubLayer(12).hide();
                                               }
                                           });
 
@@ -1001,6 +1052,7 @@
                                                   layer.getSubLayer(9).show();
                                                   layer.getSubLayer(10).show();
                                                   layer.getSubLayer(11).show();
+                                                  layer.getSubLayer(12).show();
                                                   //Add the check of input
                                               } else {
                                                   layer.getSubLayer(0).hide();
@@ -1015,6 +1067,7 @@
                                                   layer.getSubLayer(9).hide();
                                                   layer.getSubLayer(10).hide();
                                                   layer.getSubLayer(11).hide();
+                                                  layer.getSubLayer(12).hide();
                                               }
                                           });
 
@@ -1140,8 +1193,11 @@
                                     }
 
                                     function FillDataTable(link) {
+
                                         $.getJSON(link, function (ResultData) {
-                                            $('#dtTable').DataTable({
+                                            let draw = false;
+
+                                            const table = $('#dtTable').DataTable({
                                                 data: ResultData.rows,
                                                 //columnDefs: [{
                                                 //    "targets": -1,
@@ -1150,7 +1206,7 @@
                                                 //    "searchable": false,
                                                 //    "sortable": false
                                                 //}],
-                                                data: ResultData.rows,
+
                                                 columns: [
                                                     { data: 'sector', title: "Sector", "width": "12%" },
                                                     { data: 'pcode', title: "PCode", "width": "10%" },
@@ -1181,6 +1237,7 @@
                                                 stripe: true,
                                                 hover: true,
                                                 "bDestroy": true,
+
 
                                                 //"footerCallback": function (row, data, start, end, display) {
                                                 //    var api = this.api(), data;
@@ -1215,28 +1272,136 @@
                                                 //    //    pageTotal + ' (' + total + ' out of)'
                                                 //    //);
                                                 //}
- 
-                                            });
-                                             
-                                        });
-                                       
-                                    }
 
-                                    //function ShowProgress() {
-                                    //    setTimeout(function () {
-                                    //        var modal = $('<div />');
-                                    //        modal.addClass("modal");
-                                    //        $('body').append(modal);
-                                    //        var loading = $(".loading");
-                                    //        loading.show();
-                                    //        var top = Math.max($(window).height() / 2 - loading[0].offsetHeight / 2, 0);
-                                    //        var left = Math.max($(window).width() / 2 - loading[0].offsetWidth / 2, 0);
-                                    //        loading.css({ top: top, left: left });
-                                    //    }, 200);
-                                    //}
-                                    //$('form').live("submit", function () {
-                                    //    ShowProgress();
-                                    //});
+                                            });
+
+                                            const tableData = getTableData(table);
+                                            // create Highcharts
+                                            createHighcharts(tableData);
+                                            // table events
+                                            setTableEvents(table);
+                                            function getTableData(table) {
+                                                const dataArray = [],
+                                                  sectorArray = [],
+                                                  populationArray = [],
+                                                  densityArray = [];
+
+                                                // loop table rows
+                                                table.rows({ search: "applied" }).every(function () {
+                                                    const data = this.data();
+                                                    sectorArray.push(data['sector']);
+                                                    //populationArray.push(parseInt(data['value']));
+                                                    //densityArray.push(parseInt(data['funded_by']));
+                                                });
+
+                                                // store all data in dataArray
+                                                //dataArray.push(sectorArray, populationArray, densityArray);
+
+
+                                                var result = foo(sectorArray);
+
+                                                dataArray.push(result[0], result[1]);
+                                                return dataArray;
+                                               
+                                               
+                                            }
+
+                                            function foo(arr) {
+                                                var a = [], b = [], prev;
+
+                                                arr.sort();
+                                                for (var i = 0; i < arr.length; i++) {
+                                                    if (arr[i] !== prev) {
+                                                        a.push(arr[i]);
+                                                        b.push(1);
+                                                    } else {
+                                                        b[b.length - 1]++;
+                                                    }
+                                                    prev = arr[i];
+                                                }
+
+                                                return [a, b];
+                                            }
+
+
+                                            function createHighcharts(data) {
+                                                Highcharts.setOptions({
+                                                    lang: {
+                                                        thousandsSep: ","
+                                                    }
+                                                });
+
+                                                Highcharts.chart("chart", {
+                                                    title: {
+                                                        text: "Count of Activities by Sectors"
+                                                    },
+                                                    subtitle: {
+                                                        text: ""
+                                                    },
+                                                    xAxis: [
+                                                      {
+                                                          categories: data[0],
+                                                          labels: {
+                                                              rotation: 0
+                                                          }
+                                                      }
+                                                    ],
+                                                    yAxis: [
+                                                      {
+                                                          // first yaxis
+                                                          title: {
+                                                              text: "Count"
+                                                          }
+                                                      } 
+                                                    ],
+                                                    series: [
+                                                      {
+                                                          name: "Sectors",
+                                                          color: "#0071A7",
+                                                          type: "column",
+                                                          data: data[1],
+                                                          tooltip: {
+                                                              valueSuffix: " Activities"
+                                                          }
+                                                      }
+                                                       
+                                                    ],
+                                                    tooltip: {
+                                                        shared: true
+                                                    },
+                                                    legend: {
+                                                        backgroundColor: "#ececec",
+                                                        shadow: true
+                                                    },
+                                                    credits: {
+                                                        enabled: false
+                                                    },
+                                                    noData: {
+                                                        style: {
+                                                            fontSize: "16px"
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                            function setTableEvents(table) {
+                                                // listen for page clicks
+                                                table.on("page", () => {
+                                                    draw = true;
+                                                });
+
+                                                // listen for updates and adjust the chart accordingly
+                                                table.on("draw", () => {
+                                                    if (draw) {
+                                                        draw = false;
+                                                    } else {
+                                                        const tableData = getTableData(table);
+                                                        createHighcharts(tableData);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
                                 }
                                 window.onload = main;
                             </script>
@@ -1270,7 +1435,7 @@
                                         </tr>
                                     </tfoot>-->
                                 </table>
-
+                                <div id="chart"></div>
                             </div>
 
                             <!-- /.box-body-->
