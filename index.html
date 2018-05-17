@@ -624,7 +624,7 @@
                                 <div class="cartodb-tooltip-content-wrapper">
                                     <div class="cartodb-tooltip-content">
                                         <h4></h4>
-                                        <p><b>{{k_code_n}} {{pcode}} {{m_code_n}} {{mun_en}} {{acs_code}} {{site_name}} {{kadaa_code}}</b> {{pcode_name}} {{location_name_en}} {{m_ref_name}} {{school_name}} {{cad_code}} {{site_name}} {{centers_name_english}} {{municipality_name_en}} {{district}} {{k_ref_name}} {{c_ref_name}}</p>
+                                        <p><b>{{k_code_n}} {{pcode}} {{m_code_n}} {{cerd}} {{mun_en}} {{acs_code}} {{site_name}} {{kadaa_code}}</b> {{pcode_name}} {{location_name_en}} {{m_ref_name}} {{school_name}} {{cad_code}} {{site_name}} {{centers_name_english}} {{municipality_name_en}} {{district}} {{k_ref_name}} {{c_ref_name}}</p>
                                     </div>
                                 </div>
                             </script>
@@ -734,7 +734,7 @@
                                             cartocss: '#ai_is {marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;'
                                             + 'marker-type: ellipse;marker-width: 8;marker-allow-overlap: true;}#ai_is[status="Active"] {marker-fill: #229A00;}#ai_is[status="Inactive"] {'
                                             + 'marker-fill: #999c9e;}#ai_is[status="Less than 4"] {marker-fill: #229A00;}#ai_is[status="Not Willing"] {marker-fill: #229A00;}',
-                                            interactivity: 'cartodb_id, the_geom,basic_assistance,cadaster,child_protection,date_the_site_was_created,date_the_site_was_discovered,district,education,governorate,health,is_this_site_is_at_current_risk_of_eviction_who_issued_it,'
+                                            interactivity: 'cartodb_id,the_geom,basic_assistance,cadaster,child_protection,date_the_site_was_created,date_the_site_was_discovered,district,education,governorate,health,is_this_site_is_at_current_risk_of_eviction_who_issued_it,'
                                             + 'local_name,number_of_households_in_hand_made_structure,number_of_households_in_prefab_structure,number_of_households_in_tents,number_of_individuals_in_none_residential,number_of_individuals_in_prefab_structure,number_of_individuals_in_tents,number_of_latrines,number_of_none_residential,number_of_prefab_structure,number_of_tents,'
                                             + 'numbers_of_hand_made_structure,numbers_of_ind_in_hand_made_structure,pcode,pcode_name,protection,shelter,shelter_type,updated_by,updated_on,waste_disposal,water_capacity_in_l,ind_total,status',
                                             id: 'ai_is'
@@ -742,7 +742,7 @@
                                         'ai_schools': {
                                             sql: 'SELECT * FROM ai_schools',
                                             cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: orange; }',
-                                            interactivity: 'cartodb_id, the_geom,acs_code,cad_code,cadastral,caza,governorate,school_name',
+                                            interactivity: 'cartodb_id, the_geom,cerd,acs_code,cad_code,cadastral,caza,governorate,school_name',
                                             id: 'ai_schools'
                                         }
                                         ,//Social Development Center
@@ -883,7 +883,7 @@
                                               document.getElementById("lblTitle").innerHTML = 'District';
                                               var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
-                                              document.getElementById("lblResponseInformation").innerHTML = 'District: ' + data.m_ref_name + ', PCode: ' + data.k_code_n;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'District: ' + data.district + ', PCode: ' + data.k_code_n;
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n ='" + data.k_code_n + "'";
                                               FillDataTable(sqlquery);
                                           });
@@ -928,11 +928,11 @@
                                           layer.getSubLayer(6).setInteraction(true);
                                           layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Schools';
-                                              var labvalue = '<p>CadCode: ' + data.school_name + '<br>CAD Code: ' + data.cad_code + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
+                                              var labvalue = '<p>PCode: ' + data.cerd + '<br>Name: ' + data.school_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
-                                              document.getElementById("lblResponseInformation").innerHTML = 'Schools: ' + data.school_name + ', PCode: ' + data.acs_code;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Schools: ' + data.school_name + ', PCode: ' + data.cerd;
                                               //Fill DataTable
-                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.acs_code + "'";
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.cerd + "'";
                                               FillDataTable(sqlquery);
                                           });
 
@@ -1175,7 +1175,7 @@
                                           });
 
                                           $('#btnSearch').click(function () {
-                                               
+
                                               var sqlGovernorate, sqlDistrict, sqlCadastre, sqlLocalities, sqlschools, sqlsdc, sqlshc, sqlccs, sqlpc, sqlbcp, sqlphc, sqlqueryIS, sqlmunicipality;
                                               if (Boolean(txtSearch.value)) {
 
@@ -1195,7 +1195,7 @@
                                                       for (i = 0; i < data.length; i++) {
                                                           PCodeList.push("'" + data[i].pcode + "'");
                                                       }
-
+                                                      PCodeList = PCodeList + "'"+"'";
                                                       sqlGovernorate = "SELECT * FROM lebanon_admin1  where UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(moh_cod) like upper('%" + txtSearch.value + "%') or UPPER(gov_new) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(unhcr_aop) like upper('%" + txtSearch.value + "%') "
                                                      + "  OR m_code_n IN (" + PCodeList + ")";
 
@@ -1211,13 +1211,13 @@
                                                      + " OR UPPER (location_name_arabic) LIKE ('%" + txtSearch.value + "%') OR UPPER (location_name_en) LIKE ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation_ar) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (unhcr_location ) LIKE UPPER ('%" + txtSearch.value + "%') "
                                                      + "  OR pcode IN (" + PCodeList + ")";
 
-                                                      sqlschools = "SELECT * FROM ai_schools where UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(caza) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(school_name) like upper('%" + txtSearch.value + "%') or UPPER(school_name___arabic) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') "
+                                                      sqlschools = "SELECT * FROM ai_schools where cerd =" + txtSearch.value + " or UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(caza) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(school_name) like upper('%" + txtSearch.value + "%') or UPPER(school_name___arabic) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') "
                                                      + "  OR cad_code  IN (" + PCodeList + ")";
 
                                                       sqlsdc = " SELECT * FROM ai_sdc where UPPER(activities) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(center_type) like upper('%" + txtSearch.value + "%') or UPPER(director_name) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') "
                                                      + " or UPPER(functioning_as_cc) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(health) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%') or UPPER(protection) like upper('%" + txtSearch.value + "%')"
-                                                     + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(specialtiy) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(type_code) like upper('%" + txtSearch.value + "%')";
-                                                      + "  OR p_code IN (" + PCodeList + ")";
+                                                     + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(specialtiy) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(type_code) like upper('%" + txtSearch.value + "%')"
+                                                      + "  OR pcode IN (" + PCodeList + ")";
 
 
                                                       sqlshc = "SELECT * FROM ai_shc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadastre) like upper('%" + txtSearch.value + "%') or UPPER(condition_arabic) like upper('%" + txtSearch.value + "%') or UPPER(condition_english) like upper('%" + txtSearch.value + "%') "
@@ -1254,6 +1254,7 @@
 
 
                                                       sqlmunicipality = "SELECT * FROM ai_municipality_v1 where UPPER(municipality_name_en) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(municipality_name_ar) like upper('%" + txtSearch.value + "%') OR pcode IN (" + PCodeList + ")";
+
                                                       //Filing the map with the retrieved data from SQL queries
                                                       layer.getSubLayer(1).setSQL(sqlGovernorate);
                                                       layer.getSubLayer(2).setSQL(sqlDistrict);
