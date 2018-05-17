@@ -1,6 +1,17 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117201081-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-117201081-1');
+    </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sponge|Base</title>
@@ -32,6 +43,60 @@
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+    <style>
+        .loading {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        function ShowProgress() {
+            setTimeout(function () {
+                var modal = $('<div />');
+                modal.addClass("modal");
+                $('body').append(modal);
+                var loading = $(".loading");
+                loading.show();
+                var top = Math.max($(window).height() / 2 - loading[0].offsetHeight / 2, 0);
+                var left = Math.max($(window).width() / 2 - loading[0].offsetWidth / 2, 0);
+                loading.css({ top: top, left: left });
+            }, 200);
+        }
+        $('form').live("submit", function () {
+            ShowProgress();
+        });
+    </script>
+
     <style type="text/css">
         #map {
             height: 100%;
@@ -108,12 +173,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
+
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        <li>
+                            <!--<input type="button" value="Refresh Page" onClick="window.location.reload()">-->
+                            <a href="index.html" title="Click to refresh the page"><i class="fa fa-refresh"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.dropbox.com/s/7u5h7slmjrizrzl/responsedata.xlsx?dl=0" title="Click to downaload all data from ActivityInfo 2017 and 2018" download target="_blank"><i class="fa fa-download"></i></a>
+                        </li>
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!--<img src="image/interagencylogo160x160.jpg" class="img-rounded" alt="User Image">-->
-                                <span class="hidden-xs">Inter-agency Coordination, UNHCR Lebanon</span>
+                                <img src="image/interagencylogo160x160.jpg" class="img-rounded" alt="User Image">
+                                <span class="hidden-xs">Inter-agency Coordination, Lebanon</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -121,7 +194,7 @@
                                     <!--<img src="image/interagencylogo160x160.jpg" class="img-rounded" alt="User Image">-->
                                     <p>
                                         Inter-Agency Coordination
-                                        <small>Designed and developed by the Information Management Unit</small>
+                                        <small>Designed and developed by the UNHCR Information Management Unit</small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -151,9 +224,8 @@
                             </ul>
                         </li>
                         <!-- Control Sidebar Toggle Button -->
-                        <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
+
+
                     </ul>
                 </div>
             </nav>
@@ -163,16 +235,7 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- Sidebar user panel -->
-                <!--<div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="image/sponge.jpg" class="img-rounded" alt="User Image">
-                    </div>
-                    <div class="pull-left info">
-                        <p> Response Mapping</p>
-                    </div>
 
-                </div>-->
                 <div class="infobox">
                     <div class="box-header with-border">
                         <h3 class="box-title"><label id="lblTitle"></label></h3>
@@ -329,7 +392,10 @@
                                                     <label for="all">All</label>
 
                                                 </li>
-
+                                                <li class="layer-blue">
+                                                    <input type="checkbox" class="checkBoxClass" id="country" name="layer">
+                                                    <label for="country">Country</label>
+                                                </li>
                                                 <li class="layer-grey">
                                                     <input type="checkbox" class="checkBoxClass" id="governorate" name="layer">
                                                     <label for="governorate">Governorate</label>
@@ -350,7 +416,7 @@
                                                     <input type="checkbox" class="checkBoxClass" id="municipality" name="layer" checked="checked">
                                                     <label for="municipality">Municipality</label>
                                                 </li>
-                                                <li class="layer-pink">
+                                                <li class="layer-green">
                                                     <input type="checkbox" class="checkBoxClass" id="ai_is" name="layer">
                                                     <label for="ai_is">Informal Settlement</label>
                                                 </li>
@@ -366,11 +432,15 @@
                                                     <input type="checkbox" class="checkBoxClass" id="shc" name="layer">
                                                     <label for="shc">Secondary Health Center</label>
                                                 </li>
+                                                <li class="layer-violet">
+                                                    <input type="checkbox" class="checkBoxClass" id="phc" name="layer">
+                                                    <label for="phc">Public Health Center</label>
+                                                </li>
                                                 <li class="layer-black">
                                                     <input type="checkbox" class="checkBoxClass" id="ccs" name="layer">
                                                     <label for="ccs">Collective Centers Sites</label>
                                                 </li>
-                                                <li class="layer-green">
+                                                <li class="layer-bordeau">
                                                     <input type="checkbox" class="checkBoxClass" id="pc" name="layer">
                                                     <label for="pc">Palestinian Camps</label>
                                                 </li>
@@ -378,10 +448,7 @@
                                                     <input type="checkbox" class="checkBoxClass" id="bcp" name="layer">
                                                     <label for="bcp">Border Crossing Points</label>
                                                 </li>
-                                                <li class="layer-navy">
-                                                    <input type="checkbox" class="checkBoxClass" id="phc" name="layer">
-                                                    <label for="phc">Public Health Center</label>
-                                                </li>
+
                                             </ul>
                                             <style type="text/css">
                                                 * {
@@ -429,10 +496,10 @@
                                                     .layers input {
                                                         margin-right: 8px;
                                                         -webkit-appearance: none;
-                                                        width: 12px;
-                                                        height: 12px;
+                                                        width: 15px;
+                                                        height: 15px;
                                                         border-radius: 50%;
-                                                        border: 2px solid #999;
+                                                        border: 3px solid #999;
                                                         position: relative;
                                                     }
 
@@ -528,6 +595,22 @@
                                                         .layers .layer-navy input:checked:before {
                                                             background: navy;
                                                         }
+
+                                                    .layers .layer-violet input {
+                                                        border-color: #CE33FF;
+                                                    }
+
+                                                        .layers .layer-violet input:checked:before {
+                                                            background: #CE33FF;
+                                                        }
+
+                                                    .layers .layer-bordeau input {
+                                                        border-color: #581845;
+                                                    }
+
+                                                        .layers .layer-bordeau input:checked:before {
+                                                            background: #581845;
+                                                        }
                                             </style>
                                         </div>
                                     </div>
@@ -541,7 +624,7 @@
                                 <div class="cartodb-tooltip-content-wrapper">
                                     <div class="cartodb-tooltip-content">
                                         <h4></h4>
-                                        <p><b>{{k_code_n}} {{pcode}} {{m_code_n}} {{mun_en}} {{site_name}} {{kadaa_code}}</b> {{pcode_name}} {{location_name_en}} {{m_ref_name}} {{school_name}} {{cad_code}} {{site_name}} {{centers_name_english}} {{municipality_name_en}} {{district}} {{k_ref_name}} {{c_ref_name}}</p>
+                                        <p><b>{{k_code_n}} {{pcode}} {{m_code_n}} {{mun_en}} {{acs_code}} {{site_name}} {{kadaa_code}}</b> {{pcode_name}} {{location_name_en}} {{m_ref_name}} {{school_name}} {{cad_code}} {{site_name}} {{centers_name_english}} {{municipality_name_en}} {{district}} {{k_ref_name}} {{c_ref_name}}</p>
                                     </div>
                                 </div>
                             </script>
@@ -563,32 +646,7 @@
                                 </div>
                             </script>
 
-                            <!--<style type="text/css">
-                                .modal {
-                                    position: fixed;
-                                    top: 0;
-                                    left: 0;
-                                    background-color: rgba(0,0,0,0);
-                                    z-index: 99;
-                                    opacity: 0.8;
-                                    filter: alpha(opacity=80);
-                                    -moz-opacity: 0.8;
-                                    min-height: 200px;
-                                    width: 100px;
-                                }
 
-                                .loading {
-                                    font-family: Arial;
-                                    font-size: 10pt;
-                                    border: #ffffff;
-                                    width: 200px;
-                                    height: 200px;
-                                    display: none;
-                                    position: fixed;
-                                    background-color: transparent;
-                                    z-index: 999;
-                                }
-                            </style>-->
 
 
                             <script>
@@ -605,10 +663,18 @@
                                         gestureHandling: 'greedy'
                                     };
                                     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
                                     var Table;
                                     // Layers definition
                                     var layers = {
 
+                                        'country': {
+                                            sql: 'SELECT * FROM lebanon_admin0',
+                                            cartocss: '#leb_admin0{polygon-fill: #FFFFFF;polygon-opacity: 0;line-color: #3e7bb6;line-width: 2;line-opacity: 1;}',
+                                            interactivity: 'cartodb_id, the_geom, area, iso_code, pcode, site_name',
+                                            id: 'country',
+                                            setInteraction: true
+                                        },
                                         'governorate': {
                                             sql: 'SELECT * FROM lebanon_admin1',
                                             cartocss: '#lebanon_admin1 {polygon-opacity: 0.5;line-color: #FFF;line-width: 0.5;line-opacity: 1;}' +
@@ -624,7 +690,6 @@
                                             id: 'governorate',
                                             setInteraction: true
                                         },
-
                                         //Admin2
                                         'district': {
                                             sql: 'SELECT * FROM lebanon_admin2',
@@ -666,8 +731,12 @@
                                         },//Informal Settlement
                                         'ai_is': {
                                             sql: 'SELECT * FROM ai_is',
-                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: pink; }',
-                                            interactivity: 'cartodb_id, the_geom,cadaster,district,governorate,health,local_name,number_of_hh,number_of_ind,number_of_ind_in_ssbs,number_of_latrines,number_of_ssbs,number_of_tents,pcode,pcode_name,shelter,shelter_type,updated_by,status,type_of_water_source,waste_disposal,water_capacity_in_l',
+                                            cartocss: '#ai_is {marker-fill-opacity: 0.9;marker-line-color: #FFF;marker-line-width: 1;marker-line-opacity: 1;marker-placement: point;'
+                                            + 'marker-type: ellipse;marker-width: 8;marker-allow-overlap: true;}#ai_is[status="Active"] {marker-fill: #229A00;}#ai_is[status="Inactive"] {'
+                                            + 'marker-fill: #999c9e;}#ai_is[status="Less than 4"] {marker-fill: #229A00;}#ai_is[status="Not Willing"] {marker-fill: #229A00;}',
+                                            interactivity: 'cartodb_id, the_geom,basic_assistance,cadaster,child_protection,date_the_site_was_created,date_the_site_was_discovered,district,education,governorate,health,is_this_site_is_at_current_risk_of_eviction_who_issued_it,'
+                                            + 'local_name,number_of_households_in_hand_made_structure,number_of_households_in_prefab_structure,number_of_households_in_tents,number_of_individuals_in_none_residential,number_of_individuals_in_prefab_structure,number_of_individuals_in_tents,number_of_latrines,number_of_none_residential,number_of_prefab_structure,number_of_tents,'
+                                            + 'numbers_of_hand_made_structure,numbers_of_ind_in_hand_made_structure,pcode,pcode_name,protection,shelter,shelter_type,updated_by,updated_on,waste_disposal,water_capacity_in_l,ind_total,status',
                                             id: 'ai_is'
                                         },//School
                                         'ai_schools': {
@@ -700,7 +769,7 @@
                                         ,//Palestinian Camps in Lebanon
                                         'pc': {
                                             sql: 'SELECT * FROM ai_palestinian_camps_in_lebanon',
-                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: green; }',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: #581845; }',
                                             interactivity: 'cartodb_id, the_geom,cad_code,camp,pcode',
                                             id: 'pc'
                                         }
@@ -711,18 +780,20 @@
                                             interactivity: 'cartodb_id, the_geom,acs_code,acsname,cad_code,common_name,name,type',
                                             id: 'bcp'
                                         }
-                                        ,//Public Health Centers
+                                       ,//Public Health Centers
                                         'phc': {
                                             sql: 'SELECT * FROM ai_phc',
-                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: navy; }',
-                                            interactivity: 'cartodb_id, the_geom,pcode,centers_name_english,health_partner_supporting_the_facility,address_english,address_arabic, centers_name_arabic, phc_ownership,centers_name_english,phc_ownership,phone,description_of_support, type_of_health_facility',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 8; marker-fill: #CE33FF; }',
+                                            interactivity: 'cartodb_id, the_geom,pcode,health_partner_supporting_the_facility,address_english,address_arabic, centers_name_arabic,centers_name_english, phc_ownership,description_of_support, type_of_health_facility',
                                             id: 'phc'
                                         },
                                         //Municipality
                                         'municipality': {
                                             sql: 'SELECT * FROM ai_municipality_v1 ',
-                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 11; marker-fill: navy; }',
-                                            interactivity: 'cartodb_id, the_geom,cad_code,municipality_name_ar,municipality_name_en,pcode',
+                                            cartocss: '#aloj_ocio_btn100{marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-width: 10; marker-fill: navy; }',
+                                            interactivity: 'cartodb_id, the_geom,cad_code,municipality_name_ar,municipality_name_en,pcode,c_ref_name,cad_code,cadastral_type,cas_code,cas_name,cas_name_ar,district,district_ar,governorate,governorate_ar,'
+                                            + 'head_of_union,head_of_union_phone_number,k_code_n,location_name_arabic,location_name_en,m_code_n,municipaility_mayor_name,municipaility_mayor_phone_number,municipality_address,municipality_name_ar,municipality_name_en,'
+                                            + 'municipality_phone,union_name,uom_name,vice__head_of_union,vice__head_of_union_phone_number,un_areaofoperation,un_areaofoperation_ar',
                                             id: 'municipality'
                                         }
                                     }
@@ -739,19 +810,20 @@
                                           layer.setInteraction(true);
 
                                           //Creation of the layer for the map
-                                          layer.createSubLayer(layers["governorate"]);//0
-                                          layer.createSubLayer(layers["district"]); //1
-                                          layer.createSubLayer(layers["cadastre"]); //2
-                                          layer.createSubLayer(layers["localities"]); //3
-                                          layer.createSubLayer(layers["ai_is"]); //4
-                                          layer.createSubLayer(layers["ai_schools"]); //5
-                                          layer.createSubLayer(layers["sdc"]); //6
-                                          layer.createSubLayer(layers["shc"]); //7
-                                          layer.createSubLayer(layers["ccs"]); //8
-                                          layer.createSubLayer(layers["pc"]); //9
-                                          layer.createSubLayer(layers["bcp"]); //10
-                                          layer.createSubLayer(layers["phc"]); //11
-                                          layer.createSubLayer(layers["municipality"]); //12
+                                          layer.createSubLayer(layers["country"]);//0
+                                          layer.createSubLayer(layers["governorate"]);//1
+                                          layer.createSubLayer(layers["district"]); //2
+                                          layer.createSubLayer(layers["cadastre"]); //3
+                                          layer.createSubLayer(layers["localities"]); //4
+                                          layer.createSubLayer(layers["ai_is"]); //5
+                                          layer.createSubLayer(layers["ai_schools"]); //6
+                                          layer.createSubLayer(layers["sdc"]); //7
+                                          layer.createSubLayer(layers["shc"]); //8
+                                          layer.createSubLayer(layers["ccs"]); //9
+                                          layer.createSubLayer(layers["pc"]); //10
+                                          layer.createSubLayer(layers["bcp"]); //11
+                                          layer.createSubLayer(layers["phc"]); //12
+                                          layer.createSubLayer(layers["municipality"]); //13
 
                                           //Initializing
                                           layer.getSubLayer(0).hide();
@@ -766,7 +838,8 @@
                                           layer.getSubLayer(9).hide();
                                           layer.getSubLayer(10).hide();
                                           layer.getSubLayer(11).hide();
-                                          layer.getSubLayer(12).show();
+                                          layer.getSubLayer(12).hide();
+                                          layer.getSubLayer(13).show();
 
                                           cdb.vis.Vis.addInfowindow(
                                                            map, layer, ['cartodb_id'],
@@ -783,137 +856,154 @@
                                           });
                                           $('.map_wrapper').append(tooltip.render().el);
 
-                                          //Governorate
+                                          //Country
                                           layer.getSubLayer(0).setInteraction(true);
                                           layer.getSubLayer(0).on('featureClick', function (e, latlng, pos, data, layer) {
-                                              
-                                              document.getElementById("lblTitle").innerHTML = 'Cadastre';
-                                              var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
-                                              //cartodb_id, the_geom, gov_new, governorat, m_code_n, m_name_cp, m_ref_name, moh_cod, moh_na_i
+                                              document.getElementById("lblTitle").innerHTML = 'Country';
+                                              var labvalue = '<br>Name: ' + data.site_name + '<br></p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
-                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n='" + data.k_code_n + "'";
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
+                                              FillDataTable(sqlquery);
+                                          });
+
+                                          //Governorate
+                                          layer.getSubLayer(1).setInteraction(true);
+                                          layer.getSubLayer(1).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'Governorate';
+                                              var labvalue = '<br>Governorate: ' + data.m_name_cp + '<br></p>';
+                                              document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Governorate: ' + data.m_name_cp + ', PCode: ' + data.m_code_n;
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where m_code_n='" + data.m_code_n + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //District
-                                          layer.getSubLayer(1).setInteraction(true);
-                                          layer.getSubLayer(1).on('featureClick', function (e, latlng, pos, data, layer) {
-                                              document.getElementById("lblTitle").innerHTML = 'Cadastre';
+                                          layer.getSubLayer(2).setInteraction(true);
+                                          layer.getSubLayer(2).on('featureClick', function (e, latlng, pos, data, layer) {
+                                              document.getElementById("lblTitle").innerHTML = 'District';
                                               var labvalue = '<p>District: ' + data.district + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
-
                                               document.getElementById("lblText").innerHTML = labvalue;
-                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n='" + data.k_code_n + "'";
+                                              document.getElementById("lblResponseInformation").innerHTML = 'District: ' + data.m_ref_name + ', PCode: ' + data.k_code_n;
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where k_code_n ='" + data.k_code_n + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Cadastre
-                                          layer.getSubLayer(2).setInteraction(true);
-                                          layer.getSubLayer(2).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(3).setInteraction(true);
+                                          layer.getSubLayer(3).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Cadastre';
                                               var labvalue = '<p>Cadastre: ' + data.c_ref_name + '<br>District: ' + data.k_ref_name + '<br>Governorate: ' + data.m_ref_name + '<br></p>';
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Cadaster: ' + data.c_ref_name + ', PCode: ' + data.acs_code;
                                               document.getElementById("lblText").innerHTML = labvalue;
-                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where cad_code='" + data.cad_code + "'";
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.acs_code + "'";
                                               FillDataTable(sqlquery);
 
                                           });
 
-
-
                                           //Localities
-                                          layer.getSubLayer(3).setInteraction(true);
-                                          layer.getSubLayer(3).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(4).setInteraction(true);
+                                          layer.getSubLayer(4).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Locality';
-                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Location Name: ' + data.location_name_en + '<br>Cadastre: ' + data.cas_name + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Locality Name: ' + data.location_name_en + '<br>Cadastre: ' + data.cas_name + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Locality: ' + data.location_name_en + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //ai_is
-                                          layer.getSubLayer(4).setInteraction(true);
-                                          layer.getSubLayer(4).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(5).setInteraction(true);
+                                          layer.getSubLayer(5).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Informal Settlement';
-                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>PCode Name: ' + data.pcode_name + '<br>Cadastre: ' + data.cadaster + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>PCode Name: ' + data.pcode_name + '<br>Cadastre: ' + data.cadaster + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '<br>Population in IS: ' + data.ind_total + '<br>Number of Tents: ' + data.number_of_tents + '<br>Number of Individual in Tents: ' + data.number_of_individuals_in_tents + '<br>Status: ' + data.status + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Informal Settlement: ' + data.pcode_name + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Schools
-                                          layer.getSubLayer(5).setInteraction(true);
-                                          layer.getSubLayer(5).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(6).setInteraction(true);
+                                          layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Schools';
-                                              var labvalue = '<p>CadCode: ' + data.school_name + '<br>ACS Code: ' + data.acs_code + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
+                                              var labvalue = '<p>CadCode: ' + data.school_name + '<br>CAD Code: ' + data.cad_code + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.caza + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Schools: ' + data.school_name + ', PCode: ' + data.acs_code;
                                               //Fill DataTable
-                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where caza='" + data.cadastral + "'";
+                                              sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.acs_code + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Social Development Center
-                                          layer.getSubLayer(6).setInteraction(true);
-                                          layer.getSubLayer(6).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(7).setInteraction(true);
+                                          layer.getSubLayer(7).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Social Development Center';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '<br>Phone: ' + data.phone + '<br>Director Name: ' + data.director_name + '<br>Speciality: ' + data.specialtiy + '<br>Supported UNHCR: ' + data.supported_unhcr + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Social Development Center: ' + data.site_name + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Secondary Health Center
-                                          layer.getSubLayer(7).setInteraction(true);
-                                          layer.getSubLayer(7).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(8).setInteraction(true);
+                                          layer.getSubLayer(8).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Secondary Health Center';
                                               var labvalue = '<p>PCode: ' + data.p_code + '<br>Hospital Name: ' + data.name_of_hospital + " (" + data.name_arabic + ")" + '<br>Village: ' + data.village + '<br>Cadastre: ' + data.cadastre + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Secondary Health Center: ' + data.name_of_hospital + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.p_code + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Collective Centers Sites
-                                          layer.getSubLayer(8).setInteraction(true);
-                                          layer.getSubLayer(8).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(9).setInteraction(true);
+                                          layer.getSubLayer(9).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Collective Centers Sites';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Site Name: ' + data.site_name + '<br>Cadastre: ' + data.cadastral + '<br>District: ' + data.district + '<br>Governorate: ' + data.governorate + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Collective Centers Sites: ' + data.site_name + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Palestinian Camps in Lebanon
-                                          layer.getSubLayer(9).setInteraction(true);
-                                          layer.getSubLayer(9).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(10).setInteraction(true);
+                                          layer.getSubLayer(10).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Palestinian Camps';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Camp Name: ' + data.camp + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Palestinian Camps: ' + data.camp + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Border Crossing Points
-                                          layer.getSubLayer(10).setInteraction(true);
-                                          layer.getSubLayer(10).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(11).setInteraction(true);
+                                          layer.getSubLayer(11).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Border Crossing Points';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Cadastre: ' + data.acsname + '<br>Common Name: ' + data.common_name + '<br>Name: ' + data.name + '+ <br>Type: ' + data.type + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Border Crossing Points: ' + data.common_name + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Public Health Center
-                                          layer.getSubLayer(11).setInteraction(true);
-                                          layer.getSubLayer(11).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(12).setInteraction(true);
+                                          layer.getSubLayer(12).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Public Health Center';
                                               var labvalue = '<p>PCode: ' + data.pcode + '<br>Name: ' + data.centers_name_english + ' (' + data.centers_name_arabic + ') ' + '<br>Address: ' + data.address_english + ' (' + data.centers_name_arabic + ') ' + '<br>Description of Support: ' + data.description_of_support +
-                                                  +'<br>Ownership: ' + data.phc_ownership + '<br>Phone: ' + data.phone + '<br>Type of Facility: ' + data.type_of_health_facility + '<br>Supporting Partner: ' + data.health_partner_supporting_the_facility + '</p>';
+                                                  +'<br>Ownership: ' + data.phc_ownership + '<br>Type of Facility: ' + data.type_of_health_facility + '<br>Supporting Partner: ' + data.health_partner_supporting_the_facility + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Public Health Center: ' + data.centers_name_english + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where pcode='" + data.pcode + "'";
                                               FillDataTable(sqlquery);
@@ -921,18 +1011,21 @@
 
 
                                           //Municipality
-                                          layer.getSubLayer(12).setInteraction(true);
-                                          layer.getSubLayer(12).on('featureClick', function (e, latlng, pos, data, layer) {
+                                          layer.getSubLayer(13).setInteraction(true);
+                                          layer.getSubLayer(13).on('featureClick', function (e, latlng, pos, data, layer) {
                                               document.getElementById("lblTitle").innerHTML = 'Municipality';
-                                              var labvalue = '<p>PCode: ' + data.municipality_name_en + '<br>Name: ' + data.municipality_name_en + " (" + data.municipality_name_ar + " )" + '</p>';
+                                              var labvalue = '<p>PCode: ' + data.pcode + '<br>Name: ' + data.municipality_name_en + " (" + data.municipality_name_ar + " )" + '<br>Cadaster: ' + data.cas_name + '(' + data.cas_name_ar + ')' + '<br>District: ' + data.district + '(' + data.district_ar + ')' + '<br>Governorate: ' + data.governorate + '(' + data.governorate_ar + ')' + '<br>Head of Union: ' + data.head_of_union + '(' + data.head_of_union_phone_number + ')'
+                                              + '<br>Mayor Name: ' + data.municipaility_mayor_name + '(' + data.municipaility_mayor_phone_number + ')' + 'Tel: ' + data.municipality_phone + '</p>';
                                               document.getElementById("lblText").innerHTML = labvalue;
+                                              document.getElementById("lblResponseInformation").innerHTML = 'Public Health Center: ' + data.municipality_name_en + ', PCode: ' + data.pcode;
                                               //Fill DataTable
                                               sqlquery = "https://unhcr.carto.com/api/v2/sql?q= SELECT * FROM responsedata where municipality_id='" + data.pcode + "'";
+
                                               FillDataTable(sqlquery);
                                           });
 
                                           //Hiding and showing layers
-                                          $("#governorate").click(function () {
+                                          $("#country").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(0).show();
                                               } else {
@@ -940,7 +1033,7 @@
                                               }
                                           });
 
-                                          $("#district").click(function () {
+                                          $("#governorate").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(1).show();
                                               } else {
@@ -948,22 +1041,22 @@
                                               }
                                           });
 
-                                          $("#cadastre").click(function () {
+                                          $("#district").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(2).show();
                                               } else {
                                                   layer.getSubLayer(2).hide();
                                               }
                                           });
-                                          $("#localities").click(function () {
+
+                                          $("#cadastre").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(3).show();
                                               } else {
                                                   layer.getSubLayer(3).hide();
                                               }
                                           });
-
-                                          $("#ai_is").click(function () {
+                                          $("#localities").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(4).show();
                                               } else {
@@ -971,8 +1064,7 @@
                                               }
                                           });
 
-
-                                          $("#ai_schools").click(function () {
+                                          $("#ai_is").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(5).show();
                                               } else {
@@ -980,7 +1072,8 @@
                                               }
                                           });
 
-                                          $("#sdc").click(function () {
+
+                                          $("#ai_schools").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(6).show();
                                               } else {
@@ -988,7 +1081,7 @@
                                               }
                                           });
 
-                                          $("#shc").click(function () {
+                                          $("#sdc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(7).show();
                                               } else {
@@ -996,7 +1089,7 @@
                                               }
                                           });
 
-                                          $("#ccs").click(function () {
+                                          $("#shc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(8).show();
                                               } else {
@@ -1004,7 +1097,7 @@
                                               }
                                           });
 
-                                          $("#pc").click(function () {
+                                          $("#ccs").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(9).show();
                                               } else {
@@ -1012,8 +1105,7 @@
                                               }
                                           });
 
-
-                                          $("#bcp").click(function () {
+                                          $("#pc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(10).show();
                                               } else {
@@ -1021,7 +1113,8 @@
                                               }
                                           });
 
-                                          $("#phc").click(function () {
+
+                                          $("#bcp").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(11).show();
                                               } else {
@@ -1029,11 +1122,19 @@
                                               }
                                           });
 
-                                          $("#municipality").click(function () {
+                                          $("#phc").click(function () {
                                               if ($(this).is(":checked")) {
                                                   layer.getSubLayer(12).show();
                                               } else {
                                                   layer.getSubLayer(12).hide();
+                                              }
+                                          });
+
+                                          $("#municipality").click(function () {
+                                              if ($(this).is(":checked")) {
+                                                  layer.getSubLayer(13).show();
+                                              } else {
+                                                  layer.getSubLayer(13).hide();
                                               }
                                           });
 
@@ -1047,12 +1148,13 @@
                                                   layer.getSubLayer(4).show();
                                                   layer.getSubLayer(5).show();
                                                   layer.getSubLayer(6).show();
-                                                  layer.getSubLayer(7).show();
+                                                  layer.getSubLayer(7).show();//sdc
                                                   layer.getSubLayer(8).show();
                                                   layer.getSubLayer(9).show();
                                                   layer.getSubLayer(10).show();
                                                   layer.getSubLayer(11).show();
                                                   layer.getSubLayer(12).show();
+                                                  layer.getSubLayer(13).show();
                                                   //Add the check of input
                                               } else {
                                                   layer.getSubLayer(0).hide();
@@ -1068,53 +1170,121 @@
                                                   layer.getSubLayer(10).hide();
                                                   layer.getSubLayer(11).hide();
                                                   layer.getSubLayer(12).hide();
+                                                  layer.getSubLayer(13).hide();
                                               }
                                           });
 
                                           $('#btnSearch').click(function () {
+                                               
+                                              var sqlGovernorate, sqlDistrict, sqlCadastre, sqlLocalities, sqlschools, sqlsdc, sqlshc, sqlccs, sqlpc, sqlbcp, sqlphc, sqlqueryIS, sqlmunicipality;
                                               if (Boolean(txtSearch.value)) {
-                                                  var sqlDistrict = "SELECT * FROM lebanon_admin2  where UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_a) like upper('%" + txtSearch.value + "%') or UPPER(governorat) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(unhcr_aop) like upper('%" + txtSearch.value + "%')";
-
-                                                  var sqlCadastre = "SELECT * FROM lebanon_admin3 where UPPER(acs_name) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_ar) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(cad_name) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(k_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n ) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name ) like upper('%" + txtSearch.value + "%')";
-
-                                                  var sqlLocalities = "SELECT * FROM ai_localities WHERE UPPER(cas_code_un) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cas_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE UPPER ('%" + txtSearch.value + "%')  OR UPPER (governorate) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (governorate_ar) LIKE UPPER ('%" + txtSearch.value + "%') ";
-                                                  +" OR UPPER (location_name_arabic) LIKE ('%" + txtSearch.value + "%') OR UPPER (location_name_en) LIKE ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation_ar) LIKE UPPER (%" + txtSearch.value + "%) OR UPPER (unhcr_location ) LIKE UPPER ('%" + txtSearch.value + "%')";
-
-                                                  var sqlschools = "SELECT * FROM ai_schools where UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(caza) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(school_name) like upper('%" + txtSearch.value + "%') or UPPER(school_name___arabic) like upper('%" + txtSearch.value + "%')";
-                                                  var sqlsdc = " SELECT * FROM ai_sdc where UPPER(activities) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(center_type) like upper('%" + txtSearch.value + "%') or UPPER(director_name) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') "
-                                                 + " or UPPER(functioning_as_cc) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(health) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%') or UPPER(protection) like upper('%" + txtSearch.value + "%')"
-                                                 + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(specialtiy) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(type_code) like upper('%" + txtSearch.value + "%')";
-
-                                                  var sqlshc = "SELECT * FROM ai_shc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadastre) like upper('%" + txtSearch.value + "%') or UPPER(condition_arabic) like upper('%" + txtSearch.value + "%') or UPPER(condition_english) like upper('%" + txtSearch.value + "%') "
-                                                  + " or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(name_arabic) like upper('%" + txtSearch.value + "%') or UPPER(name_of_hospital) like upper('%" + txtSearch.value + "%') or UPPER(p_code) like upper('%" + txtSearch.value + "%') or UPPER(phone_number) like upper('%" + txtSearch.value + "%')"
-                                                  + " or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(village) like upper('%" + txtSearch.value + "%')  ";
-
-                                                  var sqlccs = "SELECT * FROM table_1_collective_centers_sites where UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') "
-                                                + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') ";
-
-                                                  var sqlpc = "SELECT * FROM ai_palestinian_camps_in_lebanon where UPPER(camp) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%')";
-
-                                                  var sqlbcp = "SELECT * FROM ai_border_crossing where UPPER(acsname) like upper('%" + txtSearch.value + "%') or UPPER(common_name) like upper('%" + txtSearch.value + "%') or UPPER(name) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') ";
-
-                                                  var sqlphc = "SELECT * FROM ai_phc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadaster) like upper('%" + txtSearch.value + "%') or UPPER(cadaster_ar) like upper('%" + txtSearch.value + "%') or UPPER(centers_name_arabic) like upper('%" + txtSearch.value + "%') "
-                                                + " or UPPER(description_of_support) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_ar) like upper('%" + txtSearch.value + "%') or UPPER(donor) like upper('%" + txtSearch.value + "%') or UPPER(focal_point) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%')"
-                                                 + " or UPPER(governorate_ar) like upper('%" + txtSearch.value + "%') or UPPER(health_partner_supporting_the_facility) like upper('%" + txtSearch.value + "%') or UPPER(most_vulnerable_localities) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phc_ownership) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%')"
-                                                + "  or UPPER(support_secured_till) like upper('%" + txtSearch.value + "%') or UPPER(type_of_health_facility) like upper('%" + txtSearch.value + "%')";
-
 
                                                   var sqlqueryAI = "SELECT * FROM responsedata where UPPER(cad_code) like upper('%25" + txtSearch.value + "%25') or UPPER(cadastral) like upper('%25" + txtSearch.value + "%25') or UPPER(district) like upper('%25" + txtSearch.value + "%25') or UPPER(district_ai) like upper('%25" + txtSearch.value + "%25') "
                                                   + " or UPPER(fact) like upper('%25" + txtSearch.value + "%25') or UPPER(funded_by) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate_ai) like upper('%25" + txtSearch.value + "%25') or UPPER(k_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(m_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(municipality_id) like upper('%25" + txtSearch.value + "%25') "
                                                   + " or UPPER(partner_name) like upper('%25" + txtSearch.value + "%25') or UPPER(pcode) like upper('%25" + txtSearch.value + "%25') or UPPER(sector) like upper('%25" + txtSearch.value + "%25') or UPPER(site_name) like upper('%25" + txtSearch.value + "%25') or UPPER(type) like upper('%25" + txtSearch.value + "%25') or UPPER(type_code) like upper('%25" + txtSearch.value + "%25')";
 
-                                                  var sqlqueryIS = "SELECT * FROM ai_is WHERE UPPER (basic_assistance) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cadaster) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (child_protection) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE  UPPER ('%" + txtSearch.value + "%') OR UPPER (education)  LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER(governorate) LIKE  UPPER ('%" + txtSearch.value + "%') "
-                                                  + " OR UPPER (health) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (local_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (notes) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode_name) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (protection) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter) LIKE UPPER('%" + txtSearch.value + "%')"
-                                                  + " OR UPPER (shelter_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter_type) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (site_flodded_last_winter) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (status) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (type_of_water_source) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (updated_by) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (wash) LIKE UPPER('%" + txtSearch.value + "%') "
-                                                  + " OR UPPER (wash_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') ";
+                                                  var sqlPcodequery = "SELECT distinct pcode FROM responsedata where UPPER(cad_code) like upper('%25" + txtSearch.value + "%25') or UPPER(cadastral) like upper('%25" + txtSearch.value + "%25') or UPPER(district) like upper('%25" + txtSearch.value + "%25') or UPPER(district_ai) like upper('%25" + txtSearch.value + "%25') "
+                                                  + " or UPPER(fact) like upper('%25" + txtSearch.value + "%25') or UPPER(funded_by) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate) like upper('%25" + txtSearch.value + "%25') or UPPER(governorate_ai) like upper('%25" + txtSearch.value + "%25') or UPPER(k_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(m_code_n) like upper('%25" + txtSearch.value + "%25') or UPPER(municipality_id) like upper('%25" + txtSearch.value + "%25') "
+                                                      + " or UPPER(partner_name) like upper('%25" + txtSearch.value + "%25') or UPPER(pcode) like upper('%25" + txtSearch.value + "%25') or UPPER(sector) like upper('%25" + txtSearch.value + "%25') or UPPER(site_name) like upper('%25" + txtSearch.value + "%25') or UPPER(type) like upper('%25" + txtSearch.value + "%25') or UPPER(type_code) like upper('%25" + txtSearch.value + "%25')";
 
-                                                  var sqlmunicipality = "SELECT * FROM ai_municipality_v1 where UPPER(municipality_name_en) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(municipality_name_ar) like upper('%" + txtSearch.value + "%')";
+                                                  PCodeLink = "https://unhcr.carto.com/api/v2/sql?q=" + sqlPcodequery;
+                                                  $.getJSON(PCodeLink, function (result) {
+                                                      var PCodeList = [];
+                                                      data = result.rows;
+
+                                                      for (i = 0; i < data.length; i++) {
+                                                          PCodeList.push("'" + data[i].pcode + "'");
+                                                      }
+
+                                                      sqlGovernorate = "SELECT * FROM lebanon_admin1  where UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(moh_cod) like upper('%" + txtSearch.value + "%') or UPPER(gov_new) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(unhcr_aop) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR m_code_n IN (" + PCodeList + ")";
+
+                                                      sqlDistrict = "SELECT * FROM lebanon_admin2  where UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_a) like upper('%" + txtSearch.value + "%') or UPPER(governorat) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_code_n) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(unhcr_aop) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR k_code_n IN (" + PCodeList + ")";
+
+                                                      sqlCadastre = "SELECT * FROM lebanon_admin3 where UPPER(acs_name) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_ar) like upper('%" + txtSearch.value + "%') or UPPER(c_ref_name) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(cad_name) like upper('%" + txtSearch.value + "%') or UPPER(k_code_n) like upper('%" + txtSearch.value + "%') or UPPER(k_ref_name) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(m_code_n ) like upper('%" + txtSearch.value + "%') or UPPER(m_ref_name ) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR k_code_n IN (" + PCodeList + ")";
+
+                                                      sqlLocalities = "SELECT * FROM ai_localities WHERE UPPER(cas_code_un) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cas_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE UPPER ('%" + txtSearch.value + "%')  OR UPPER (governorate) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (governorate_ar) LIKE UPPER ('%" + txtSearch.value + "%') "
+                                                     + " OR UPPER (location_name_arabic) LIKE ('%" + txtSearch.value + "%') OR UPPER (location_name_en) LIKE ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (un_areaofoperation_ar) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (unhcr_location ) LIKE UPPER ('%" + txtSearch.value + "%') "
+                                                     + "  OR pcode IN (" + PCodeList + ")";
+
+                                                      sqlschools = "SELECT * FROM ai_schools where UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(caza) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(school_name) like upper('%" + txtSearch.value + "%') or UPPER(school_name___arabic) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR cad_code  IN (" + PCodeList + ")";
+
+                                                      sqlsdc = " SELECT * FROM ai_sdc where UPPER(activities) like upper('%" + txtSearch.value + "%') or UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(center_type) like upper('%" + txtSearch.value + "%') or UPPER(director_name) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(functioning_as_cc) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(health) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phone) like upper('%" + txtSearch.value + "%') or UPPER(protection) like upper('%" + txtSearch.value + "%')"
+                                                     + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(specialtiy) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(type_code) like upper('%" + txtSearch.value + "%')";
+                                                      + "  OR p_code IN (" + PCodeList + ")";
+
+
+                                                      sqlshc = "SELECT * FROM ai_shc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadastre) like upper('%" + txtSearch.value + "%') or UPPER(condition_arabic) like upper('%" + txtSearch.value + "%') or UPPER(condition_english) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(name_arabic) like upper('%" + txtSearch.value + "%') or UPPER(name_of_hospital) like upper('%" + txtSearch.value + "%') or UPPER(p_code) like upper('%" + txtSearch.value + "%') or UPPER(phone_number) like upper('%" + txtSearch.value + "%')"
+                                                     + " or UPPER(type) like upper('%" + txtSearch.value + "%') or UPPER(village) like upper('%" + txtSearch.value + "%')  ";
+                                                      + "  OR p_code IN (" + PCodeList + ")";
+
+                                                      sqlccs = "SELECT * FROM table_1_collective_centers_sites where UPPER(cad_code) like upper('%" + txtSearch.value + "%') or UPPER(cadastral) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(site_name) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR pcode IN (" + PCodeList + ")";
+
+                                                      sqlpc = "SELECT * FROM ai_palestinian_camps_in_lebanon where UPPER(camp) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') "
+                                                     + " OR UPPER(pcode) like upper('%" + txtSearch.value + "%')  OR pcode IN (" + PCodeList + ")";
+
+                                                      sqlbcp = "SELECT * FROM ai_border_crossing where UPPER(acsname) like upper('%" + txtSearch.value + "%') or UPPER(common_name) like upper('%" + txtSearch.value + "%') or UPPER(name) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(type) like upper('%" + txtSearch.value + "%') "
+                                                     + "  OR pcode IN (" + PCodeList + ")";
+
+
+                                                      sqlphc = "SELECT * FROM ai_phc where UPPER(address_arabic) like upper('%" + txtSearch.value + "%') or UPPER(address_english) like upper('%" + txtSearch.value + "%') or UPPER(cadaster) like upper('%" + txtSearch.value + "%') or UPPER(cadaster_ar) like upper('%" + txtSearch.value + "%') or UPPER(centers_name_arabic) like upper('%" + txtSearch.value + "%') "
+                                                     + " or UPPER(description_of_support) like upper('%" + txtSearch.value + "%') or UPPER(district) like upper('%" + txtSearch.value + "%') or UPPER(district_ar) like upper('%" + txtSearch.value + "%') or UPPER(donor) like upper('%" + txtSearch.value + "%') or UPPER(focal_point) like upper('%" + txtSearch.value + "%') or UPPER(governorate) like upper('%" + txtSearch.value + "%')"
+                                                     + " or UPPER(governorate_ar) like upper('%" + txtSearch.value + "%') or UPPER(health_partner_supporting_the_facility) like upper('%" + txtSearch.value + "%') or UPPER(most_vulnerable_localities) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(phc_ownership) like upper('%" + txtSearch.value + "%')"
+                                                     + "  or UPPER(support_secured_till) like upper('%" + txtSearch.value + "%') or UPPER(type_of_health_facility) like upper('%" + txtSearch.value + "%')"
+                                                     + "  OR pcode IN (" + PCodeList + ")";
+
+                                                      // sqlqueryIS = "SELECT * FROM ai_is WHERE UPPER (basic_assistance) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cadaster) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (child_protection) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (district) LIKE  UPPER ('%" + txtSearch.value + "%') OR UPPER (education)  LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER(governorate) LIKE  UPPER ('%" + txtSearch.value + "%') "
+                                                      //+ " OR UPPER (health) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (is_this_site_is_at_current_risk_of_eviction_who_issued_it) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (local_name) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (pcode_name) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (protection) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter) LIKE UPPER('%" + txtSearch.value + "%')"
+                                                      //+ " OR UPPER (shelter_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (shelter_type) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (site_flodded_last_winter) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (status) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (type_of_water_source) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (updated_by) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (wash) LIKE UPPER('%" + txtSearch.value + "%') "
+                                                      //+ " OR UPPER (wash_notes) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') OR UPPER (waste_disposal) LIKE UPPER('%" + txtSearch.value + "%') "
+                                                      //+ "  OR pcode IN (" + PCodeList + ")";
+
+                                                      sqlqueryIS = "SELECT * FROM ai_is WHERE UPPER (basic_assistance) LIKE UPPER ('%" + txtSearch.value + "%') OR UPPER (cadaster) LIKE UPPER ('%" + txtSearch.value + "%')  OR UPPER (child_protection ) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (district) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (education) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (governorate) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (health) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (is_this_site_is_at_current_risk_of_eviction_who_issued_it) LIKE UPPER ('%" + txtSearch.value + "%')   "
+                                                      + "  OR UPPER (local_name) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (notes) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (pcode) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (pcode_name) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (protection) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (shelter) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (shelter_notes) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (shelter_type) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (status) LIKE UPPER ('%" + txtSearch.value + "%') "
+                                                      + "  OR UPPER (type_of_water_source) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (updated_by) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (wash) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (wash_notes) LIKE UPPER ('%" + txtSearch.value + "%')   OR UPPER (waste_disposal) LIKE UPPER ('%" + txtSearch.value + "%') OR pcode IN (" + PCodeList + ")";
+
+
+                                                      sqlmunicipality = "SELECT * FROM ai_municipality_v1 where UPPER(municipality_name_en) like upper('%" + txtSearch.value + "%') or UPPER(pcode) like upper('%" + txtSearch.value + "%') or UPPER(municipality_name_ar) like upper('%" + txtSearch.value + "%') OR pcode IN (" + PCodeList + ")";
+                                                      //Filing the map with the retrieved data from SQL queries
+                                                      layer.getSubLayer(1).setSQL(sqlGovernorate);
+                                                      layer.getSubLayer(2).setSQL(sqlDistrict);
+                                                      layer.getSubLayer(3).setSQL(sqlCadastre);
+                                                      layer.getSubLayer(4).setSQL(sqlLocalities);
+                                                      layer.getSubLayer(5).setSQL(sqlqueryIS);
+                                                      layer.getSubLayer(6).setSQL(sqlschools);
+                                                      layer.getSubLayer(7).setSQL(sqlsdc);
+                                                      layer.getSubLayer(8).setSQL(sqlshc);
+                                                      layer.getSubLayer(9).setSQL(sqlccs);
+                                                      layer.getSubLayer(10).setSQL(sqlpc);
+                                                      layer.getSubLayer(11).setSQL(sqlbcp);
+                                                      layer.getSubLayer(12).setSQL(sqlphc);
+                                                      layer.getSubLayer(13).setSQL(sqlmunicipality);
+                                                      sql.getBounds(sqlmunicipality).done(function (bounds) {
+                                                          var southWest = L.latLng(bounds[0]);
+                                                          var northEast = L.latLng(bounds[1]);
+                                                          gbounds = new google.maps.LatLngBounds();
+                                                          loc = new google.maps.LatLng(southWest);
+                                                          gbounds.extend(southWest);
+                                                          gbounds.extend(northEast);
+                                                          map.fitBounds(gbounds);
+                                                          map.panToBounds(gbounds);
+                                                          map.setZoom(10);
+                                                      });
+                                                  });
+
 
                                               }
                                               else {
+                                                  sqlGovernorate = "SELECT * FROM lebanon_admin1"
                                                   sqlDistrict = "SELECT * FROM lebanon_admin2";
                                                   sqlCadastre = "SELECT * FROM lebanon_admin3";
                                                   sqlLocalities = "SELECT * FROM ai_localities";
@@ -1130,40 +1300,12 @@
                                                   sqlmunicipality = "SELECT * FROM ai_municipality_v1 ";
                                               };
 
-                                              //Filing the map with the retrieved data from SQL queries
-                                              layer.getSubLayer(0).setSQL(sqlDistrict);
-                                              layer.getSubLayer(1).setSQL(sqlCadastre);
-                                              layer.getSubLayer(2).setSQL(sqlLocalities);
-                                              layer.getSubLayer(3).setSQL(sqlqueryIS);
-                                              layer.getSubLayer(4).setSQL(sqlschools);
-                                              layer.getSubLayer(5).setSQL(sqlsdc);
-                                              layer.getSubLayer(6).setSQL(sqlshc);
-                                              layer.getSubLayer(7).setSQL(sqlccs);
-                                              layer.getSubLayer(8).setSQL(sqlpc);
-                                              layer.getSubLayer(9).setSQL(sqlbcp);
-                                              layer.getSubLayer(10).setSQL(sqlphc);
-                                              layer.getSubLayer(11).setSQL(sqlmunicipality);
-
                                               //Filling data in DataTabale
-
                                               link = "https://unhcr.carto.com/api/v2/sql?q=" + sqlqueryAI;
                                               FillDataTable(link);
                                               var sql = new cartodb.SQL({ user: 'unhcr' });
-                                              sql.getBounds(sqlmunicipality).done(function (bounds) {
-                                                  var southWest = L.latLng(bounds[0]);
-                                                  var northEast = L.latLng(bounds[1]);
-                                                  gbounds = new google.maps.LatLngBounds();
-                                                  loc = new google.maps.LatLng(southWest);
-                                                  gbounds.extend(southWest);
-                                                  gbounds.extend(northEast);
-                                                  map.fitBounds(gbounds);
-                                                  map.panToBounds(gbounds);
-                                                  map.setZoom(10);
-                                              });
+
                                           });
-
-
-
 
                                       });
 
@@ -1174,6 +1316,19 @@
                                         }
                                     });
 
+                                    //function GetPcode(link) {
+                                    //    $.getJSON(link, function (result) {
+                                    //        var PCodeList = [];
+                                    //        var PCodeArray;
+                                    //        data = result.rows;
+                                    //        for (i = 0; i < data.length; i++) {
+                                    //            PCodeArray.push(data[i].pcode);
+                                    //        }
+                                    //        alert(PCodeArray)
+                                    //        return PCodeArray;
+
+                                    //    });
+                                    //}
 
                                     function addAllColumnHeaders(myList) {
                                         var columnSet = [];
@@ -1192,6 +1347,23 @@
                                         return columnSet;
                                     }
 
+                                    function foo(arr) {
+                                        var a = [], b = [], prev;
+
+                                        arr.sort();
+                                        for (var i = 0; i < arr.length; i++) {
+                                            if (arr[i] !== prev) {
+                                                a.push(arr[i]);
+                                                b.push(1);
+                                            } else {
+                                                b[b.length - 1]++;
+                                            }
+                                            prev = arr[i];
+                                        }
+
+                                        return [a, b];
+                                    }
+
                                     function FillDataTable(link) {
 
                                         $.getJSON(link, function (ResultData) {
@@ -1206,7 +1378,9 @@
                                                 //    "searchable": false,
                                                 //    "sortable": false
                                                 //}],
-
+                                                language: {
+                                                    sLoadingRecords: '<span style="width:100%;"><img src="http://www.snacklocal.com/images/ajaxload.gif"></span>'
+                                                },
                                                 columns: [
                                                     { data: 'sector', title: "Sector", "width": "12%" },
                                                     { data: 'pcode', title: "PCode", "width": "10%" },
@@ -1215,7 +1389,7 @@
                                                     {
                                                         data: 'date', title: "Date", "width": "10%",
                                                         render: function (d) {
-                                                            return moment(d).format("DD MMM  YYYY");
+                                                            return moment(d).format("YYYY-MM");
                                                         }
                                                     },
                                                     { data: 'partner_name', title: "Partner Name", "width": "10%" },
@@ -1237,42 +1411,6 @@
                                                 stripe: true,
                                                 hover: true,
                                                 "bDestroy": true,
-
-
-                                                //"footerCallback": function (row, data, start, end, display) {
-                                                //    var api = this.api(), data;
-                                                //    // Remove the formatting to get integer data for summation
-                                                //    var intVal = function (i) {
-                                                //        return typeof i === 'string' ?
-                                                //            i.replace(/[\$,]/g, '') * 1 :
-                                                //            typeof i === 'number' ?
-                                                //            i : 0;
-                                                //    };
-
-                                                //    // Total over all pages
-                                                //    total = api
-                                                //        .column(6)
-                                                //        .data()
-                                                //        .reduce(function (a, b) {
-                                                //            return intVal(a) + intVal(b);
-                                                //        }, 0);
-                                                //    // Total over this page
-                                                //    pageTotal = api
-                                                //        .column(6, { page: 'current' })
-                                                //        .data()
-                                                //        .reduce(function (a, b) {
-                                                //            return intVal(a) + intVal(b);
-                                                //        }, 0);
-                                                //    // Update footer
-                                                //    $(api.column(6).footer()).html(
-                                                //        pageTotal
-                                                //    );
-
-                                                //    // $(api.column(6).footer()).html(
-                                                //    //    pageTotal + ' (' + total + ' out of)'
-                                                //    //);
-                                                //}
-
                                             });
 
                                             const tableData = getTableData(table);
@@ -1290,38 +1428,13 @@
                                                 table.rows({ search: "applied" }).every(function () {
                                                     const data = this.data();
                                                     sectorArray.push(data['sector']);
-                                                    //populationArray.push(parseInt(data['value']));
-                                                    //densityArray.push(parseInt(data['funded_by']));
                                                 });
 
-                                                // store all data in dataArray
-                                                //dataArray.push(sectorArray, populationArray, densityArray);
-
-
                                                 var result = foo(sectorArray);
-
                                                 dataArray.push(result[0], result[1]);
                                                 return dataArray;
-                                               
-                                               
                                             }
 
-                                            function foo(arr) {
-                                                var a = [], b = [], prev;
-
-                                                arr.sort();
-                                                for (var i = 0; i < arr.length; i++) {
-                                                    if (arr[i] !== prev) {
-                                                        a.push(arr[i]);
-                                                        b.push(1);
-                                                    } else {
-                                                        b[b.length - 1]++;
-                                                    }
-                                                    prev = arr[i];
-                                                }
-
-                                                return [a, b];
-                                            }
 
 
                                             function createHighcharts(data) {
@@ -1333,7 +1446,7 @@
 
                                                 Highcharts.chart("chart", {
                                                     title: {
-                                                        text: "Count of Activities by Sectors"
+                                                        text: "Number of Reports by Sectors"
                                                     },
                                                     subtitle: {
                                                         text: ""
@@ -1352,7 +1465,7 @@
                                                           title: {
                                                               text: "Count"
                                                           }
-                                                      } 
+                                                      }
                                                     ],
                                                     series: [
                                                       {
@@ -1361,10 +1474,10 @@
                                                           type: "column",
                                                           data: data[1],
                                                           tooltip: {
-                                                              valueSuffix: " Activities"
+                                                              valueSuffix: " Reports"
                                                           }
                                                       }
-                                                       
+
                                                     ],
                                                     tooltip: {
                                                         shared: true
@@ -1426,6 +1539,14 @@
                                     Response Information
                                 </h3>
                             </div>
+                            <div class="box-body text-left">
+                                <label id="lblResponseInformation" style="color:black"></label>
+                            </div>
+                            <!--<div class="loading" align="center">
+                                Calculating. Please wait.<br />
+                                <br />
+                                <img src="image/loader.gif" alt="" />
+                            </div>-->
                             <div class="box-body">
                                 <table id="dtTable" class="table table-bordered table-striped" cellspacing="0" width="100%">
                                     <!--<tfoot>
