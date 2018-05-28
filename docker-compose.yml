@@ -1,0 +1,25 @@
+api:
+  build: ./api
+  command: python -u app.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - ./api/:/todo
+  links:
+    - db
+  env_file: .env
+db:
+  image: mvertes/alpine-mongo:3.4.9-0
+  ports:
+    - "27017:27017"
+# frontend:
+#   build: ./frontend/web-sponge
+#   command: npm start
+#   ports:
+#     - "3000:3000"
+#   volumes:
+#     - ./frontend/web-sponge:/watcher-app
+
+
+## get into the api container
+# docker exec -it spongebase_api_1 /bin/sh

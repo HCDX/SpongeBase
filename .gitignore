@@ -1,9 +1,10 @@
 *idea*
-
 *.pyc
-
 *.db
-
 *.box
-
 .vagrant
+venv
+*node_modules/
+*.DS_Store
+.env
+api/test/fixtures/

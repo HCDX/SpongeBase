@@ -1,0 +1,94 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "module": true,
+        "require": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion:": 6,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "classes": true,
+            "jsx": true,
+            "spread": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "warn",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "max-len": [
+            "error",
+            80
+        ],
+        "no-mixed-spaces-and-tabs": [
+            "error",
+            "smart-tabs"
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1,
+                "maxEOF": 0
+            }
+        ],
+        "no-trailing-spaces": "error",
+        "object-property-newline": "error",
+        "one-var": [
+            "error",
+            "never"
+        ],
+        "one-var-declaration-per-line": [
+            "error",
+            "initializations"
+        ],
+        "operator-assignment": [
+            "error",
+            "always"
+        ],
+        "operator-linebreak": [
+            "error",
+            "before"
+        ],
+        "padded-blocks": [
+            "error",
+            "never"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "space-before-blocks": "error",
+        "keyword-spacing": "error",
+        "space-before-function-paren": "error",
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "space-infix-ops": "error",
+        "arrow-spacing": "error",
+        "prefer-const": "error",
+        "no-tabs": "error"
+    }
+}

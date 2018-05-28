@@ -1,0 +1,2 @@
+docker exec -it spongebase_api_1 /bin/sh
+
